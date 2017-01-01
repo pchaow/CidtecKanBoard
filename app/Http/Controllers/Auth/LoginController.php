@@ -94,6 +94,9 @@ class LoginController extends Controller
             return false;
         } else {
             $staffInfoResult = $service->getStaffInfo($sid);
+            $studentInfoResult = $service->getStudentInfo($sid);
+
+            $service->getLogOff($sid);
 
             if ($staffInfoResult->CitizenID) {
                 $user = User::where('username', '=', $username)->first();
@@ -105,7 +108,6 @@ class LoginController extends Controller
                 }
             }
 
-            $studentInfoResult = $service->getStudentInfo($sid);
 
             if ($studentInfoResult->CitizenID) {
                 $user = User::where('username', '=', $username)->first();

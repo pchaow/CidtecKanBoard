@@ -66,6 +66,14 @@ class AuthenSoapService
         return $authResult->LoginResult;
     }
 
+    public function getLogOff($sid){
+        return $this->getSoapWrapper()->call('AuthenService.Logoff', [
+            'Logoff ' => [
+                'sessionID' => $sid
+            ]
+        ])->LogoffResult;
+    }
+
     public function getStaffInfo($sid)
     {
         return $this->getSoapWrapper()->call('StaffService.GetStaffInfo', [

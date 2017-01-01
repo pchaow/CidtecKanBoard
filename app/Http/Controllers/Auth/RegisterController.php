@@ -106,17 +106,34 @@ class RegisterController extends Controller
             $studentInfo = $service->getStudentInfo($sid);
             $staffInfo = $service->getStaffInfo($sid);
 
-            $staffInfoProfile = $staffInfo;
             if ($staffInfo->CitizenID) {
-                $staffInfoProfile->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
+                $staffInfo->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
                 event(new Registered($user = $this->createUP([
-                    "name" => $staffInfoProfile->name,
+                    "name" => $staffInfo->name,
                     "username" => $request->get('username'),
-                    "profiles" => $staffInfoProfile
+                    "profiles" => $staffInfo
                 ])));
 
                 $this->guard()->login($user);
 
+
+                $service->getLogOff($sid);
+                return $this->registered($request, $user)
+                    ?: redirect($this->redirectPath());
+
+            } else if ($studentInfo->CitizenID) {
+
+                $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
+                event(new Registered($user = $this->createUP([
+                    "name" => $studentInfo->name,
+                    "username" => $request->get('username'),
+                    "profiles" => $studentInfo
+                ])));
+
+                $this->guard()->login($user);
+
+
+                $service->getLogOff($sid);
                 return $this->registered($request, $user)
                     ?: redirect($this->redirectPath());
             }
