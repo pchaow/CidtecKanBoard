@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Soap\AuthenSoapService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -87,27 +88,12 @@ class LoginController extends Controller
         $username = $login['email'];
         $password = $login['password'];
 
-        $authResult = $service->getSoapWrapper()->call("AuthenService.login",
-            [
-                'Login' => [
-                    'username' => base64_encode($username),
-                    'password' => base64_encode($password),
-                    'ProductName' => 'decaffair_student',
-                ]
-            ]
-        );
-
-        $sid = $authResult->LoginResult;
+        $sid = $service->getSID($username, $password);
 
         if ($sid == "") {
             return false;
         } else {
-            $staffInfoResult = $service->getSoapWrapper()->call('StaffService.GetStaffInfo', [
-                'GetStaffInfo' => [
-                    'sessionID' => $sid
-                ]
-            ])->GetStaffInfoResult;
-
+            $staffInfoResult = $service->getStaffInfo($sid);
 
             if ($staffInfoResult->CitizenID) {
                 $user = User::where('username', '=', $username)->first();
@@ -119,11 +105,7 @@ class LoginController extends Controller
                 }
             }
 
-            $studentInfoResult = $service->getSoapWrapper()->call('StudentService.GetStudentInfo', [
-                'GetStudentInfo' => [
-                    'sessionID' => $sid
-                ]
-            ])->GetStudentInfoResult;
+            $studentInfoResult = $service->getStudentInfo($sid);
 
             if ($studentInfoResult->CitizenID) {
                 $user = User::where('username', '=', $username)->first();

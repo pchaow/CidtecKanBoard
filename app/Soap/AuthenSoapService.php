@@ -50,4 +50,38 @@ class AuthenSoapService
     {
         return $this->soapWrapper;
     }
+
+    public function getSID($username, $password)
+    {
+
+        $authResult = $this->getSoapWrapper()->call("AuthenService.login",
+            [
+                'Login' => [
+                    'username' => base64_encode($username),
+                    'password' => base64_encode($password),
+                    'ProductName' => 'decaffair_student',
+                ]
+            ]
+        );
+        return $authResult->LoginResult;
+    }
+
+    public function getStaffInfo($sid)
+    {
+        return $this->getSoapWrapper()->call('StaffService.GetStaffInfo', [
+            'GetStaffInfo' => [
+                'sessionID' => $sid
+            ]
+        ])->GetStaffInfoResult;
+    }
+
+    public function getStudentInfo($sid)
+    {
+        return $this->getSoapWrapper()->call('StudentService.GetStudentInfo', [
+            'GetStudentInfo' => [
+                'sessionID' => $sid
+            ]
+        ])->GetStudentInfoResult;
+    }
+
 }
