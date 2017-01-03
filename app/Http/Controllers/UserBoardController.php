@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class UserBoardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,22 +23,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $user = Auth::user();
-
-        return redirect("/$user->username");
-    }
-
-    public function user($username)
+    public function index($username)
     {
         $user = User::where('username', '=', $username)->first();
         if ($user) {
-            return view('home')
+            return view('user.index')
                 ->with('user', $user);
         } else {
             return redirect('/');
         }
-
     }
 }

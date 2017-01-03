@@ -19,3 +19,4 @@ Auth::routes();
 Route::post('/register/up', 'Auth\RegisterController@registerUP');
 
 Route::get('/home', 'HomeController@index');
+Route::get('/{user}', 'UserBoardController@index');

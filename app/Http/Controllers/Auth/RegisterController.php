@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Role;
 use App\Soap\AuthenSoapService;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -73,11 +74,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $userRole = Role::where('name', '=', 'user')->first();
+        $user->attachRole($userRole);
+        return $user;
     }
 
     protected function createUP(array $data)
@@ -92,6 +97,9 @@ class RegisterController extends Controller
             ]
         );
         $user->save();
+
+        $userRole = Role::where('name', '=', 'user')->first();
+        $user->attachRole($userRole);
 
         return $user;
     }
