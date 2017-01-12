@@ -29,16 +29,4 @@ class HomeController extends Controller
 
         return redirect("/$user->username");
     }
-
-    public function user($username)
-    {
-        $user = User::where('username', '=', $username)->first();
-        if ($user) {
-            return view('home')
-                ->with('user', $user);
-        } else {
-            return redirect('/');
-        }
-
-    }
 }

@@ -26,8 +26,11 @@ class UserBoardController extends Controller
     public function index($username)
     {
         $user = User::where('username', '=', $username)->first();
-        if ($user) {
+        if ($user->hasRole('user')) {
             return view('user.index')
+                ->with('user', $user);
+        } else if ($user->hasRole('superadministrator')) {
+            return view('superadministrator.index')
                 ->with('user', $user);
         } else {
             return redirect('/');
