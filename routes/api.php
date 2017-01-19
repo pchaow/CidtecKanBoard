@@ -14,5 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    return \App\Models\User::all();
 })->middleware('auth:api');
+
+Route::group(["prefix" => 'v1/admin'], function () {
+
+    Route::resource('user', "API\\UserResourceController");
+
+});

@@ -64,7 +64,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="/superadministrator/user">
                                         User Management
                                     </a>
                                 </li>
