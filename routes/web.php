@@ -17,8 +17,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix'=>'superadministrator'], function () {
-    Route::get('user', 'SuperAdministrator\UserController@index');
+Route::group(['prefix' => 'superadministrator'], function () {
+    Route::get('user', 'SuperAdministrator\\UserController@index');
+    Route::get('user/create', "SuperAdministrator\\UserController@create");
+    Route::get('user/{id}/edit', 'SuperAdministrator\\UserController@edit');
+
+
+    Route::group(['prefix' => 'role'], function () {
+        Route::get('/', "SuperAdministrator\\RoleController@index");
+        Route::get('/create', "SuperAdministrator\\RoleController@create");
+        Route::get('/{roleId}/edit/', "SuperAdministrator\\RoleController@edit");
+    });
+
 });
 
 Route::post('/register/up', 'Auth\RegisterController@registerUP');

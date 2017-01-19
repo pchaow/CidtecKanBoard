@@ -20,5 +20,7 @@ Route::get('/user', function (Request $request) {
 Route::group(["prefix" => 'v1/admin'], function () {
 
     Route::resource('user', "API\\UserResourceController");
+    Route::resource('role', "Api\\RoleResourceController");
+
 
 });
