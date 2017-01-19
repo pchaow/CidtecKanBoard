@@ -67,6 +67,9 @@
                                     <a href="/superadministrator/user">
                                         User Management
                                     </a>
+                                    <a href="/superadministrator/role">
+                                        Role Management
+                                    </a>
                                 </li>
                             </ul>
                         </li>
