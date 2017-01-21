@@ -136,7 +136,6 @@
                         this.load()
                     })
                 }
-
             }
         },
         mounted() {

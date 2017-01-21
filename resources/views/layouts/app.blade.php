@@ -87,7 +87,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ url('/'.Auth::user()->username.'/new') }}">
                                         New Board
                                     </a>
                                 </li>

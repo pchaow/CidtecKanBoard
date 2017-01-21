@@ -25,6 +25,9 @@ Vue.component('role-index', require('./components/role/RoleIndex.vue'));
 Vue.component('role-create', require('./components/role/RoleCreate.vue'));
 Vue.component('role-edit', require('./components/role/RoleEdit.vue'));
 
+Vue.component('user-board-new', require('./components/userBoard/UserBoardNew.vue'));
+
+
 
 const app = new Vue({
     el: '#app'

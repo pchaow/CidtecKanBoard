@@ -1,14 +1,11 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Search Role
                 </div>
-
                 <div class="panel-body">
-
                     <div class="col-lg-12">
                         <form class="form-horizontal" v-on:submit.prevent="search">
                             <div class="form-group">
