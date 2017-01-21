@@ -180,6 +180,8 @@ return [
 
         Artisaninweb\SoapWrapper\ServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
+
 
 
     ],
