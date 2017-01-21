@@ -11,18 +11,18 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return view('admin.role.index');
+        return view('superadministrator.role.index');
     }
 
     public function create()
     {
-        return view('admin.role.create');
+        return view('superadministrator.role.create');
 
     }
 
     public function edit($roleId)
     {
-        return view('admin.role.edit')
+        return view('superadministrator.role.edit')
             ->with('roleId', $roleId);
 
     }

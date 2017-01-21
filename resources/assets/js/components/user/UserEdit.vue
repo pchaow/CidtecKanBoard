@@ -13,27 +13,28 @@
                         <form class="form-horizontal" v-on:submit.prevent="save">
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['email'] }">
                                 <label class="control-label">E-mail : </label>
-                                <input class="form-control" placeholder="E-mail" v-model="formInputs.email"/>
+                                <input type="text" readonly class="form-control" placeholder="E-mail" v-model="formInputs.email"/>
                                 <span v-if="formErrors['email']" class="help-block">{{ formErrors['email'] }}</span>
                             </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['firstname'] }">
-                                <label class="control-label">First Name : </label>
-                                <input class="form-control" placeholder="First Name" v-model="formInputs.firstname"/>
-                                <span v-if="formErrors['firstname']"
-                                      class="help-block">{{ formErrors['firstname'] }}</span>
+                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['username'] }">
+                                <label class="control-label">Username : </label>
+                                <input type="text" readonly class="form-control" placeholder="Username" v-model="formInputs.username"/>
+                                <span v-if="formErrors['username']"
+                                      class="help-block">{{ formErrors['username'] }}</span>
                             </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['lastname'] }">
-                                <label class="control-label">Last Name : </label>
-                                <input class="form-control" placeholder="Last Name" v-model="formInputs.lastname"/>
-                                <span v-if="formErrors['lastname']"
-                                      class="help-block">{{ formErrors['lastname'] }}</span>
+                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
+                                <label class="control-label">Name : </label>
+                                <input class="form-control" placeholder="First Name" v-model="formInputs.name"/>
+                                <span v-if="formErrors['name']"
+                                      class="help-block">{{ formErrors['name'] }}</span>
                             </div>
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['password'] }">
                                 <label class="control-label">Password : </label>
-                                <input type="password" class="form-control" placeholder="Password" v-model="formInputs.password"/>
+                                <input type="password" class="form-control" placeholder="Password"
+                                       v-model="formInputs.password"/>
                                 <span v-if="formErrors['password']"
                                       class="help-block">{{ formErrors['password'] }}</span>
                             </div>
@@ -58,7 +59,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/backend/admin/user" class="btn btn-default">Cancel</a>
+                                <a href="/superadministrator/user" class="btn btn-default">Cancel</a>
                             </div>
 
                         </form>
@@ -89,7 +90,7 @@
                         .then((response) => {
                             // success callback
                             // console.log(response);
-                            window.location.href = '/backend/admin/user'
+                            window.location.href = '/superadministrator/user'
                         }, (response) => {
                             // error callback
                             this.formErrors = response.data;
@@ -148,4 +149,5 @@
             this.load()
         }
     }
+
 </script>

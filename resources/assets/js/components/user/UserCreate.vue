@@ -16,18 +16,18 @@
                                 <span v-if="formErrors['email']" class="help-block">{{ formErrors['email'] }}</span>
                             </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['firstname'] }">
-                                <label class="control-label">First Name : </label>
-                                <input class="form-control" placeholder="First Name" v-model="formInputs.firstname"/>
-                                <span v-if="formErrors['firstname']"
-                                      class="help-block">{{ formErrors['firstname'] }}</span>
+                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['username'] }">
+                                <label class="control-label">Username : </label>
+                                <input type="text" class="form-control" placeholder="Username" v-model="formInputs.username"/>
+                                <span v-if="formErrors['username']"
+                                      class="help-block">{{ formErrors['username'] }}</span>
                             </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['lastname'] }">
-                                <label class="control-label">Last Name : </label>
-                                <input class="form-control" placeholder="Last Name" v-model="formInputs.lastname"/>
-                                <span v-if="formErrors['lastname']"
-                                      class="help-block">{{ formErrors['lastname'] }}</span>
+                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
+                                <label class="control-label">Name : </label>
+                                <input class="form-control" placeholder="First Name" v-model="formInputs.name"/>
+                                <span v-if="formErrors['name']"
+                                      class="help-block">{{ formErrors['name'] }}</span>
                             </div>
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['password'] }">
@@ -57,7 +57,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/backend/admin/user" class="btn btn-default">Cancel</a>
+                                <a href="/superadministrator/user" class="btn btn-default">Cancel</a>
                             </div>
                         </form>
                     </div>
@@ -86,7 +86,7 @@
                         .then((response) => {
                                     // success callback
                                     console.log(response);
-                                    window.location.href = '/backend/admin/user'
+                                    window.location.href = '/superadministrator/user'
                                 }, (response) => {
                                     // error callback
                                     this.formErrors = response.data;

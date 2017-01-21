@@ -2,7 +2,7 @@
 
 @section('container')
     <div id="app">
-        <user-edit v-bind:user-id="{{$userId or 0}}"></user-edit>
+        <role-edit v-bind:role-id="{{$roleId or 0}}"></role-edit>
     </div>
 
 @endsection

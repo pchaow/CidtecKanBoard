@@ -20,5 +20,15 @@ Route::get('/user', function (Request $request) {
 Route::group(["prefix" => 'v1/admin'], function () {
 
     Route::resource('user', "API\\UserResourceController");
+    Route::resource('role', "Api\\RoleResourceController");
 
+});
+
+Route::group(["prefix" => 'v1/board'], function () {
+
+    Route::post('new',function(Request $request){
+        return \Auth::user();
+        return $request->all();
+
+    })->middleware('auth:api');
 });

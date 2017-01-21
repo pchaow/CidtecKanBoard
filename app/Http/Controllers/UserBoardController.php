@@ -36,4 +36,10 @@ class UserBoardController extends Controller
             return redirect('/');
         }
     }
+
+    public function new($username){
+        $user = User::where('username', '=', $username)->first();
+        return view('user.new')
+            ->with('user', $user);
+    }
 }

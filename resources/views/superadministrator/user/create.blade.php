@@ -1,5 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.container')
 
-@section('content')
-   <user-create></user-create>
+@section('container')
+    <div id="app">
+        <user-create></user-create>
+    </div>
 @endsection

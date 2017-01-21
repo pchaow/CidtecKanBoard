@@ -1,14 +1,11 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Search User
+                    Search Role
                 </div>
-
                 <div class="panel-body">
-
                     <div class="col-lg-12">
                         <form class="form-horizontal" v-on:submit.prevent="search">
                             <div class="form-group">
@@ -30,9 +27,9 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group btn-group-sm pull-right">
-                        <a href="/superadministrator/user/create" class="btn btn-default">Create User</a>
+                        <a href="/superadministrator/role/create" class="btn btn-default">Create Role</a>
                     </div>
-                    User Table
+                    Role Table
                 </div>
 
                 <div class="panel-body">
@@ -42,24 +39,21 @@
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>E-mail</th>
-                                    <th>Username</th>
                                     <th>Name</th>
-                                    <th>Roles</th>
+                                    <th>Display Name</th>
+                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="user in users">
-                                    <td>{{user.email}}</td>
-                                    <td>{{user.username}}</td>
-                                    <td>{{user.name}}</td>
+                                <tr v-for="role in roles">
+                                    <td>{{role.name}}</td>
+                                    <td>{{role.display_name}}</td>
+                                    <td>{{role.description}}</td>
                                     <td>
-                                        <span v-for="role in user.roles" style="display: block;">{{role.name}}</span>
-                                    </td>
-                                    <td>
-                                        <a v-bind:href="'/superadministrator/user/'+user.id+'/edit'" class="btn btn-primary">Edit</a>
-                                        <button type="button" class="btn btn-danger" v-on:click="deleteUser(user)">
+                                        <a v-bind:href="'/superadministrator/role/'+role.id+'/edit'"
+                                           class="btn btn-primary">Edit</a>
+                                        <button type="button" class="btn btn-danger" v-on:click="deleteRole(role)">
                                             Delete
                                         </button>
                                     </td>
@@ -68,14 +62,14 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="4">
                                         <div>
-                                            จำนวนทั้งหมด {{usersPage.total}} รายการ
+                                            จำนวนทั้งหมด {{rolesPage.total}} รายการ
                                         </div>
                                         <ul class="pagination">
-                                            <li v-bind:class="{ 'active' : (usersPage.current_page == n) }"
+                                            <li v-bind:class="{ 'active' : (rolesPage.current_page == n) }"
 
-                                                v-for="n in usersPage.last_page ">
+                                                v-for="n in rolesPage.last_page ">
                                                 <a style="cursor: default;" v-on:click="gotoPage(n)">{{ n }}</a>
                                             </li>
                                         </ul>
@@ -95,8 +89,8 @@
     export default {
         data() {
             return {
-                users: [],
-                usersPage: {},
+                roles: [],
+                rolesPage: {},
                 form: {
                     keyword: "",
                     page: 1,
@@ -119,23 +113,24 @@
                 this.load()
             },
             load: function () {
-                this.$http.get('/api/v1/admin/user', {
+                this.$http.get('/api/v1/admin/role', {
                     params: this.form
                 }).then(function (r) {
-                    console.log(r.data)
-                    this.usersPage = r.data
-                    this.users = this.usersPage.data
+//                    console.log(r.data)
+                    this.rolesPage = r.data
+                    this.roles = this.rolesPage.data
 
                 })
             },
-            deleteUser: function (user) {
-                if (confirm("Do you want to delete this user?")) {
-                    this.$http.delete('/api/v1/admin/user/' + user.id, {
+            deleteRole: function (role) {
+                if (confirm("Do you want to delete this role?")) {
+                    this.$http.delete('/api/v1/admin/role/' + role.id, {
                         params: this.form
                     }).then(function (r) {
                         this.load()
                     })
                 }
+
             }
         },
         mounted() {

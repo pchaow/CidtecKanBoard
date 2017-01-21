@@ -66,6 +66,9 @@
                                     <a href="/superadministrator/user">
                                         User Management
                                     </a>
+                                    <a href="/superadministrator/role">
+                                        Role Management
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -83,7 +86,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ url('/'.Auth::user()->username.'/new') }}">
                                         New Board
                                     </a>
                                 </li>
