@@ -16,7 +16,7 @@
     <!-- Scripts -->
     <script>
         window.Laravel = document.getElementById('csrf_token').getAttribute('content');
-        
+
     </script>
 </head>
 <body>
