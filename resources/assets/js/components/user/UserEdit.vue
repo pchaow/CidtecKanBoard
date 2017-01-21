@@ -13,13 +13,15 @@
                         <form class="form-horizontal" v-on:submit.prevent="save">
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['email'] }">
                                 <label class="control-label">E-mail : </label>
-                                <input type="text" readonly class="form-control" placeholder="E-mail" v-model="formInputs.email"/>
+                                <input type="text" readonly class="form-control" placeholder="E-mail"
+                                       v-model="formInputs.email"/>
                                 <span v-if="formErrors['email']" class="help-block">{{ formErrors['email'] }}</span>
                             </div>
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['username'] }">
                                 <label class="control-label">Username : </label>
-                                <input type="text" readonly class="form-control" placeholder="Username" v-model="formInputs.username"/>
+                                <input type="text" readonly class="form-control" placeholder="Username"
+                                       v-model="formInputs.username"/>
                                 <span v-if="formErrors['username']"
                                       class="help-block">{{ formErrors['username'] }}</span>
                             </div>
@@ -59,7 +61,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/superadministrator/user" class="btn btn-default">Cancel</a>
+                                <a v-bind:href="successUrl" class="btn btn-default">Cancel</a>
                             </div>
 
                         </form>
@@ -74,7 +76,13 @@
 <script>
     export default {
         props: {
-            userId: Number
+            userId: Number,
+            savePrefix : String,
+            savePostfix : String,
+            loadPrefix : String,
+            loadPostfix : String,
+            successUrl : String,
+            loadRolesUrl : String,
         },
         data() {
             return {
@@ -86,11 +94,11 @@
         methods: {
             save: function () {
                 this.formErrors = [];
-                this.$http.put('/api/v1/admin/user/' + this.userId, this.formInputs)
+                this.$http.put(this.savePrefix + this.userId + this.savePostfix, this.formInputs)
                         .then((response) => {
                             // success callback
                             // console.log(response);
-                            window.location.href = '/superadministrator/user'
+                            window.location.href = this.successUrl
                         }, (response) => {
                             // error callback
                             this.formErrors = response.data;
@@ -100,7 +108,7 @@
             },
             load: function () {
 
-                this.$http.get('/api/v1/admin/user/' + this.userId)
+                this.$http.get(this.loadPrefix + this.userId + this.loadPostfix)
                         .then((response) => {
                             // success callback
                             // console.log(response);
@@ -113,7 +121,7 @@
                         })
             },
             loadRoles: function () {
-                return this.$http.get('/api/v1/admin/role', {
+                return this.$http.get(this.loadRolesUrl, {
                     params: {all: true}
                 }).then(function (r) {
                     console.log(r.data)
@@ -149,5 +157,18 @@
             this.load()
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
