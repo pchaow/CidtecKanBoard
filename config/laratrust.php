@@ -102,7 +102,10 @@ return [
     | Available: abort|redirect
     |--------------------------------------------------------------------------
     */
-    'middleware_handling' => 'abort',
+    //'middleware_handling' => 'abort',
+    'middleware_handling' => 'redirect',
+    'middleware_params'   => '/home',       // Change this to the route you need
+
 
     /*
     |--------------------------------------------------------------------------

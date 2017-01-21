@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'superadministrator'], function () {
+Route::group(['prefix' => 'superadministrator','middleware' => ['role:superadministrator']], function () {
     Route::get('user', 'SuperAdministrator\\UserController@index');
     Route::get('user/create', "SuperAdministrator\\UserController@create");
     Route::get('user/{id}/edit', 'SuperAdministrator\\UserController@edit');
