@@ -15,7 +15,9 @@
 
     <!-- Scripts -->
     <script>
-        window.Laravel = document.getElementById('csrf_token').getAttribute('content');
+        window.Laravel = {
+            "csrfToken": document.getElementById('csrf_token').attributes['content'].value,
+        }
 
     </script>
 </head>
