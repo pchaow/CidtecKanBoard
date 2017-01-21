@@ -58,7 +58,8 @@
                                         <span v-for="role in user.roles" style="display: block;">{{role.name}}</span>
                                     </td>
                                     <td>
-                                        <a v-bind:href="'/superadministrator/user/'+user.id+'/edit'" class="btn btn-primary">Edit</a>
+                                        <a v-bind:href="editPrefix+user.id+editPostfix"
+                                           class="btn btn-primary">Edit</a>
                                         <button type="button" class="btn btn-danger" v-on:click="deleteUser(user)">
                                             Delete
                                         </button>
@@ -93,6 +94,12 @@
 
 <script>
     export default {
+        props: {
+            editPrefix : String,
+            editPostfix : String,
+            loadUserUrl : String,
+            deleteUserPrefix : String,
+        },
         data() {
             return {
                 users: [],
@@ -119,18 +126,17 @@
                 this.load()
             },
             load: function () {
-                this.$http.get('/api/v1/admin/user', {
+                this.$http.get(this.loadUserUrl, {
                     params: this.form
                 }).then(function (r) {
                     console.log(r.data)
                     this.usersPage = r.data
                     this.users = this.usersPage.data
-
                 })
             },
             deleteUser: function (user) {
                 if (confirm("Do you want to delete this user?")) {
-                    this.$http.delete('/api/v1/admin/user/' + user.id, {
+                    this.$http.delete(this.deleteUserPrefix + user.id, {
                         params: this.form
                     }).then(function (r) {
                         this.load()
@@ -143,5 +149,9 @@
             this.load();
         }
     }
+
+
+
+
 
 </script>

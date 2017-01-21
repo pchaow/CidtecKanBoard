@@ -2,6 +2,11 @@
 
 @section('container')
     <div id="app">
-        <user-create></user-create>
+        <user-create
+                v-bind:save-prefix="'/api/v1/admin/user'"
+                v-bind:save-postfix="''"
+                v-bind:success-url="'/superadministrator/user'"
+                v-bind:load-roles-url="'/api/v1/admin/role'">
+        </user-create>
     </div>
 @endsection

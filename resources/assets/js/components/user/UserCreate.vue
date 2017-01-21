@@ -18,7 +18,8 @@
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['username'] }">
                                 <label class="control-label">Username : </label>
-                                <input type="text" class="form-control" placeholder="Username" v-model="formInputs.username"/>
+                                <input type="text" class="form-control" placeholder="Username"
+                                       v-model="formInputs.username"/>
                                 <span v-if="formErrors['username']"
                                       class="help-block">{{ formErrors['username'] }}</span>
                             </div>
@@ -32,7 +33,8 @@
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['password'] }">
                                 <label class="control-label">Password : </label>
-                                <input type="password" class="form-control" placeholder="Password" v-model="formInputs.password"/>
+                                <input type="password" class="form-control" placeholder="Password"
+                                       v-model="formInputs.password"/>
                                 <span v-if="formErrors['password']"
                                       class="help-block">{{ formErrors['password'] }}</span>
                             </div>
@@ -49,7 +51,7 @@
                                 <label class="control-label">Roles : </label>
                                 <div class="checkbox" v-for="role in roles">
                                     <label>
-                                        <input type="checkbox" v-model="formInputs.roles"  v-bind:value="role">
+                                        <input type="checkbox" v-model="formInputs.roles" v-bind:value="role">
                                         {{role.name}}
                                     </label>
                                 </div>
@@ -57,7 +59,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/superadministrator/user" class="btn btn-default">Cancel</a>
+                                <a v-bind:href="successUrl" class="btn btn-default">Cancel</a>
                             </div>
                         </form>
                     </div>
@@ -69,6 +71,12 @@
 
 <script>
     export default {
+        props: {
+            savePrefix : String,
+            savePostfix : String,
+            successUrl : String,
+            loadRolesUrl : String,
+        },
         data() {
             return {
                 roles: [],
@@ -82,11 +90,11 @@
             save: function () {
                 console.log(this.formInputs);
                 this.formErrors = []
-                this.$http.post('/api/v1/admin/user', this.formInputs)
+                this.$http.post(this.savePrefix, this.formInputs)
                         .then((response) => {
                                     // success callback
                                     console.log(response);
-                                    window.location.href = '/superadministrator/user'
+                                    window.location.href = this.successUrl
                                 }, (response) => {
                                     // error callback
                                     this.formErrors = response.data;
@@ -94,7 +102,7 @@
                         );
             },
             loadRoles: function () {
-                this.$http.get('/api/v1/admin/role', {
+                this.$http.get(this.loadRolesUrl, {
                     params: {all: true}
                 }).then(function (r) {
                     console.log(r.data)
@@ -109,4 +117,5 @@
             this.loadRoles();
         }
     }
+
 </script>

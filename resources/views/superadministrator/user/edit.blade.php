@@ -10,7 +10,6 @@
                 v-bind:success-url="'/superadministrator/user'"
                 v-bind:load-roles-url="'/api/v1/admin/role'"
                 v-bind:user-id="{{$userId or 0}}">
-
         </user-edit>
 
     </div>
