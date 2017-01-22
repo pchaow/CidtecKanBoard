@@ -93,7 +93,7 @@
             editRolePostfix : String,
             successUrl : String,
             loadRolesUrl : String,
-            deleteRolesUrl : String,
+            deleteRoleUrl : String,
         },
         data() {
             return {
@@ -132,7 +132,7 @@
             },
             deleteRole: function (role) {
                 if (confirm("Do you want to delete this role?")) {
-                    this.$http.delete(deleteRolesUrl + role.id, {
+                    this.$http.delete(deleteRoleUrl + role.id, {
                         params: this.form
                     }).then(function (r) {
                         this.load()
@@ -146,6 +146,8 @@
             this.load();
         }
     }
+
+
 
 
 </script>
