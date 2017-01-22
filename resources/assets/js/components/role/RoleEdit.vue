@@ -14,14 +14,16 @@
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
                                 <label class="control-label">Name : </label>
-                                <input type="text" readonly class="form-control" placeholder="Name" v-model="formInputs.name"/>
+                                <input type="text" readonly class="form-control" placeholder="Name"
+                                       v-model="formInputs.name"/>
                                 <span v-if="formErrors['name']" class="help-block">{{ formErrors['name'] }}</span>
 
                             </div>
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['display_name'] }">
                                 <label class="control-label">Display Name : </label>
-                                <input class="form-control" placeholder="Display Name" v-model="formInputs.display_name"/>
+                                <input class="form-control" placeholder="Display Name"
+                                       v-model="formInputs.display_name"/>
                                 <span v-if="formErrors['display_name']" class="help-block">{{ formErrors['display_name'] }}</span>
 
                             </div>
@@ -35,7 +37,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/superadministrator/role" class="btn btn-default">Cancel</a>
+                                <a v-bind:href="successUrl" class="btn btn-default">Cancel</a>
                             </div>
 
                         </form>
@@ -49,7 +51,13 @@
 <script>
     export default {
         props: {
-            roleId: Number
+            roleId: Number,
+            savePrefix : String,
+            savePostfix : String,
+            loadPrefix : String,
+            loadPostfix : String,
+            successUrl : String,
+            loadRolesUrl : String,
         },
         data() {
             return {
@@ -60,10 +68,10 @@
         methods: {
             save: function () {
                 this.formErrors = [];
-                this.$http.put('/api/v1/admin/role/' + this.roleId, this.formInputs)
+                this.$http.put(this.savePrefix + this.roleId + this.savePostfix, this.formInputs)
                         .then((response) => {
                             // success callback
-                            window.location.href = '/superadministrator/role'
+                            window.location.href = this.successUrl
                         }, (response) => {
                             // error callback
                             this.formErrors = response.data;
@@ -72,7 +80,7 @@
 
             },
             load: function () {
-                this.$http.get('/api/v1/admin/role/' + this.roleId)
+                this.$http.get(this.loadPrefix + this.roleId + this.loadPostfix)
                         .then((response) => {
                             // success callback
                             this.formInputs = response.data;
@@ -88,4 +96,8 @@
             this.load()
         }
     }
+
+
+
+
 </script>

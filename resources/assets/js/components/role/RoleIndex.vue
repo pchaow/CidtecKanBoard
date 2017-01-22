@@ -27,7 +27,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group btn-group-sm pull-right">
-                        <a href="/superadministrator/role/create" class="btn btn-default">Create Role</a>
+                        <a v-bind:href="createRoleUrl" class="btn btn-default">Create Role</a>
                     </div>
                     Role Table
                 </div>
@@ -51,7 +51,7 @@
                                     <td>{{role.display_name}}</td>
                                     <td>{{role.description}}</td>
                                     <td>
-                                        <a v-bind:href="'/superadministrator/role/'+role.id+'/edit'"
+                                        <a v-bind:href="editRolePrefix+role.id+editRolePostfix"
                                            class="btn btn-primary">Edit</a>
                                         <button type="button" class="btn btn-danger" v-on:click="deleteRole(role)">
                                             Delete
@@ -87,6 +87,14 @@
 
 <script>
     export default {
+        props: {
+            createRoleUrl : String,
+            editRolePrefix : String,
+            editRolePostfix : String,
+            successUrl : String,
+            loadRolesUrl : String,
+            deleteRolesUrl : String,
+        },
         data() {
             return {
                 roles: [],
@@ -113,7 +121,7 @@
                 this.load()
             },
             load: function () {
-                this.$http.get('/api/v1/admin/role', {
+                this.$http.get(loadRolesUrl, {
                     params: this.form
                 }).then(function (r) {
 //                    console.log(r.data)
@@ -124,7 +132,7 @@
             },
             deleteRole: function (role) {
                 if (confirm("Do you want to delete this role?")) {
-                    this.$http.delete('/api/v1/admin/role/' + role.id, {
+                    this.$http.delete(deleteRolesUrl + role.id, {
                         params: this.form
                     }).then(function (r) {
                         this.load()
@@ -138,5 +146,6 @@
             this.load();
         }
     }
+
 
 </script>
