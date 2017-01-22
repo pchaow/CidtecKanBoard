@@ -36,7 +36,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/superadministrator/role" class="btn btn-default">Cancel</a>
+                                <a v-bind:href="successUrl" class="btn btn-default">Cancel</a>
                             </div>
 
                         </form>
