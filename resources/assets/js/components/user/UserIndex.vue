@@ -30,7 +30,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group btn-group-sm pull-right">
-                        <a href="/superadministrator/user/create" class="btn btn-default">Create User</a>
+                        <a v-bind:href="createUserUrl" class="btn btn-default">Create User</a>
                     </div>
                     User Table
                 </div>
@@ -99,6 +99,7 @@
             editPostfix : String,
             loadUserUrl : String,
             deleteUserPrefix : String,
+            createUserUrl : String
         },
         data() {
             return {
@@ -149,6 +150,7 @@
             this.load();
         }
     }
+
 
 
 

@@ -6,7 +6,9 @@
                 v-bind:edit-prefix="'/superadministrator/user/'"
                 v-bind:edit-postfix="'/edit'"
                 v-bind:load-user-url="'/api/v1/admin/user'"
-                v-bind:delete-user-prefix="'/api/v1/admin/user/'">
+                v-bind:delete-user-prefix="'/api/v1/admin/user/'"
+                v-bind:create-user-url="'/superadministrator/user/create'"
+        >
         </user-index>
     </div>
 
