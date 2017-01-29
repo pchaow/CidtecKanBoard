@@ -28,7 +28,7 @@
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
                                 <label class="control-label">Name : </label>
-                                <input class="form-control" placeholder="First Name" v-model="formInputs.name"/>
+                                <input class="form-control" placeholder="Name" v-model="formInputs.name"/>
                                 <span v-if="formErrors['name']"
                                       class="help-block">{{ formErrors['name'] }}</span>
                             </div>
@@ -77,10 +77,8 @@
     export default {
         props: {
             userId: Number,
-            savePrefix : String,
-            savePostfix : String,
-            loadPrefix : String,
-            loadPostfix : String,
+            saveUrl : String,
+            loadUrl : String,
             successUrl : String,
             loadRolesUrl : String,
         },
@@ -94,7 +92,7 @@
         methods: {
             save: function () {
                 this.formErrors = [];
-                this.$http.put(this.savePrefix + this.userId + this.savePostfix, this.formInputs)
+                this.$http.put(this.saveUrl, this.formInputs)
                         .then((response) => {
                             // success callback
                             // console.log(response);
@@ -108,7 +106,7 @@
             },
             load: function () {
 
-                this.$http.get(this.loadPrefix + this.userId + this.loadPostfix)
+                this.$http.get(this.loadUrl)
                         .then((response) => {
                             // success callback
                             // console.log(response);
@@ -157,6 +155,7 @@
             this.load()
         }
     }
+
 
 
 

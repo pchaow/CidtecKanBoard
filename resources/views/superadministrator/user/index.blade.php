@@ -3,12 +3,10 @@
 @section('container')
     <div id="app">
         <user-index
-                v-bind:edit-prefix="'/superadministrator/user/'"
-                v-bind:edit-postfix="'/edit'"
+                v-bind:edit-url="'/superadministrator/user/{id}/edit'"
                 v-bind:load-user-url="'/api/v1/admin/user'"
-                v-bind:delete-user-prefix="'/api/v1/admin/user/'"
-                v-bind:create-user-url="'/superadministrator/user/create'"
-        >
+                v-bind:delete-url="'/api/v1/admin/user/{id}'"
+                v-bind:create-user-url="'/superadministrator/user/create'">
         </user-index>
     </div>
 
