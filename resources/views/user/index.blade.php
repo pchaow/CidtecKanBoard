@@ -4,13 +4,7 @@
     <div class="container" id="app">
         <div class="row">
             <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Board Name</div>
-
-                    <div class="panel-body">
-                        Board Detail
-                    </div>
-                </div>
+              <user-board-index v-bind:load-user-boards-url="'/api/v1/board/all'"></user-board-index>
             </div>
 
             <div class="col-md-4">

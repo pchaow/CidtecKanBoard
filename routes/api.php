@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Board;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +29,16 @@ Route::group(["prefix" => 'v1/admin'], function () {
 Route::group(["prefix" => 'v1/board'], function () {
 
     Route::post('new',function(Request $request){
-        return \Auth::user();
-        return $request->all();
 
+        return $request->all();
     })->middleware('auth:api');
+
+    Route::get('all',function(Request $request){
+      $id = \Auth::user()->id;
+      $boards = Board::where('user_id', '=', $id)->get();
+      $boards = Board::all();
+
+        return $boards;
+    })->middleware('auth:api');
+
 });
