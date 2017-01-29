@@ -58,7 +58,9 @@
                                         <span v-for="role in user.roles" style="display: block;">{{role.name}}</span>
                                     </td>
                                     <td>
-                                        <a v-bind:href="editPrefix+user.id+editPostfix"
+
+
+                                        <a v-bind:href="strFormat(editUrl,{id : user.id})"
                                            class="btn btn-primary">Edit</a>
                                         <button type="button" class="btn btn-danger" v-on:click="deleteUser(user)">
                                             Delete
@@ -95,10 +97,9 @@
 <script>
     export default {
         props: {
-            editPrefix : String,
-            editPostfix : String,
+            editUrl : String,
             loadUserUrl : String,
-            deleteUserPrefix : String,
+            deleteUrl : String,
             createUserUrl : String
         },
         data() {
@@ -112,6 +113,7 @@
             }
         },
         methods: {
+            strFormat : window.strFormat,
             reset: function () {
                 this.form = {
                     keyword: "",
@@ -137,7 +139,7 @@
             },
             deleteUser: function (user) {
                 if (confirm("Do you want to delete this user?")) {
-                    this.$http.delete(this.deleteUserPrefix + user.id, {
+                    this.$http.delete(this.strFormat(this.deleteUrl,{id:user.id}), {
                         params: this.form
                     }).then(function (r) {
                         this.load()
@@ -150,6 +152,8 @@
             this.load();
         }
     }
+
+
 
 
 

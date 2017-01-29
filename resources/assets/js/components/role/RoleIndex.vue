@@ -27,7 +27,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="btn-group btn-group-sm pull-right">
-                        <a v-bind:href="createRoleUrl" class="btn btn-default">Create Role</a>
+                        <a v-bind:href="createUrl" class="btn btn-default">Create Role</a>
                     </div>
                     Role Table
                 </div>
@@ -51,7 +51,7 @@
                                     <td>{{role.display_name}}</td>
                                     <td>{{role.description}}</td>
                                     <td>
-                                        <a v-bind:href="editRolePrefix+role.id+editRolePostfix"
+                                        <a v-bind:href="strFormat(editUrl,{id : role.id})"
                                            class="btn btn-primary">Edit</a>
                                         <button type="button" class="btn btn-danger" v-on:click="deleteRole(role)">
                                             Delete
@@ -88,12 +88,11 @@
 <script>
     export default {
         props: {
-            createRoleUrl : String,
-            editRolePrefix : String,
-            editRolePostfix : String,
+            createUrl: String,
+            editUrl : String,
             successUrl : String,
-            loadRolesUrl : String,
-            deleteRoleUrl : String,
+            loadUrl : String,
+            deleteUrl : String,
         },
         data() {
             return {
@@ -106,6 +105,7 @@
             }
         },
         methods: {
+            strFormat : window.strFormat,
             reset: function () {
                 this.form = {
                     keyword: "",
@@ -121,7 +121,7 @@
                 this.load()
             },
             load: function () {
-                this.$http.get(loadRolesUrl, {
+                this.$http.get(this.loadUrl, {
                     params: this.form
                 }).then(function (r) {
 //                    console.log(r.data)
@@ -132,7 +132,7 @@
             },
             deleteRole: function (role) {
                 if (confirm("Do you want to delete this role?")) {
-                    this.$http.delete(deleteRoleUrl + role.id, {
+                    this.$http.delete(this.deleteUrl + role.id, {
                         params: this.form
                     }).then(function (r) {
                         this.load()

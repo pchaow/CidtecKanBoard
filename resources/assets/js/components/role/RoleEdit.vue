@@ -52,12 +52,9 @@
     export default {
         props: {
             roleId: Number,
-            savePrefix : String,
-            savePostfix : String,
-            loadPrefix : String,
-            loadPostfix : String,
+            saveUrl : String,
+            loadUrl : String,
             successUrl : String,
-            loadRolesUrl : String,
         },
         data() {
             return {
@@ -68,7 +65,7 @@
         methods: {
             save: function () {
                 this.formErrors = [];
-                this.$http.put(this.savePrefix + this.roleId + this.savePostfix, this.formInputs)
+                this.$http.put(this.saveUrl, this.formInputs)
                         .then((response) => {
                             // success callback
                             window.location.href = this.successUrl
@@ -80,7 +77,7 @@
 
             },
             load: function () {
-                this.$http.get(this.loadPrefix + this.roleId + this.loadPostfix)
+                this.$http.get(this.loadUrl)
                         .then((response) => {
                             // success callback
                             this.formInputs = response.data;
@@ -96,8 +93,4 @@
             this.load()
         }
     }
-
-
-
-
 </script>
