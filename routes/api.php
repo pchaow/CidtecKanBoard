@@ -30,14 +30,19 @@ Route::group(["prefix" => 'v1/board'], function () {
 
     Route::post('new',function(Request $request){
 
-        return $request->all();
+         $request->merge(array('user_id' => \Auth::user()->id));
+
+         $form = $request->all();
+         $board = new Board();
+         $board->fill($form);
+         $board->save();
+         return $board;
+
     })->middleware('auth:api');
 
     Route::get('all',function(Request $request){
-      $id = \Auth::user()->id;
-      $boards = Board::where('user_id', '=', $id)->get();
-      $boards = Board::all();
-
+        $id = \Auth::user()->id;
+        $boards = Board::where('user_id', '=', $id)->get();
         return $boards;
     })->middleware('auth:api');
 

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
+
+  protected $fillable = ['name', 'description', 'user_id'];
+
     //get list of lanes
     public function lanes()
    {

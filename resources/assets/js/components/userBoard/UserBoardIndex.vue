@@ -3,7 +3,14 @@
     <div class="panel-heading">Board</div>
 
     <div class="panel-body">
-        <div class="">
+        <ul class="list-group">
+            <li class="list-group-item" v-for="managementBoard in managementBoards">
+                <span class="glyphicon glyphicon-blackboard"></span>
+                <a href="#">{{ managementBoard.name }} </a>
+            </li>
+        </ul>
+
+        <!-- <div class="">
             <div class="table-responsive">
                 <table class="table table-condensed">
                     <thead>
@@ -15,18 +22,16 @@
                     </thead>
                     <tbody>
                         <tr v-for="managementBoard in managementBoards">
-                            <td>{{managementBoard.name}}</td>
-                            <td>{{managementBoard.description}}</td>
+                            <td>{{ managementBoard.name }}</td>
+                            <td>{{ managementBoard.description }}</td>
                             <td>
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
-
-                    </tfoot>
+                    <tfoot></tfoot>
                 </table>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 </div>
@@ -57,12 +62,9 @@ export default {
                 console.log(r.data)
                 this.managementBoardPage = r.data
                 this.managementBoards = this.managementBoardPage
-
-                console.log(this.managementBoards)
-
             })
-          }
-        },
+        }
+    },
     mounted() {
         console.log('Component mounted.')
         this.load();
