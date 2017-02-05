@@ -28,6 +28,8 @@ Route::group(["prefix" => 'v1/admin'], function () {
 
 Route::group(["prefix" => 'v1/board'], function () {
 
+  Route::resource('view', "API\\BoardResourceController");
+
     Route::post('new',function(Request $request){
 
          $request->merge(array('user_id' => \Auth::user()->id));
@@ -40,9 +42,13 @@ Route::group(["prefix" => 'v1/board'], function () {
 
     })->middleware('auth:api');
 
-    Route::get('all',function(Request $request){
+
+    Route::get('index',function(Request $request){
         $id = \Auth::user()->id;
-        $boards = Board::where('user_id', '=', $id)->get();
+        $boards = Board::with(['OwnerBoard'])
+        ->where('user_id', '=', $id)
+        ->orderBy('id', 'desc')
+        ->get();
         return $boards;
     })->middleware('auth:api');
 

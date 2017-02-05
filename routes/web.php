@@ -36,3 +36,4 @@ Route::get('home', 'HomeController@index');
 
 Route::get('{user}', 'UserBoardController@index');
 Route::get('{user}/new', 'UserBoardController@new');
+Route::get('{user}/board/{boardName}', 'UserBoardController@view');

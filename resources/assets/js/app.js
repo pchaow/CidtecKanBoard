@@ -42,6 +42,7 @@ Vue.component('role-edit', require('./components/role/RoleEdit.vue'));
 
 Vue.component('user-board-new', require('./components/userBoard/UserBoardNew.vue'));
 Vue.component('user-board-index', require('./components/userBoard/UserBoardIndex.vue'));
+Vue.component('user-board-view', require('./components/userBoard/UserBoardView.vue'));
 
 
 const app = new Vue({
