@@ -76,7 +76,12 @@ class BoardResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $form = $request->all();
+      $Board = Board::find($id);
+      $Board->fill($form);
+
+      $Board->save();
+      return $request->all();
     }
 
     /**

@@ -43,6 +43,7 @@ class UserBoardController extends Controller
         return view('user.board.new')
             ->with('user', $user);
     }
+    
     public function view($username,$boardName){
         $user = User::where('username', '=', $username)->first();
         $board = Board::with(['OwnerBoard'])
@@ -50,6 +51,16 @@ class UserBoardController extends Controller
         ->where('name', '=', $boardName)
         ->get();
         return view('user.board.index')
+            ->with('boardId', $board[0]->id);
+    }
+
+    public function edit($username,$boardName){
+        $user = User::where('username', '=', $username)->first();
+        $board = Board::with(['OwnerBoard'])
+        ->where('user_id', '=', $user->id)
+        ->where('name', '=', $boardName)
+        ->get();
+        return view('user.board.edit')
             ->with('boardId', $board[0]->id);
     }
 }

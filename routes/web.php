@@ -34,6 +34,12 @@ Route::group(['prefix' => 'superadministrator','middleware' => ['role:superadmin
 Route::post('/register/up', 'Auth\RegisterController@registerUP');
 Route::get('home', 'HomeController@index');
 
-Route::get('{user}', 'UserBoardController@index');
-Route::get('{user}/new', 'UserBoardController@new');
-Route::get('{user}/board/{boardName}', 'UserBoardController@view');
+  Route::group(['prefix' => '{user}'], function () {
+    Route::get('/', 'UserBoardController@index');
+    Route::get('/new', 'UserBoardController@new');
+
+    Route::group(['prefix' => '/board/{boardName}'], function () {
+      Route::get('/', 'UserBoardController@view');
+      Route::get('/edit', 'UserBoardController@edit');
+      });
+    });
