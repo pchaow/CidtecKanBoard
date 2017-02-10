@@ -15,9 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/logout', function () {
+    Auth::logout();
+});
+
 Auth::routes();
 
-Route::group(['prefix' => 'superadministrator','middleware' => ['role:superadministrator']], function () {
+Route::group(['prefix' => 'superadministrator', 'middleware' => ['role:superadministrator']], function () {
     Route::get('user', 'SuperAdministrator\\UserController@index');
     Route::get('user/create', "SuperAdministrator\\UserController@create");
     Route::get('user/{id}/edit', 'SuperAdministrator\\UserController@edit');
@@ -34,12 +38,9 @@ Route::group(['prefix' => 'superadministrator','middleware' => ['role:superadmin
 Route::post('/register/up', 'Auth\RegisterController@registerUP');
 Route::get('home', 'HomeController@index');
 
-  Route::group(['prefix' => '{user}'], function () {
+Route::group(['prefix' => '{user}'], function () {
     Route::get('/', 'UserBoardController@index');
     Route::get('/new', 'UserBoardController@new');
 
-    Route::group(['prefix' => '/board/{boardName}'], function () {
-      Route::get('/', 'UserBoardController@view');
-      Route::get('/edit', 'UserBoardController@edit');
-      });
-    });
+    Route::get('{boardName}', "UserBoardController@view");
+});

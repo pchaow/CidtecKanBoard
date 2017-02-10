@@ -1,51 +1,46 @@
 <template>
-<div class="panel panel-info">
-    <div class="panel-heading">Board</div>
+    <div>
+        <div class="panel panel-info" v-for="board in boards">
+            <div class="panel-heading">
+                <a :href="'/'+user.username+'/'+board.name">{{board.name}}</a>
+            </div>
 
-    <div class="panel-body">
-        <ul class="list-group">
-            <li class="list-group-item" v-for="managementBoard in managementBoards">
-                <span class="glyphicon glyphicon-blackboard"></span>
-                <a v-bind:href="'/'+managementBoard.owner_board.username +'/board/' +managementBoard.name">{{ managementBoard.name }} </a>
-            </li>
-        </ul>
-
+            <div class="panel-body">
+                List of current remaining tasks. "do it later"
+            </div>
+        </div>
     </div>
-</div>
-</div>
 </template>
 
 <script>
-export default {
-    props: {
-
-        loadUserBoardsUrl: String,
-
-    },
-    data() {
-        return {
-            managementBoards: [],
-        }
-    },
-    methods: {
-        reset: function() {
-            this.form = {
-                keyword: ""
+    export default {
+        props: {
+            loadUserBoardsUrl: String,
+            user: Object,
+        },
+        data() {
+            return {
+                boards: [],
             }
         },
-        load: function() {
-            this.$http.get('/api/v1/board/index', {
-                params: this.form
-            }).then(function(r) {
-                console.log(r.data)
-                this.managementBoardPage = r.data
-                this.managementBoards = this.managementBoardPage
-            })
+        methods: {
+            reset: function () {
+                this.form = {
+                    keyword: ""
+                }
+            },
+            load: function () {
+                this.$http.get(this.loadUserBoardsUrl, {
+                    params: this.form
+                }).then(function (r) {
+                    this.boards = r.data
+                })
+            }
+        },
+        mounted() {
+            console.log('Component mounted.')
+            console.log(this.user)
+            this.load();
         }
-    },
-    mounted() {
-        console.log('Component mounted.')
-        this.load();
     }
-}
 </script>

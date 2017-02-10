@@ -38,28 +38,31 @@ class UserBoardController extends Controller
         }
     }
 
-    public function new(){
+    public function create()
+    {
         $user = User::where('username', '=', \Auth::user()->username)->first();
         return view('user.board.new')
             ->with('user', $user);
     }
-    
-    public function view($username,$boardName){
+
+    public function view($username, $boardName)
+    {
         $user = User::where('username', '=', $username)->first();
-        $board = Board::with(['OwnerBoard'])
-        ->where('user_id', '=', $user->id)
-        ->where('name', '=', $boardName)
-        ->get();
+        $board = Board::with(['user'])
+            ->where('user_id', '=', $user->id)
+            ->where('name', '=', $boardName)
+            ->get();
         return view('user.board.index')
             ->with('boardId', $board[0]->id);
     }
 
-    public function edit($username,$boardName){
+    public function edit($username, $boardName)
+    {
         $user = User::where('username', '=', $username)->first();
         $board = Board::with(['OwnerBoard'])
-        ->where('user_id', '=', $user->id)
-        ->where('name', '=', $boardName)
-        ->get();
+            ->where('user_id', '=', $user->id)
+            ->where('name', '=', $boardName)
+            ->get();
         return view('user.board.edit')
             ->with('boardId', $board[0]->id);
     }

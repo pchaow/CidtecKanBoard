@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
-use App\Models\User;
+use App\Http\Requests\UserRequest;
 use App\Models\Board;
+use App\Models\User;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class BoardResourceController extends Controller
+class UserBoardResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $userId)
     {
-        //
+        $user = Auth::user();
+        return $user->boards()->get();
     }
 
     /**
@@ -34,32 +36,33 @@ class BoardResourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $userId)
     {
-        //
+        $board = new Board();
+        $board->fill($request->all());
+        $board->user()->associate(Auth::user()->id);
+        $board->save();
+        return $board;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-      $board = Board::with(['OwnerBoard'])
-      ->find($id);
 
-        return $board;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,28 +73,23 @@ class BoardResourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-      $form = $request->all();
-      $Board = Board::find($id);
-      $Board->fill($form);
 
-      $Board->save();
-      return $request->all();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+
     }
 }

@@ -24,32 +24,11 @@ Route::group(["prefix" => 'v1/admin'], function () {
     Route::resource('user', "API\\UserResourceController");
     Route::resource('role', "Api\\RoleResourceController");
 
+
 });
 
-Route::group(["prefix" => 'v1/board'], function () {
+Route::group(["prefix" => 'v1','middleware'=>'auth:api'], function () {
 
-  Route::resource('view', "API\\BoardResourceController");
-
-    Route::post('new',function(Request $request){
-
-         $request->merge(array('user_id' => \Auth::user()->id));
-
-         $form = $request->all();
-         $board = new Board();
-         $board->fill($form);
-         $board->save();
-         return $board;
-
-    })->middleware('auth:api');
-
-
-    Route::get('index',function(Request $request){
-        $id = \Auth::user()->id;
-        $boards = Board::with(['OwnerBoard'])
-        ->where('user_id', '=', $id)
-        ->orderBy('id', 'desc')
-        ->get();
-        return $boards;
-    })->middleware('auth:api');
+    Route::resource('user.board', "API\\UserBoardResourceController");
 
 });

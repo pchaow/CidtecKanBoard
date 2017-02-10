@@ -4,7 +4,9 @@
     <div class="container" id="app">
         <div class="row">
             <div class="col-md-8">
-              <user-board-index v-bind:load-user-boards-url="'/api/v1/board/all'"></user-board-index>
+              <user-board-index
+                      v-bind:user="{{json_encode(auth()->user())}}"
+                      v-bind:load-user-boards-url="'/api/v1/user/{{auth()->id()}}/board'"></user-board-index>
             </div>
 
             <div class="col-md-4">

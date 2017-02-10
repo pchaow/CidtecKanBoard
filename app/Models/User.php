@@ -41,9 +41,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Board', 'board_user', 'users_id', 'boards_id');
     }
 
-    public function boardsOwner()
+    public function boards()
     {
-        return $this->hasMany('App\Models\Board', 'user_id', 'id');
+        return $this->hasMany(Board::class);
     }
 
     public function cardsMameber()

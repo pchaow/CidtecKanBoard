@@ -18,7 +18,8 @@
 
                             <div class="form-group" v-bind:class="{ 'has-error': formErrors['description'] }">
                                 <label class="control-label">Description : </label>
-                                <textarea rows="5" class="form-control" placeholder="Description" v-model="formInputs.description"></textarea>
+                                <textarea rows="5" class="form-control" placeholder="Description"
+                                          v-model="formInputs.description"></textarea>
                                 <span v-if="formErrors['description']"
                                       class="help-block">{{ formErrors['description'] }}</span>
                             </div>
@@ -37,6 +38,10 @@
 
 <script>
     export default {
+        props: {
+            saveUrl: String,
+        },
+
         data() {
             return {
                 formInputs: {},
@@ -47,16 +52,16 @@
             save: function () {
                 console.log(this.formInputs);
                 this.formErrors = []
-                this.$http.post('/api/v1/board/new', this.formInputs)
-                        .then((response) => {
-                                    // success callback
-                                    console.log(response);
-                                    //window.location.href = '/home'
-                                }, (response) => {
-                                    // error callback
-                                    this.formErrors = response.data;
-                                }
-                        );
+                this.$http.post(this.saveUrl, this.formInputs)
+                    .then((response) => {
+                            // success callback
+                            console.log(response);
+                            //window.location.href = '/home'
+                        }, (response) => {
+                            // error callback
+                            this.formErrors = response.data;
+                        }
+                    );
             }
         },
         mounted() {

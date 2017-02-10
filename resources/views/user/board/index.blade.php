@@ -3,7 +3,8 @@
 @section('container')
     <div id="app">
         <user-board-view
-                 v-bind:load-url="'/api/v1/board/view/{{$boardId or 0}}'">
+                v-bind:user="{{json_encode(auth()->user())}}"
+                v-bind:load-url="'/api/v1/user/{{auth()->id()}}/board'">
         </user-board-view>
     </div>
 @endsection
