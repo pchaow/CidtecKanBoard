@@ -11,12 +11,9 @@
             <div class="panel-body">
                 <div class="col-lg-12">
                     <div class="wrapper">
-                        <div class="card" v-dragula="Ready" bag="first-bag">
-                            <!-- with click -->
-                            <div v-for="text in Ready" @click="onClick">{{text}} [click me]</div>
-                        </div>
-                        <div class="card" v-dragula="Doing" bag="first-bag">
-                            <div v-for="text in Doing">{{text}}</div>
+                        <div class="card" v-for="lane in board.lanes" v-dragula="card" bag="first-bag">
+                            <label>{{ lane.name }}</label>
+                            <div v-for="card in lane.cards" @click="onClick">{{card.name}} [click me]</div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +58,7 @@ export default {
                 .then((response) => {
                     // success callback
                     this.board = response.data;
-                    console.log(this.board)
+                    console.log(this.board.lanes[0].cards[0])
 
                 }, (response) => {
                     // error callback
@@ -136,13 +133,11 @@ button:hover {
 }
 
 .card {
-    display: block;
-    width: 100%;
+    display: table-cell;
+    width: 25%;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.card:nth-child(odd) {
+    border-style: solid;
+    border-width: 1px;
     background-color: rgba(0, 0, 0, 0.2);
 }
 

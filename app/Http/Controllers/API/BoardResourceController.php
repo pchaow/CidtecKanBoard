@@ -50,7 +50,7 @@ class BoardResourceController extends Controller
      */
     public function show($id)
     {
-      $board = Board::with(['OwnerBoard'])
+      $board = Board::with(['OwnerBoard','lanes.cards'])
       ->find($id);
 
         return $board;
