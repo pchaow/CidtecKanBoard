@@ -6,11 +6,16 @@
 
 require('./bootstrap');
 
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the body of the page. From here, you may begin adding components to
  * the application, or feel free to tweak this setup for your needs.
  */
+ var VueDragula = require('vue-dragula');
+ Vue.use(VueDragula);
+ Vue.config.debug = true
 
 /*
  Vue.component('example', require('./components/Example.vue'));
@@ -44,6 +49,8 @@ Vue.component('user-board-new', require('./components/userBoard/UserBoardNew.vue
 Vue.component('user-board-index', require('./components/userBoard/UserBoardIndex.vue'));
 Vue.component('user-board-view', require('./components/userBoard/UserBoardView.vue'));
 Vue.component('user-board-edit', require('./components/userBoard/UserBoardEdit.vue'));
+
+
 
 const app = new Vue({
     el: '#app'
