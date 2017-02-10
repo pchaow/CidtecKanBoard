@@ -40,7 +40,6 @@ Route::get('home', 'HomeController@index');
 
 Route::group(['prefix' => '{user}'], function () {
     Route::get('/', 'UserBoardController@index');
-    Route::get('/new', 'UserBoardController@new');
-
+    Route::get('/new', 'UserBoardController@create');
     Route::get('{boardName}', "UserBoardController@view");
 });

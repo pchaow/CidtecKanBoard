@@ -26,7 +26,7 @@
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="/superadministrator/user" class="btn btn-default">Cancel</a>
+                                <a :href="'/'+user.username" class="btn btn-default">Cancel</a>
                             </div>
                         </form>
                     </div>
@@ -40,6 +40,7 @@
     export default {
         props: {
             saveUrl: String,
+            user: Object,
         },
 
         data() {

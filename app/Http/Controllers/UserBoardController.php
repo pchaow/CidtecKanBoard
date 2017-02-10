@@ -51,9 +51,10 @@ class UserBoardController extends Controller
         $board = Board::with(['user'])
             ->where('user_id', '=', $user->id)
             ->where('name', '=', $boardName)
-            ->get();
+            ->first();
         return view('user.board.index')
-            ->with('boardId', $board[0]->id);
+            ->with('board', $board)
+            ->with('user', $user);
     }
 
     public function edit($username, $boardName)
