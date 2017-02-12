@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\UserRequest;
 use App\Models\Board;
+use App\Models\Lane;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -45,6 +46,14 @@ class UserBoardResourceController extends Controller
         $board->fill($request->all());
         $board->user()->associate($userId);
         $board->save();
+
+        $defaultLane = ['Todo', 'Doing', 'Done'];
+
+        foreach ($defaultLane as $item) {
+            $lane = new Lane();
+            $lane->name = $item;
+            $board->lanes()->save($lane);
+        }
         return $board;
     }
 
@@ -54,9 +63,9 @@ class UserBoardResourceController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($userId,$boardId)
+    public function show($userId, $boardId)
     {
-        $board = Board::with(['user','lanes'])->where('id',$boardId)->first();
+        $board = Board::with(['user', 'lanes'])->where('id', $boardId)->first();
         return $board;
 
     }

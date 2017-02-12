@@ -56,8 +56,8 @@
                 this.$http.post(this.saveUrl, this.formInputs)
                     .then((response) => {
                             // success callback
-                            console.log(response);
-                            //window.location.href = '/home'
+                            //console.log(response);
+                            window.location.href = '/home'
                         }, (response) => {
                             // error callback
                             this.formErrors = response.data;

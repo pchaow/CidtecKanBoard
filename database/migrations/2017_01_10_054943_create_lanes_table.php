@@ -18,7 +18,6 @@ class CreateLanesTable extends Migration
           $table->string('name')->nullable();
           $table->timestamps();
           $table->integer('board_id')->unsigned();
-
           $table->foreign('board_id')->references('id')->on('boards')
               ->onUpdate('cascade')->onDelete('cascade');
       });
