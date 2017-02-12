@@ -27,6 +27,7 @@ class UserBoardController extends Controller
 
     public function index($username)
     {
+        $user = User::findByUsername($username);
 
         if ($user->hasRole('user')) {
             return view('user.index')
@@ -55,7 +56,7 @@ class UserBoardController extends Controller
             ->where('name', '=', $boardName)
             ->first();
         return view('user.board.index')
-            ->with('board', $board)
+            ->with('boardId', $board->id)
             ->with('user', $user);
     }
 

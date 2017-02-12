@@ -1,11 +1,11 @@
 <template>
-    <div class="row">
+    <div class="row" v-if="board">
         <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     {{board.name}}
                     <div class="btn-group btn-group-sm pull-right">
-                        <a v-bind:href="board.name+'/edit'" class="btn btn-default">Edit</a>
+                        <a class="btn btn-default">Edit</a>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -17,21 +17,29 @@
     </div>
 </template>
 
-<script>
+<script type="application/javascript">
     export default {
         props: {
             user: Object,
-            board: Object,
+            boardId: [Number, String],
+            loadBoardUrl: String,
         },
         data() {
             return {
+                board: null,
             }
         },
         methods: {
-
+            strFormat: window.strFormat,
+            loadBoard: function () {
+                this.$http.get(this.loadBoardUrl).then(function (response) {
+                    this.board = response.data
+                })
+            }
         },
         mounted() {
             console.log('Component mounted.')
+            this.loadBoard();
         }
     }
 </script>

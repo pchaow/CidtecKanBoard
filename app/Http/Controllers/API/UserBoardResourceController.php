@@ -19,7 +19,7 @@ class UserBoardResourceController extends Controller
      */
     public function index(Request $request, $userId)
     {
-        $user = Auth::user();
+        $user = User::find($userId);
         return $user->boards()->get();
     }
 
@@ -43,7 +43,7 @@ class UserBoardResourceController extends Controller
     {
         $board = new Board();
         $board->fill($request->all());
-        $board->user()->associate(Auth::user()->id);
+        $board->user()->associate($userId);
         $board->save();
         return $board;
     }
@@ -54,8 +54,10 @@ class UserBoardResourceController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($userId,$boardId)
     {
+        $board = Board::with(['user','lanes'])->where('id',$boardId)->first();
+        return $board;
 
     }
 
