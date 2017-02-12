@@ -9,13 +9,28 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="col-lg-12">
+                    <div class="row">
+                        <div v-for="lane in board.lanes" class="col-md-3">
+                            <div class="panel panel-default lane">
+                                <div class="panel-heading">{{lane.name}}</div>
+                                <div class="panel-body">
+                                    lane board cards
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<style>
+    .lane {
+        min-height: 600px;
+    }
+</style>
 
 <script type="application/javascript">
     export default {
