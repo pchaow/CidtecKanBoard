@@ -9,13 +9,13 @@ class Lane extends Model
     //get all card in lane
     public function cards()
    {
-       return $this->hasMany('App\Models\Card','lanes_id','id');
+       return $this->hasMany(Card::class,'lanes_id','id');
    }
 
   //get board where lane live
    public function board()
   {
-      return $this->belongsTo('App\Models\Board', 'boards_id');
+      return $this->belongsTo(Board::class, 'boards_id');
   }
 
 }

@@ -12,7 +12,7 @@ class Board extends Model
     //get list of lanes
     public function lanes()
    {
-       return $this->hasMany('App\Models\Lane','boards_id','id');
+       return $this->hasMany(Lane::class);
    }
 
    //get all member in board
