@@ -24,9 +24,10 @@ class UserBoardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index($username)
     {
-        $user = User::where('username', '=', $username)->first();
+
         if ($user->hasRole('user')) {
             return view('user.index')
                 ->with('user', $user);
@@ -38,16 +39,17 @@ class UserBoardController extends Controller
         }
     }
 
-    public function create()
+    public function create($username)
     {
-        $user = User::where('username', '=', \Auth::user()->username)->first();
+        $user = User::findByUsername($username);
         return view('user.board.new')
             ->with('user', $user);
     }
 
     public function view($username, $boardName)
     {
-        $user = User::where('username', '=', $username)->first();
+        $user = User::findByUsername($username);
+
         $board = Board::with(['user'])
             ->where('user_id', '=', $user->id)
             ->where('name', '=', $boardName)
@@ -59,7 +61,8 @@ class UserBoardController extends Controller
 
     public function edit($username, $boardName)
     {
-        $user = User::where('username', '=', $username)->first();
+        $user = User::findByUsername($username);
+
         $board = Board::with(['OwnerBoard'])
             ->where('user_id', '=', $user->id)
             ->where('name', '=', $boardName)

@@ -60,4 +60,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Role', 'role_user', 'user_id', 'role_id');
     }
+
+
+    public static function findByUsername($username)
+    {
+        $user = User::where('username', '=', $username)->first();
+        return $user;
+    }
 }
