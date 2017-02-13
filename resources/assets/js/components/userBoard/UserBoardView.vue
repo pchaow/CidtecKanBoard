@@ -9,9 +9,9 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <div class="row">
+                    <div class="row-fluid">
                         <div v-for="lane in board.lanes" class="col-md-3">
-                            <div class="panel panel-default lane">
+                            <div class="panel panel-success lane">
                                 <div class="panel-heading">{{lane.name}}</div>
                                 <div class="panel-body">
                                     lane board cards
@@ -26,10 +26,22 @@
     </div>
 </template>
 
-<style>
+<style type="text/css">
     .lane {
-        min-height: 600px;
+        min-height: 500px;
     }
+
+    .row-fluid {
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y : auto;
+    }
+
+    .row-fluid .col-md-3 {
+        display: inline-block;
+        float: none;
+    }
+
 </style>
 
 <script type="application/javascript">
