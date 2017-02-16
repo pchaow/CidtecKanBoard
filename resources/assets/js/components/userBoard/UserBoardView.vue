@@ -17,7 +17,6 @@
                                     lane board cards
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
