@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lane extends Model
 {
+    protected $fillable = ['name', 'board_id'];
     //get all card in lane
     public function cards()
    {

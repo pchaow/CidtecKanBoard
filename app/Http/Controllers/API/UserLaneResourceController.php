@@ -11,17 +11,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserBoardResourceController extends Controller
+class UserLaneResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $userId)
+    public function index($id)
     {
-        $user = User::find($userId);
-        return $user->boards()->get();
+        return $id;
     }
 
     /**
@@ -37,43 +36,34 @@ class UserBoardResourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId)
-    {
-        $board = new Board();
-        $board->fill($request->all());
-        $board->user()->associate($userId);
-        $board->save();
+     public function store(Request $request, $boardId)
+     {
+         $request->merge(array('board_id' => $boardId));
 
-        $defaultLane = ['Todo', 'Doing', 'Done'];
-
-        foreach ($defaultLane as $item) {
-            $lane = new Lane();
-            $lane->name = $item;
-            $board->lanes()->save($lane);
-        }
-        return $board;
-    }
+         $lane = new Lane();
+         $lane->fill($request->all());
+         $lane->save();
+         return $lane;
+     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($userId, $boardId)
+    public function show($id)
     {
-        $board = Board::with(['user', 'lanes.cards'])->where('id', $boardId)->first();
-        return $board;
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -84,23 +74,23 @@ class UserBoardResourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-
+        //
     }
 }
