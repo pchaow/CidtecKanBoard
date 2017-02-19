@@ -67,4 +67,6 @@ class User extends Authenticatable
         $user = User::where('username', '=', $username)->first();
         return $user;
     }
+
+
 }

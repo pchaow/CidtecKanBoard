@@ -5,7 +5,8 @@
                 <div class="panel-heading">
                     {{board.name}}
                     <div class="btn-group btn-group-sm pull-right">
-                        <a class="btn btn-default">Edit</a>
+                        <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})"
+                           class="btn btn-default">Edit</a>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -34,7 +35,7 @@
     .row-fluid {
         white-space: nowrap;
         overflow-x: scroll;
-        overflow-y : auto;
+        overflow-y: auto;
     }
 
     .row-fluid .col-md-3 {

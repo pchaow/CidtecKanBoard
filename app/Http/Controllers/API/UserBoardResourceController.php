@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\UserBoardController;
+use App\Http\Requests\UserBoardRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Board;
 use App\Models\Lane;
@@ -40,7 +42,7 @@ class UserBoardResourceController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $userId)
+    public function store(UserBoardRequest $request, $userId)
     {
         $board = new Board();
         $board->fill($request->all());
@@ -88,9 +90,26 @@ class UserBoardResourceController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $userId, $boardId)
     {
+        $board = Board::with(['user', 'lanes'])->where('id', $boardId)->first();
+        $board->fill($request->all());
+        $board->save();
+        $boardForm = $request->all();
 
+        foreach ($boardForm['lanes'] as $laneForm) {
+            if (isset($laneForm['id'])) {
+                $lane = Lane::find($laneForm['id']);
+                $lane->name = $laneForm['name'];
+                $lane->save();
+            } else {
+                $lane = new Lane();
+                $lane->fill($laneForm);
+                $board->lanes()->save($lane);
+            }
+        }
+
+        return $board;
     }
 
     /**

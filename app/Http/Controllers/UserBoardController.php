@@ -64,11 +64,13 @@ class UserBoardController extends Controller
     {
         $user = User::findByUsername($username);
 
-        $board = Board::with(['OwnerBoard'])
+        $board = Board::with(['user'])
             ->where('user_id', '=', $user->id)
             ->where('name', '=', $boardName)
-            ->get();
+            ->first();
+
         return view('user.board.edit')
-            ->with('boardId', $board[0]->id);
+            ->with('board', $board)
+            ->with('user', $user);
     }
 }

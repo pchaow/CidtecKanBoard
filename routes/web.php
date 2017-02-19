@@ -42,4 +42,5 @@ Route::group(['prefix' => '{user}'], function () {
     Route::get('/', 'UserBoardController@index');
     Route::get('/new', 'UserBoardController@create');
     Route::get('{boardName}', "UserBoardController@view");
+    Route::get('{boardName}/edit', "UserBoardController@edit");
 });
