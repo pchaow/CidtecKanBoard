@@ -56,7 +56,7 @@ class UserBoardController extends Controller
             ->where('name', '=', $boardName)
             ->first();
         return view('user.board.index')
-            ->with('boardId', $board->id)
+            ->with('board', $board)
             ->with('user', $user);
     }
 

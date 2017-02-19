@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserBoardLaneResourceController extends Controller
 {
+
+    public function store(Request $request, $userId, $boardId)
+    {
+        $board = Board::find($boardId);
+
+        $lane = new Lane();
+        $lane->fill($request->all());
+        $board->lanes()->save($lane);
+
+        return $lane;
+    }
+
     public function destroy($userId, $boardId, $laneId)
     {
         $lane = Lane::find($laneId);
