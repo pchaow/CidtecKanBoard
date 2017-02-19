@@ -5,15 +5,27 @@
             <div class="panel-heading">
                 {{board.name}}
                 <div class="btn-group btn-group-sm pull-right">
-                    <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})"
-                       class="btn btn-default">Edit</a>
+                    <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})" class="btn btn-default">Edit</a>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="row-fluid">
                     <div v-for="lane in board.lanes" class="col-md-3">
                         <div class="panel panel-success lane">
-                            <div class="panel-heading">{{lane.name}}</div>
+                            <div class="panel-heading">
+                                {{lane.name}}
+                                <div class="pull-right">
+                                    <el-dropdown trigger="click" @command="handleCommand">
+                                        <span class="el-dropdown-link">
+                                       <i class="el-icon-caret-bottom el-icon--right"></i>
+                                    </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <el-dropdown-item :command="lane.id+'addCard'">Add Card</el-dropdown-item>
+                                            <el-dropdown-item>Edit</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </div>
+                            </div>
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="card" bag="first-bag">
@@ -36,7 +48,15 @@
             </div>
         </div>
     </div>
+    <!--  Dialog Form New Card-->
+    <user-Board-form-card
+     v-model="formInputs"
+    @saveCard="saveCard"
+    @cancelForm="cancelForm"
+    v-if="formNewCard">
+  </user-Board-form-card>
 </div>
+
 </template>
 
 <style type="text/css">
@@ -106,18 +126,26 @@
 </style>
 
 <script type="application/javascript">
+import UserBoardFormCard from './UserBoardCardForm.vue'
+
 export default {
     props: {
         user: Object,
         boardId: [Number, String],
         loadBoardUrl: String,
         saveLaneUrl: String,
+        saveCardUrl: String,
+    },
+    components: {
+      UserBoardFormCard
     },
     data() {
         return {
             board: null,
-            formInputs: {},
+            formInputs: {date: '',},
             formErrors: [],
+            formNewCard: false,
+            lanes_id: null,
         }
     },
     methods: {
@@ -127,15 +155,56 @@ export default {
                 this.board = response.data
             })
         },
+        handleCommand(command) {
+
+            if (command.substring(1) == "addCard") {
+                this.formNewCard = true
+                this.lanes_id = parseInt(command.substring(0, 1))
+            }
+        },
         saveLane: function() {
             this.formErrors = []
             this.$http.post(this.saveLaneUrl, this.formInputs)
                 .then((response) => {
                     this.loadBoard();
+                    this.$notify({
+                        title: 'Success',
+                        message: 'New Card',
+                        type: 'success'
+                    });
                 }, (response) => {
                     this.formErrors = response.data;
+                    this.$notify.error({
+                        title: 'Error',
+                        message: 'Can not add new card'
+                    });
                 });
-        }
+        },
+        saveCard: function() {
+          this.formNewCard = false
+          this.formInputs.lanes_id = this.lanes_id
+          this.formInputs.user_id = this.user.id
+          this.formErrors = []
+          this.$http.post(this.saveCardUrl, this.formInputs)
+              .then((response) => {
+                  this.loadBoard();
+                  this.$notify({
+                      title: 'Success',
+                      message: 'New card',
+                      type: 'success'
+                  });
+              }, (response) => {
+                  this.formErrors = response.data;
+                  console.log(response.data);
+                  this.$notify.error({
+                      title: 'Error',
+                      message: 'Can not add new lane'
+                  });
+              });
+        },
+        cancelForm: function() {
+          this.formNewCard = false
+        },
     },
     mounted() {
         console.log('Component mounted.')

@@ -7,6 +7,7 @@
                 v-bind:board-id="{{$board->id}}"
                 load-board-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}"
                 save-lane-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/lane"
+                save-card-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card"
         >
         </user-board-view>
     </div>
