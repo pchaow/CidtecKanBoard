@@ -28,8 +28,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="wrapper">
-                                    <div class="card" v-dragula="Lane" drake="first-bag">
-                                        <div v-for="card in lane.cards" :key="card.id">{{card.name}}</div>
+                                    <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
+                                        <div v-for="card in lane.cards" :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -47,14 +47,133 @@
                 </div>
             </div>
         </div>
-
-
     </div>
     <!--  Dialog Form New Card-->
     <user-Board-form-card v-model="formInputs" @saveCard="saveCard" @cancelForm="cancelForm" v-if="formNewCard">
     </user-Board-form-card>
 </div>
 </template>
+
+<script type="application/javascript">
+import UserBoardFormCard from './UserBoardCardForm.vue'
+
+export default {
+    props: {
+        user: Object,
+        boardId: [Number, String],
+        loadBoardUrl: String,
+        saveLaneUrl: String,
+        saveCardUrl: String,
+    },
+    components: {
+        UserBoardFormCard
+    },
+    data() {
+        return {
+            board: null,
+            cardMove: {},
+            formInputs: {
+                date: '',
+            },
+            formErrors: [],
+            formNewCard: false,
+            lanes_id: null,
+        }
+    },
+    created: function() {
+        const service = Vue.$dragula.$service
+        service.options('events', {
+            direction: 'vertical'
+        })
+
+        let serviceEvent = this.$dragula.createService({
+            name: 'events',
+            drake: {
+                copy: true
+            }
+        })
+        serviceEvent.on({
+            drop: (opts) => {
+                const {el,container,model} = opts
+                this.cardMove.id = el.attributes.idcard.value
+                this.cardMove.lanes_id = container.attributes.idlane.value
+                this.updateCard()
+            },
+        })
+    },
+    methods: {
+        strFormat: window.strFormat,
+        loadBoard: function() {
+            this.$http.get(this.loadBoardUrl)
+               .then(function(response) {
+                  this.board = response.data
+            })
+        },
+        handleCommand(command) {
+            if (command.substring(1) == "addCard") {
+                this.formNewCard = true
+                this.lanes_id = parseInt(command.substring(0, 1))
+            }
+        },
+        saveLane: function() {
+            this.formErrors = []
+            this.$http.post(this.saveLaneUrl, this.formInputs)
+                .then((response) => {
+                    this.loadBoard();
+                    this.$notify({
+                        title: 'Success',
+                        message: 'New lane',
+                        type: 'success'
+                    });
+                }, (response) => {
+                    this.formErrors = response.data;
+                    this.$notify.error({
+                        title: 'Error',
+                        message: 'Can not add new lane'
+                    });
+                });
+        },
+        saveCard: function() {
+            this.formNewCard = false
+            this.formInputs.lanes_id = this.lanes_id
+            this.formInputs.user_id = this.user.id
+            this.formErrors = []
+            this.$http.post(this.saveCardUrl, this.formInputs)
+                .then((response) => {
+                    this.loadBoard();
+                    this.$notify({
+                        title: 'Success',
+                        message: 'New card',
+                        type: 'success'
+                    });
+                }, (response) => {
+                    this.formErrors = response.data;
+                    console.log(response.data);
+                    this.$notify.error({
+                        title: 'Error',
+                        message: 'Can not add new cane'
+                    });
+                });
+        },
+        updateCard: function() {
+            this.formErrors = [];
+            this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.cardMove)
+                .then((response) => {
+                    //this.loadBoard();
+                }, (response) => {
+                    this.formErrors = response.data;
+                });
+        },
+        cancelForm: function() {
+            this.formNewCard = false
+        },
+    },
+    mounted() {
+        console.log('Component mounted.')
+        this.loadBoard();
+    }
+}
+</script>
 
 <style type="text/css">
 .lane {
@@ -109,9 +228,29 @@
 }
 
 .gu-mirror {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+
+.gu-hide {
+    display: none !important;
+}
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
 }
 
 .handle {
@@ -121,96 +260,3 @@
     cursor: move;
 }
 </style>
-
-<script type="application/javascript">
-import UserBoardFormCard from './UserBoardCardForm.vue'
-
-export default {
-    props: {
-        user: Object,
-        boardId: [Number, String],
-        loadBoardUrl: String,
-        saveLaneUrl: String,
-        saveCardUrl: String,
-    },
-    components: {
-        UserBoardFormCard
-    },
-    data() {
-        return {
-            board: null,
-            formInputs: {
-                date: '',
-            },
-            formErrors: [],
-            formNewCard: false,
-            lanes_id: null,
-        }
-    },
-    created: function() {
-
-    },
-    methods: {
-        strFormat: window.strFormat,
-        loadBoard: function() {
-            this.$http.get(this.loadBoardUrl).then(function(response) {
-                this.board = response.data
-            })
-        },
-        handleCommand(command) {
-
-            if (command.substring(1) == "addCard") {
-                this.formNewCard = true
-                this.lanes_id = parseInt(command.substring(0, 1))
-            }
-        },
-        saveLane: function() {
-            this.formErrors = []
-            this.$http.post(this.saveLaneUrl, this.formInputs)
-                .then((response) => {
-                    this.loadBoard();
-                    this.$notify({
-                        title: 'Success',
-                        message: 'New lane',
-                        type: 'success'
-                    });
-                }, (response) => {
-                    this.formErrors = response.data;
-                    this.$notify.error({
-                        title: 'Error',
-                        message: 'Can not add new lane'
-                    });
-                });
-        },
-        saveCard: function() {
-            this.formNewCard = false
-            this.formInputs.lanes_id = this.lanes_id
-            this.formInputs.user_id = this.user.id
-            this.formErrors = []
-            this.$http.post(this.saveCardUrl, this.formInputs)
-                .then((response) => {
-                    this.loadBoard();
-                    this.$notify({
-                        title: 'Success',
-                        message: 'New card',
-                        type: 'success'
-                    });
-                }, (response) => {
-                    this.formErrors = response.data;
-                    console.log(response.data);
-                    this.$notify.error({
-                        title: 'Error',
-                        message: 'Can not add new cane'
-                    });
-                });
-        },
-        cancelForm: function() {
-            this.formNewCard = false
-        },
-    },
-    mounted() {
-        console.log('Component mounted.')
-        this.loadBoard();
-    }
-}
-</script>
