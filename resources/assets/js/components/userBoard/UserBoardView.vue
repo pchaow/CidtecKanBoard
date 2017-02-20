@@ -28,8 +28,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="wrapper">
-                                    <div class="card" v-dragula="card" bag="first-bag">
-                                        <div v-for="card in lane.cards">{{card.name}}</div>
+                                    <div class="card" v-dragula="Lane" drake="first-bag">
+                                        <div v-for="card in lane.cards" :key="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -47,16 +47,13 @@
                 </div>
             </div>
         </div>
+
+
     </div>
     <!--  Dialog Form New Card-->
-    <user-Board-form-card
-     v-model="formInputs"
-    @saveCard="saveCard"
-    @cancelForm="cancelForm"
-    v-if="formNewCard">
-  </user-Board-form-card>
+    <user-Board-form-card v-model="formInputs" @saveCard="saveCard" @cancelForm="cancelForm" v-if="formNewCard">
+    </user-Board-form-card>
 </div>
-
 </template>
 
 <style type="text/css">
@@ -137,16 +134,21 @@ export default {
         saveCardUrl: String,
     },
     components: {
-      UserBoardFormCard
+        UserBoardFormCard
     },
     data() {
         return {
             board: null,
-            formInputs: {date: '',},
+            formInputs: {
+                date: '',
+            },
             formErrors: [],
             formNewCard: false,
             lanes_id: null,
         }
+    },
+    created: function() {
+
     },
     methods: {
         strFormat: window.strFormat,
@@ -169,41 +171,41 @@ export default {
                     this.loadBoard();
                     this.$notify({
                         title: 'Success',
-                        message: 'New Card',
+                        message: 'New lane',
                         type: 'success'
                     });
                 }, (response) => {
                     this.formErrors = response.data;
                     this.$notify.error({
                         title: 'Error',
-                        message: 'Can not add new card'
+                        message: 'Can not add new lane'
                     });
                 });
         },
         saveCard: function() {
-          this.formNewCard = false
-          this.formInputs.lanes_id = this.lanes_id
-          this.formInputs.user_id = this.user.id
-          this.formErrors = []
-          this.$http.post(this.saveCardUrl, this.formInputs)
-              .then((response) => {
-                  this.loadBoard();
-                  this.$notify({
-                      title: 'Success',
-                      message: 'New card',
-                      type: 'success'
-                  });
-              }, (response) => {
-                  this.formErrors = response.data;
-                  console.log(response.data);
-                  this.$notify.error({
-                      title: 'Error',
-                      message: 'Can not add new lane'
-                  });
-              });
+            this.formNewCard = false
+            this.formInputs.lanes_id = this.lanes_id
+            this.formInputs.user_id = this.user.id
+            this.formErrors = []
+            this.$http.post(this.saveCardUrl, this.formInputs)
+                .then((response) => {
+                    this.loadBoard();
+                    this.$notify({
+                        title: 'Success',
+                        message: 'New card',
+                        type: 'success'
+                    });
+                }, (response) => {
+                    this.formErrors = response.data;
+                    console.log(response.data);
+                    this.$notify.error({
+                        title: 'Error',
+                        message: 'Can not add new cane'
+                    });
+                });
         },
         cancelForm: function() {
-          this.formNewCard = false
+            this.formNewCard = false
         },
     },
     mounted() {
