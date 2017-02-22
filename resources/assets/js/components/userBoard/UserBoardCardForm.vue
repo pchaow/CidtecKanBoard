@@ -29,14 +29,24 @@
                     <li v-for="checklist in filteredChecklists" class="checklist" :key="checklist.id" :class="{ completed: checklist.completed, editing: checklist == editedChecklist }">
                         <div class="view">
                             <input class="toggle" type="checkbox" v-model="checklist.completed">
-                            <label @dblclick="editChecklist(checklist)">{{ checklist.title }}</label>
+                            <label @click="editChecklist(checklist)">{{ checklist.title }}</label>
                             <li class="destroy" @click="removeChecklist(checklist)"></li>
                         </div>
-                        <input class="edit" type="text" v-model="checklist.title" @blur="doneEdit(checklist)" @keyup.enter="doneEdit(checklist)" @keyup.esc="cancelEdit(checklist)">
+                        <el-form :inline="true" class="edit">
+                            <el-form-item :label-width="formLabelWidth">
+                                <el-input type="text" v-model="checklist.title"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="doneEdit(checklist)">Edit</el-button>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button  @click="cancelEdit(checklist)">Cencel</el-button>
+                            </el-form-item>
+                        </el-form>
                     </li>
                 </ul>
             </div>
-            <el-form-item>
+        </el-form-item>
     </el-form>
 
 
