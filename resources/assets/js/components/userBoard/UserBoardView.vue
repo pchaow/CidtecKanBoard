@@ -29,7 +29,7 @@
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" :idCard="card.id">{{card.name}}</div>
+                                        <div v-for="card in lane.cards" @click="openCard(card)" :key="card" :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -71,6 +71,7 @@ export default {
     data() {
         return {
             board: null,
+            card: null,
             cardMove: {},
             formInputs: {
                 date: '',
@@ -132,6 +133,10 @@ export default {
                         message: 'Can not add new lane'
                     });
                 });
+        },
+        openCard: function(card) {
+          console.log(card);
+          this.card = card
         },
         saveCard: function() {
             this.formNewCard = false
