@@ -29,7 +29,7 @@
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" @click="openCard(card)" :key="card" :idCard="card.id">{{card.name}}</div>
+                                        <div v-for="card in lane.cards" @click="openCard(card)" :ondrop = "test(card.id)"  :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
         </div>
     </div>
     <!--  Dialog Form New Card-->
-    <user-Board-form-card v-model="formInputs" @saveCard="saveCard" @cancelForm="cancelForm" v-if="formNewCard">
+    <user-Board-form-card v-model="formInputs" @saveCard="saveCard" @updateCard="updateCard" @cancelForm="cancelForm" v-if="formCard">
     </user-Board-form-card>
 </div>
 </template>
@@ -73,15 +73,14 @@ export default {
             board: null,
             card: null,
             cardMove: {},
-            formInputs: {
-                date: '',
-            },
+            formInputs: {},
             formErrors: [],
-            formNewCard: false,
+            formCard: false,
             lanes_id: null,
         }
     },
     created: function() {
+
         const service = Vue.$dragula.$service
         service.options('events', {
             direction: 'vertical'
@@ -94,12 +93,12 @@ export default {
             }
         })
         serviceEvent.on({
-            drop: (opts) => {
+            drop: (opts,w) => {
                 const {el,container,model} = opts
                 this.cardMove.id = el.attributes.idcard.value
                 this.cardMove.lanes_id = container.attributes.idlane.value
-                this.updateCard()
-            },
+                this.moveCard()
+            }
         })
     },
     methods: {
@@ -112,7 +111,7 @@ export default {
         },
         handleCommand(command) {
             if (command.substring(1) == "addCard") {
-                this.formNewCard = true
+                this.formCard = true
                 this.lanes_id = parseInt(command.substring(0, 1))
             }
         },
@@ -135,11 +134,16 @@ export default {
                 });
         },
         openCard: function(card) {
-          console.log(card);
+          this.formInputs = card
           this.card = card
+          this.formInputs.edit = 1
+          this.formCard = true
+        },
+        test: function(card) {
+          //console.log(card);
         },
         saveCard: function() {
-            this.formNewCard = false
+            this.formCard = false
             this.formInputs.lanes_id = this.lanes_id
             this.formInputs.user_id = this.user.id
             this.formErrors = []
@@ -153,15 +157,14 @@ export default {
                     });
                 }, (response) => {
                     this.formErrors = response.data;
-                    console.log(response.data);
                     this.$notify.error({
                         title: 'Error',
                         message: 'Can not add new cane'
                     });
                 });
         },
-        updateCard: function() {
-            this.formErrors = [];
+        moveCard: function() {
+            this.formErrors = []
             this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.cardMove)
                 .then((response) => {
                     //this.loadBoard();
@@ -169,8 +172,19 @@ export default {
                     this.formErrors = response.data;
                 });
         },
+        updateCard: function() {
+            this.formCard = false
+            this.formErrors = []
+            this.$http.put(this.saveCardUrl + '/' + this.card.id , this.formInputs)
+                .then((response) => {
+                    this.loadBoard();
+                }, (response) => {
+                    this.formErrors = response.data;
+                });
+        },
         cancelForm: function() {
-            this.formNewCard = false
+            this.formInputs = {date: ''}
+            this.formCard = false
         },
     },
     mounted() {

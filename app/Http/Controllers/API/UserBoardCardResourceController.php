@@ -33,7 +33,7 @@ class UserBoardCardResourceController extends Controller
     public function update(Request $request, $userId, $boardId,$cardId)
     {
         $card = Card::find($cardId);
-        $card->lanes_id = $request->lanes_id;
+        $card->fill($request->all());
         $card->save();
         return $card;
     }

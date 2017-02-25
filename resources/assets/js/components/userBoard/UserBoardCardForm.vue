@@ -1,6 +1,6 @@
 <template>
 <!--  Dialog Form New Card-->
-<el-dialog title="New Card" v-model="formNewCard">
+<el-dialog :title="title" v-model="formNewCard">
     <el-form :model="dataNewCard" :rules="rulesCard" ref="dataNewCard">
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
             <el-input v-model="dataNewCard.name" auto-complete="off" laceholder="Please input name"></el-input>
@@ -12,7 +12,6 @@
             <el-date-picker v-model="dataNewCard.date" type="daterange" placeholder="Pick a range">
             </el-date-picker>
         </el-form-item>
-
 
         <el-form :inline="true" :model="dataNewCard">
             <el-form-item label="Checklist" prop="checklist" :label-width="formLabelWidth">
@@ -40,7 +39,7 @@
                                 <el-button type="primary" @click="doneEdit(checklist)">Edit</el-button>
                             </el-form-item>
                             <el-form-item>
-                                <el-button  @click="cancelEdit(checklist)">Cencel</el-button>
+                                <el-button @click="cancelEdit(checklist)">Cencel</el-button>
                             </el-form-item>
                         </el-form>
                     </li>
@@ -48,8 +47,6 @@
             </div>
         </el-form-item>
     </el-form>
-
-
 
     <span slot="footer" class="dialog-footer">
           <el-button @click="formNewCard = false">Cancel</el-button>
@@ -60,17 +57,6 @@
 
 
 <script type="application/javascript">
-var checklistStorage = {
-    fetchChecklist: function() {
-        var checklists = []
-        checklists.forEach(function(checklist, index) {
-            checklists.id = index
-        })
-        checklistStorage.uid = checklists.length
-        return checklists
-    }
-}
-
 // visibility filters
 var filters = {
     all: function(checklists) {
@@ -93,20 +79,19 @@ export default {
     data() {
         return {
             newChecklist: '',
-            checklistStorage: {
-                name: "null"
-            },
             editedChecklist: null,
             visibility: 'all',
+            title: '',
+            uid: null,
             formNewCard: true,
             formLabelWidth: '120px',
             dataNewCard: {
-                name: '',
-                description: '',
-                date: '',
-                startdate: '',
-                duedate: '',
-                checklists: checklistStorage.fetchChecklist(),
+                name: this.value.name,
+                description: this.value.description,
+                date: [],
+                startdate: null,
+                duedate: null,
+                checklists: this.fetchChecklist(),
             },
             rulesCard: {
                 name: [{
@@ -126,7 +111,10 @@ export default {
     },
     computed: {
         filteredChecklists: function() {
-            return filters[this.visibility](this.dataNewCard.checklists)
+            if (this.value.edit === 1) {
+                this.dataNewCard.checklists = JSON.parse(this.value.checklists)
+            }
+                return filters[this.visibility](this.dataNewCard.checklists)
         },
         remaining: function() {
             return filters.active(this.dataNewCard.checklists).length
@@ -144,12 +132,36 @@ export default {
         }
     },
     methods: {
+        checkAction: function() {
+            if (this.value.edit === 1) {
+                this.title = this.value.name
+                var startdate = new Date(this.value.startdate);
+                var duedate = new Date(this.value.duedate);
+                this.dataNewCard.date.push(startdate)
+                this.dataNewCard.date.push(duedate)
+
+            } else {
+                this.title = "New Card"
+            }
+        },
+        fetchChecklist: function() {
+            if (this.value.edit === 1) {
+                var checklists = JSON.parse(this.value.checklists)
+            } else {
+                var checklists = []
+            }
+            checklists.forEach(function(checklist, index) {
+                checklists.id = index
+            })
+            this.uid = checklists.length
+            return checklists
+        },
         saveCard: function(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.dataNewCard.startdate = this.dataNewCard.date[0].getFullYear() + '-' + (this.dataNewCard.date[0].getMonth() + 1) + '-' + this.dataNewCard.date[0].getDate()
-                    this.dataNewCard.duedate = this.dataNewCard.date[1].getFullYear() + '-' + (this.dataNewCard.date[1].getMonth() + 1) + '-' + this.dataNewCard.date[1].getDate()
-
+                    if (this.dataNewCard.date) {
+                      this.dataNewCard.startdate = this.dataNewCard.date[0].getFullYear() + '-' + (this.dataNewCard.date[0].getMonth() + 1) + '-' + this.dataNewCard.date[0].getDate()
+                      this.dataNewCard.duedate = this.dataNewCard.date[1].getFullYear() + '-' + (this.dataNewCard.date[1].getMonth() + 1) + '-' + this.dataNewCard.date[1].getDate()                    }
                     this.$emit('input', {
                         name: this.dataNewCard.name,
                         description: this.dataNewCard.description,
@@ -157,7 +169,11 @@ export default {
                         duedate: this.dataNewCard.duedate,
                         checklists: JSON.stringify(this.dataNewCard.checklists),
                     })
-                    this.$emit('saveCard')
+                    if (this.value.edit === 1) {
+                        this.$emit('updateCard')
+                    } else {
+                        this.$emit('saveCard')
+                    }
                     this.formNewCard = false
                 } else {
                     console.log('error submit!!');
@@ -166,16 +182,18 @@ export default {
             });
         },
         addChecklist: function() {
-            console.log(this.newChecklist)
             var value = this.newChecklist && this.newChecklist.trim()
             if (!value) {
                 return
             }
+            console.log(this.uid);
+            console.log(this.dataNewCard.checklists);
             this.dataNewCard.checklists.push({
-                id: checklistStorage.uid++,
+                id: this.uid++,
                 title: value,
                 completed: false
             })
+            //console.log(this.dataNewCard.checklists);
             this.newChecklist = ''
         },
 
@@ -207,6 +225,10 @@ export default {
         removeCompleted: function() {
             this.dataNewCard.checklists = filters.active(this.dataNewCard.checklists)
         },
+    },
+    mounted() {
+        this.checkAction()
+
     }
 }
 </script>
