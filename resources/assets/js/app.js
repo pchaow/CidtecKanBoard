@@ -11,9 +11,8 @@ require('./bootstrap');
  * the body of the page. From here, you may begin adding components to
  * the application, or feel free to tweak this setup for your needs.
  */
-import {
-    Vue2Dragula
-} from 'vue2-dragula'
+
+import { Vue2Dragula } from 'vue2-dragula'
 Vue.use(Vue2Dragula, {
     logging: {
         service: false
@@ -23,13 +22,12 @@ Vue.use(Vue2Dragula, {
 import ElementUI from 'element-ui';
 import '!style!css!element-ui/lib/theme-default/index.css';
 import locale from 'element-ui/lib/locale/lang/en'
-Vue.use(ElementUI, {
-    locale
-});
+Vue.use(ElementUI, {locale});
 
 /*
  Vue.component('example', require('./components/Example.vue'));
  */
+Vue.component('vueTypeahead', require('vuejs-autocomplete'));
 
 Vue.component(
     'passport-clients',

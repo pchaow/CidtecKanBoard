@@ -67,7 +67,7 @@ class UserBoardResourceController extends Controller
      */
     public function show($userId, $boardId)
     {
-        $board = Board::with(['user', 'lanes.cards'])->where('id', $boardId)->first();
+        $board = Board::with(['user', 'lanes.cards', 'mamebersBoard'])->where('id', $boardId)->first();
         return $board;
 
     }

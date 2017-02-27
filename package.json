@@ -20,6 +20,7 @@
     "script-loader": "^0.7.0",
     "string-template": "^1.0.0",
     "style-loader": "^0.13.1",
-    "vue2-dragula": "^2.4.3"
+    "vue2-dragula": "^2.4.3",
+    "vuejs-autocomplete": "^0.1.1"
   }
 }

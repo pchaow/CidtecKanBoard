@@ -32,5 +32,6 @@ Route::group(["prefix" => 'v1','middleware'=>'auth:api'], function () {
     Route::resource('user.board', "API\\UserBoardResourceController");
     Route::resource('user.board.lane', "API\\UserBoardLaneResourceController");
     Route::resource('user.board.card', "API\\UserBoardCardResourceController");
+    Route::resource('user.board.member', "API\\UserBoardMemberResourceController");
 
 });
