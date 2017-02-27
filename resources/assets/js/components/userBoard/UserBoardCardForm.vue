@@ -8,7 +8,7 @@
         <el-form-item label="Description" prop="description" :label-width="formLabelWidth">
             <el-input type="textarea" v-model="dataNewCard.description"></el-input>
         </el-form-item>
-        <el-form-item label="Date" prop="date" :label-width="formLabelWidth" required>
+        <el-form-item label="Date" prop="date" :label-width="formLabelWidth">
             <el-date-picker v-model="dataNewCard.date" type="daterange" placeholder="Pick a range">
             </el-date-picker>
         </el-form-item>
@@ -111,12 +111,9 @@ export default {
     computed: {
         filteredChecklists: function() {
             if (this.value.edit === 1) {
-                this.dataNewCard.checklists = JSON.parse(this.value.checklists)
+                this.dataNewCard.checklists = this.value.checklists
             }
-                return filters[this.visibility](this.dataNewCard.checklists)
-        },
-        remaining: function() {
-            return filters.active(this.dataNewCard.checklists).length
+                return this.dataNewCard.checklists
         }
     },
     watch: {
@@ -125,48 +122,39 @@ export default {
             this.formNewCard = false
         }
     },
-    filters: {
-        pluralize: function(n) {
-            return n === 1 ? 'item' : 'items'
-        }
-    },
     methods: {
-        checkAction: function() {
+        checkEdit: function() {
             if (this.value.edit === 1) {
                 this.title = this.value.name
                 var startdate = new Date(this.value.startdate);
                 var duedate = new Date(this.value.duedate);
                 this.dataNewCard.date.push(startdate)
                 this.dataNewCard.date.push(duedate)
-
             } else {
                 this.title = "New Card"
             }
         },
         fetchChecklist: function() {
             if (this.value.edit === 1) {
-                var checklists = JSON.parse(this.value.checklists)
+                var checklists = this.value.checklists
             } else {
                 var checklists = []
             }
-            checklists.forEach(function(checklist, index) {
-                checklists.id = index
-            })
-            this.uid = checklists.length
             return checklists
         },
         saveCard: function(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if (this.dataNewCard.date) {
+                    if (this.dataNewCard.date.length !== 2) {
                       this.dataNewCard.startdate = this.dataNewCard.date[0].getFullYear() + '-' + (this.dataNewCard.date[0].getMonth() + 1) + '-' + this.dataNewCard.date[0].getDate()
-                      this.dataNewCard.duedate = this.dataNewCard.date[1].getFullYear() + '-' + (this.dataNewCard.date[1].getMonth() + 1) + '-' + this.dataNewCard.date[1].getDate()                    }
+                      this.dataNewCard.duedate = this.dataNewCard.date[1].getFullYear() + '-' + (this.dataNewCard.date[1].getMonth() + 1) + '-' + this.dataNewCard.date[1].getDate()
+                    }
                     this.$emit('input', {
                         name: this.dataNewCard.name,
                         description: this.dataNewCard.description,
                         startdate: this.dataNewCard.startdate,
                         duedate: this.dataNewCard.duedate,
-                        checklists: JSON.stringify(this.dataNewCard.checklists),
+                        checklists: this.dataNewCard.checklists,
                     })
                     if (this.value.edit === 1) {
                         this.$emit('updateCard')
@@ -185,14 +173,10 @@ export default {
             if (!value) {
                 return
             }
-            console.log(this.uid);
-            console.log(this.dataNewCard.checklists);
             this.dataNewCard.checklists.push({
-                id: this.uid++,
                 title: value,
                 completed: false
             })
-            //console.log(this.dataNewCard.checklists);
             this.newChecklist = ''
         },
 
@@ -226,8 +210,7 @@ export default {
         },
     },
     mounted() {
-        this.checkAction()
-
+        this.checkEdit()
     }
 }
 </script>

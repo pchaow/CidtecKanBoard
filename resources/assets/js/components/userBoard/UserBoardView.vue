@@ -183,7 +183,7 @@ export default {
                 });
         },
         cancelForm: function() {
-            this.formInputs = {date: ''}
+            this.formInputs = {}
             this.formCard = false
         },
     },
