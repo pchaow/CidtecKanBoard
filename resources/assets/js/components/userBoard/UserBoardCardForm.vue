@@ -82,6 +82,7 @@ export default {
             editedChecklist: null,
             visibility: 'all',
             title: '',
+            uid: null,
             formNewCard: true,
             formLabelWidth: '120px',
             dataNewCard: {
