@@ -23,7 +23,15 @@ class UserBoardResourceController extends Controller
     public function index(Request $request, $userId)
     {
         $user = User::find($userId);
-        return $user->boards()->get();
+        $board = $user->boards()
+                ->with(['user'])
+                ->orWhereHas ('mamebersBoard',
+                      function ($query) use ( $userId ) {
+                            $query->where('users_id', '=', $userId );
+                      })
+                ->orderBy('id', 'desc')
+                ->get();
+        return $board;
     }
 
     /**

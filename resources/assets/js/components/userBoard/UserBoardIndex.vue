@@ -2,7 +2,8 @@
     <div>
         <div class="panel panel-info" v-for="board in boards">
             <div class="panel-heading">
-                <a :href="'/'+user.username+'/'+board.name">{{board.name}}</a>
+                <a :href="'/'+board.user.username+'/'+board.name" v-if="user.username === board.user.username">{{board.name}}</a>
+                <a :href="'/'+board.user.username+'/'+board.name" v-else>{{board.user.username}}/{{board.name}}</a>
             </div>
 
             <div class="panel-body">
