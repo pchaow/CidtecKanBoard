@@ -58,6 +58,8 @@ Vue.component('user-board-index', require('./components/userBoard/UserBoardIndex
 Vue.component('user-board-view', require('./components/userBoard/UserBoardView.vue'));
 Vue.component('user-board-edit', require('./components/userBoard/UserBoardEdit.vue'));
 
+Vue.component('user-board-form-member', require('./components/userBoard/form/UserBoardMemberForm.vue'));
+
 const app = new Vue({
     el: '#app'
 });

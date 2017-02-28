@@ -66,29 +66,12 @@
                 Board's Member
             </div>
             <div class="panel-body">
-                <div class="col-lg-12">
-                    <ul class="list-group">
-                        <li v-for="member in board.mamebers_board" class="list-group-item justify-content-between">
-                            {{member.name}}
-                            <span class="badge badge-primary badge-pill">x</span>
-                        </li>
-                    </ul>
-
-                        <div class="input-group autocomplete">
-                            <vue-typeahead
-                            :local="allUsers"
-                            :default-suggestion="true"
-                             display-key='name'
-                             v-on:selected="done"
-                             v-model="checkedNames"
-                            classes="form-control">
-                            </vue-typeahead>
-                            <span class="input-group-btn">
-                                  <button class="btn btn-primary" @click="addMember" :disabled="checkMember">Add</button>
-                            </span>
-                        </div>
-
-                </div>
+              <user-board-form-member
+              :members="board.mamebers_board"
+              :load-member-url="loadMemberUrl"
+              :save-member-url="saveMemberUrl"
+              @load="load">
+            </user-board-form-member>
             </div>
         </div>
     </div>
@@ -96,7 +79,9 @@
 </div>
 </template>
 
-<script>
+<script type="application/javascript">
+import '!style!css!../../../css/autocomplete.css';
+
 export default {
     props: {
         saveUrl: String,
@@ -220,30 +205,5 @@ export default {
 </script>
 
 <style type="text/css">
-.autocomplete .twitter-typeahead {
-    width: 100%;
-}
 
-.autocomplete .twitter-typeahead .tt-menu {
-    width: 100%;
-    border: 1px solid #e3e3e3;
-    text-align: left;
-    position: relative;
-    background: white;
-}
-
-.autocomplete .twitter-typeahead .tt-suggestion {
-    background: #ffffff;
-    padding: 10px;
-    border-bottom: 1px solid #e3e3e3;
-    cursor: pointer;
-}
-
-.autocomplete .twitter-typeahead .tt-suggestion:hover {
-    background: #e3e3e3;
-}
-
-.autocomplete .twitter-typeahead .tt-cursor {
-    background: #e3e3e3;
-}
 </style>
