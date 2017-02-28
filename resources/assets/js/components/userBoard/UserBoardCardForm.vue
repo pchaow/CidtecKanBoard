@@ -2,12 +2,15 @@
 <!--  Dialog Form New Card-->
 <el-dialog :title="title" v-model="formNewCard">
     <el-form :model="dataNewCard" :rules="rulesCard" ref="dataNewCard">
+
         <el-form-item label="Name" prop="name" :label-width="formLabelWidth">
             <el-input v-model="dataNewCard.name" auto-complete="off" laceholder="Please input name"></el-input>
         </el-form-item>
+
         <el-form-item label="Description" prop="description" :label-width="formLabelWidth">
             <el-input type="textarea" v-model="dataNewCard.description"></el-input>
         </el-form-item>
+
         <el-form-item label="Date" prop="date" :label-width="formLabelWidth">
             <el-date-picker v-model="dataNewCard.date" type="daterange" placeholder="Pick a range">
             </el-date-picker>
@@ -53,26 +56,11 @@
           <el-button type="primary" @click="saveCard('dataNewCard')">Confirm</el-button>
     </span>
 </el-dialog>
+
 </template>
 
 
 <script type="application/javascript">
-// visibility filters
-var filters = {
-    all: function(checklists) {
-        return checklists
-    },
-    active: function(checklists) {
-        return checklists.filter(function(checklist) {
-            return !checklist.completed
-        })
-    },
-    completed: function(checklists) {
-        return checklists.filter(function(checklist) {
-            return checklist.completed
-        })
-    }
-}
 
 export default {
     props: ['value'],
@@ -145,7 +133,7 @@ export default {
         saveCard: function(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    if (this.dataNewCard.date.length !== 2) {
+                    if (this.dataNewCard.date.length == 2) {
                       this.dataNewCard.startdate = this.dataNewCard.date[0].getFullYear() + '-' + (this.dataNewCard.date[0].getMonth() + 1) + '-' + this.dataNewCard.date[0].getDate()
                       this.dataNewCard.duedate = this.dataNewCard.date[1].getFullYear() + '-' + (this.dataNewCard.date[1].getMonth() + 1) + '-' + this.dataNewCard.date[1].getDate()
                     }
@@ -179,16 +167,13 @@ export default {
             })
             this.newChecklist = ''
         },
-
         removeChecklist: function(checklist) {
             this.dataNewCard.checklists.splice(this.dataNewCard.checklists.indexOf(checklist), 1)
         },
-
         editChecklist: function(checklist) {
             this.beforeEditCache = checklist.title
             this.editedChecklist = checklist
         },
-
         doneEdit: function(checklist) {
             if (!this.editedChecklist) {
                 return
@@ -199,12 +184,10 @@ export default {
                 this.removeChecklist(checklist)
             }
         },
-
         cancelEdit: function(checklist) {
             this.editedChecklist = null
             checklist.title = this.beforeEditCache
         },
-
         removeCompleted: function() {
             this.dataNewCard.checklists = filters.active(this.dataNewCard.checklists)
         },
