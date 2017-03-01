@@ -16,7 +16,7 @@ class Board extends Model
    }
 
    //get all member in board
-   public function mamebersBoard()
+   public function membersBoard()
   {
       return $this->belongsToMany('App\Models\User','board_user','boards_id','users_id');
   }

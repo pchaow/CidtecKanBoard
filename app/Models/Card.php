@@ -21,7 +21,7 @@ class Card extends Model
     }
 
     //get all member in card
-    public function mamebersCard()
+    public function membersCard()
     {
         return $this->belongsToMany('App\Models\User', 'card_user', 'cards_id', 'users_id');
     }

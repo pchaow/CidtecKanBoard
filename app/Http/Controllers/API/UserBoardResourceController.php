@@ -25,7 +25,7 @@ class UserBoardResourceController extends Controller
         $user = User::find($userId);
         $board = $user->boards()
                 ->with(['user'])
-                ->orWhereHas ('mamebersBoard',
+                ->orWhereHas ('membersBoard',
                       function ($query) use ( $userId ) {
                             $query->where('users_id', '=', $userId );
                       })
@@ -75,7 +75,7 @@ class UserBoardResourceController extends Controller
      */
     public function show($userId, $boardId)
     {
-        $board = Board::with(['user', 'lanes.cards', 'mamebersBoard'])->where('id', $boardId)->first();
+        $board = Board::with(['user', 'lanes.cards', 'lanes.cards.membersCard', 'membersBoard'])->where('id', $boardId)->first();
         return $board;
 
     }
