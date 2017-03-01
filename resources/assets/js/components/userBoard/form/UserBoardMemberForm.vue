@@ -1,6 +1,5 @@
 <template>
   <div class="col-lg-12">
-
       <ul class="list-group">
           <li v-for="member in members" class="list-group-item justify-content-between">
               {{member.name}}
@@ -61,6 +60,7 @@ export default {
           this.$http.post(this.saveMemberUrl, this.member)
               .then((response) => {
                 this.$emit('load')
+                this.members.push(this.member)
                 this.loadUser()
                 this.checkedNames = null
               }, (response) => {

@@ -49,13 +49,22 @@
         </div>
     </div>
     <!--  Dialog Form New Card-->
-    <user-Board-form-card v-model="formInputs" @saveCard="saveCard" @updateCard="updateCard" @cancelForm="cancelForm" v-if="formCard">
-    </user-Board-form-card>
+    <user-board-form-card
+    :formInputs="formInputs"
+    :save-member-card-url="saveCardUrl"
+    :load-member-card-url="loadMemberUrl"
+    @update="update"
+    @saveCard="saveCard"
+    @updateCard="updateCard"
+    @cancelForm="cancelForm"
+    v-if="formCard">
+  </user-board-form-card>
 </div>
 </template>
 
 <script type="application/javascript">
-import UserBoardFormCard from './UserBoardCardForm.vue'
+import UserBoardFormCard from './form/UserBoardCardForm.vue'
+import '!style!css!../../../css/card.css';
 
 export default {
     props: {
@@ -64,6 +73,7 @@ export default {
         loadBoardUrl: String,
         saveLaneUrl: String,
         saveCardUrl: String,
+        loadMemberUrl: String,
     },
     components: {
         UserBoardFormCard
@@ -186,6 +196,9 @@ export default {
             this.formInputs = {}
             this.formCard = false
         },
+        update: function() {
+            this.loadBoard();
+        },
     },
     mounted() {
         console.log('Component mounted.')
@@ -208,74 +221,5 @@ export default {
 .row-fluid .col-md-3 {
     display: inline-block;
     float: none;
-}
-
-.wrapper {
-    display: table;
-    width: 100%;
-    min-height: 100%;
-}
-
-.card {
-    display: table-cell;
-    padding: 10px;
-    background-color: #e2e4e6;
-}
-
-.card:nth-child(odd) {
-    background-color: #e2e4e6;
-}
-
-.card div,
-.gu-mirror {
-    padding: 10px;
-    background-color: #ffffff;
-    transition: opacity 0.4s ease-in-out;
-}
-
-.card div {
-    white-space: pre-line;
-    cursor: move;
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-    margin-bottom: 10px;
-}
-
-.card div:last-child {
-    margin-bottom: 0;
-}
-
-.gu-mirror {
-    position: fixed !important;
-    margin: 0 !important;
-    z-index: 9999 !important;
-    opacity: 0.8;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-}
-
-.gu-hide {
-    display: none !important;
-}
-
-.gu-unselectable {
-    -webkit-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-}
-
-.gu-transit {
-    opacity: 0.2;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-    filter: alpha(opacity=20);
-}
-
-.handle {
-    padding: 0 5px;
-    margin-right: 5px;
-    background-color: rgba(0, 0, 0, 0.4);
-    cursor: move;
 }
 </style>

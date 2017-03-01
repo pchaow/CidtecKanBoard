@@ -8,6 +8,8 @@
                 load-board-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}"
                 save-lane-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/lane"
                 save-card-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card"
+                load-member-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card"
+                save-member-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card"
         >
         </user-board-view>
     </div>

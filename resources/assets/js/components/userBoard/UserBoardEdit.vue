@@ -67,7 +67,7 @@
             </div>
             <div class="panel-body">
               <user-board-form-member
-              :members="board.mamebers_board"
+              :members="board.members_board"
               :load-member-url="loadMemberUrl"
               :save-member-url="saveMemberUrl"
               @load="load">
@@ -153,7 +153,6 @@ export default {
           this.$http.post(this.saveMemberUrl, this.member)
               .then((response) => {
                 this.load()
-                this.loadUser()
                 this.checkedNames = null
               }, (response) => {
                   this.formErrors = response.data;
@@ -185,21 +184,11 @@ export default {
                     this.formErrors = response.data;
                     console.log(this.formErrors)
                 });
-        },
-        loadUser: function() {
-            this.$http.get(this.loadMemberUrl)
-                .then((response) => {
-                  this.allUsers = response.data
-                }, (response) => {
-                    this.formErrors = response.data;
-                    console.log(this.formErrors)
-                });
         }
     },
     mounted() {
         console.log('Component mounted.')
         this.load()
-        this.loadUser()
     }
 }
 </script>
