@@ -20,7 +20,7 @@
                                        <i class="el-icon-caret-bottom el-icon--right"></i>
                                     </span>
                                         <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item :command="lane.id+'addCard'">Add Card</el-dropdown-item>
+                                            <el-dropdown-item :command="lane.name+'//addCard'">Add Card</el-dropdown-item>
                                             <el-dropdown-item>Edit</el-dropdown-item>
                                         </el-dropdown-menu>
                                     </el-dropdown>
@@ -29,7 +29,7 @@
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" @click="openCard(card)" :ondrop = "test(card.id)"  :idCard="card.id">{{card.name}}</div>
+                                        <div v-for="card in lane.cards" @click="openCard(card)" :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -48,22 +48,11 @@
             </div>
         </div>
     </div>
-    <!--  Dialog Form New Card-->
-    <user-board-form-card
-    :formInputs="formInputs"
-    :save-member-card-url="saveCardUrl"
-    :load-member-card-url="loadMemberUrl"
-    @update="update"
-    @saveCard="saveCard"
-    @updateCard="updateCard"
-    @cancelForm="cancelForm"
-    v-if="formCard">
-  </user-board-form-card>
+
 </div>
 </template>
 
 <script type="application/javascript">
-import UserBoardFormCard from './form/UserBoardCardForm.vue'
 import '!style!css!../../../css/card.css';
 
 export default {
@@ -73,10 +62,8 @@ export default {
         loadBoardUrl: String,
         saveLaneUrl: String,
         saveCardUrl: String,
-        loadMemberUrl: String,
     },
     components: {
-        UserBoardFormCard
     },
     data() {
         return {
@@ -85,7 +72,6 @@ export default {
             cardMove: {},
             formInputs: {},
             formErrors: [],
-            formCard: false,
             lanes_id: null,
         }
     },
@@ -120,9 +106,10 @@ export default {
             })
         },
         handleCommand(command) {
-            if (command.substring(1) == "addCard") {
-                this.formCard = true
-                this.lanes_id = parseInt(command.substring(0, 1))
+               var res = command.split("//")
+            if (res[1] == "addCard") {
+                this.laneName = res[0]
+                window.location.href = './'+this.board.name+'/'+this.laneName + '/cards/new'
             }
         },
         saveLane: function() {
@@ -144,34 +131,7 @@ export default {
                 });
         },
         openCard: function(card) {
-          this.formInputs = card
-          this.card = card
-          this.formInputs.edit = 1
-          this.formCard = true
-        },
-        test: function(card) {
-          //console.log(card);
-        },
-        saveCard: function() {
-            this.formCard = false
-            this.formInputs.lanes_id = this.lanes_id
-            this.formInputs.user_id = this.user.id
-            this.formErrors = []
-            this.$http.post(this.saveCardUrl, this.formInputs)
-                .then((response) => {
-                    this.loadBoard();
-                    this.$notify({
-                        title: 'Success',
-                        message: 'New card',
-                        type: 'success'
-                    });
-                }, (response) => {
-                    this.formErrors = response.data;
-                    this.$notify.error({
-                        title: 'Error',
-                        message: 'Can not add new cane'
-                    });
-                });
+
         },
         moveCard: function() {
             this.formErrors = []
@@ -192,16 +152,11 @@ export default {
                     this.formErrors = response.data;
                 });
         },
-        cancelForm: function() {
-            this.formInputs = {}
-            this.formCard = false
-        },
         update: function() {
             this.loadBoard();
         },
     },
     mounted() {
-        console.log('Component mounted.')
         this.loadBoard();
     }
 }

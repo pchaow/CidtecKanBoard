@@ -22,12 +22,14 @@ class UserBoardCardResourceController extends Controller
         $card->fill($request->all());
         $card->save();
 
-        $cardUser = new CardUser();
-        $cardUser->cards_id = $card->id;
-        $cardUser->users_id = $userId;
-        $cardUser->save();
+        foreach ($request->memberCard as $member) {
+          $cardUser = new CardUser();
+          $cardUser->cards_id = $card->id;
+          $cardUser->users_id = $member['id'];
+          $cardUser->save();
+        }
 
-        return $card;
+        return $request->all();
     }
 
     public function update(Request $request, $userId, $boardId,$cardId)
