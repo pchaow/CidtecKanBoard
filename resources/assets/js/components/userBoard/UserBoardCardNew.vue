@@ -67,7 +67,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a :href="strFormat('/{user}/{board}',{user : user.username, board:boardName})" class="btn btn-default">Cancel</a>
+                            <a :href="strFormat('/{user}/{board}',{user : user.username, board : board.name})" class="btn btn-default">Cancel</a>
                         </div>
 
                     </form>
@@ -114,7 +114,7 @@ export default {
         loadMemberUrl: String,
         user: Object,
         lane: Object,
-        boardName: String,
+        board: Object,
     },
     data() {
         return {
@@ -177,7 +177,7 @@ export default {
                 .then((response) => {
                     window.location.href = this.strFormat('/{user}/{board}', {
                         user: this.user.username,
-                        board: this.boardName
+                        board: this.board.name
                     })
                 }, (response) => {
                     this.formErrors = response.data;

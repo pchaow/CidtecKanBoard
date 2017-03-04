@@ -109,7 +109,7 @@ export default {
                var res = command.split("//")
             if (res[1] == "addCard") {
                 this.laneName = res[0]
-                window.location.href = './'+this.board.name+'/'+this.laneName + '/cards/new'
+                window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+this.laneName + '/cards/new'
             }
         },
         saveLane: function() {
