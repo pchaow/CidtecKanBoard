@@ -29,7 +29,7 @@
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" @click="openCard(card)" :idCard="card.id">{{card.name}}</div>
+                                        <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +130,14 @@ export default {
                     });
                 });
         },
-        openCard: function(card) {
+        openCard: function(card,lane) {
+
+          console.log(lane);
+          this.$notify.success({
+              title: card.name,
+              message: card.name
+          });
+            window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+ lane + '/cards/' + card.id
 
         },
         moveCard: function() {

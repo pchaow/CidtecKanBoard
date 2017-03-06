@@ -44,4 +44,5 @@ Route::group(['prefix' => '{user}'], function () {
     Route::get('{boardName}', "UserBoardController@view");
     Route::get('{boardName}/edit', "UserBoardController@edit");
     Route::get('{boardName}/{laneName}/cards/new', "UserBoardCardController@create");
+    Route::get('{boardName}/{laneName}/cards/{cardId}', "UserBoardCardController@view");
 });

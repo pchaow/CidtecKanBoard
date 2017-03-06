@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Hash;
 class UserBoardCardResourceController extends Controller
 {
 
+  public function show($userId, $boardId, $cardId)
+  {
+      $card = Card::with(['membersCard','ownerCard'])
+              ->where('id', $cardId)
+              ->where('user_id', $userId)
+              ->first();
+      return $card;
+
+  }
+
     public function store(Request $request, $userId, $boardId)
     {
 
@@ -22,7 +32,7 @@ class UserBoardCardResourceController extends Controller
         $card->fill($request->all());
         $card->save();
 
-        foreach ($request->memberCard as $member) {
+        foreach ($request->members_card as $member) {
           $cardUser = new CardUser();
           $cardUser->cards_id = $card->id;
           $cardUser->users_id = $member['id'];
@@ -32,11 +42,24 @@ class UserBoardCardResourceController extends Controller
         return $request->all();
     }
 
-    public function update(Request $request, $userId, $boardId,$cardId)
+    public function update(Request $request, $userId, $boardId, $cardId)
     {
-        $card = Card::find($cardId);
+        $card = Card::where('id', $cardId)
+                ->where('user_id', $userId)
+                ->first();
         $card->fill($request->all());
         $card->save();
+
+        $delCardUser = CardUser::where('cards_id',$cardId)
+                    ->delete();
+
+        foreach ($request->members_card as $member) {
+                 $cardUser = new CardUser();
+                 $cardUser->cards_id = $card->id;
+                 $cardUser->users_id = $member['id'];
+                 $cardUser->save();
+              }
+
         return $card;
     }
 
