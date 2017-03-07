@@ -6,6 +6,7 @@
                 {{board.name}}
                 <div class="btn-group btn-group-sm pull-right">
                     <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})" class="btn btn-default">Edit</a>
+                    <a :href="strFormat('/{user}',{user : user.username})" class="btn btn-default">Back</a>
                 </div>
             </div>
             <div class="panel-body">

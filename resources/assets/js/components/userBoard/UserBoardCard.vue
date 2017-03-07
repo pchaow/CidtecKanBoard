@@ -4,6 +4,7 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 {{title}}
+                  <a :href="strFormat('/{user}/{board}',{user : user.username, board:board.name})" class="btn btn-default pull-right">Back</a>
                 <br>
                 {{createBy}}
             </div>
