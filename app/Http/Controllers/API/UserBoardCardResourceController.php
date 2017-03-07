@@ -63,10 +63,13 @@ class UserBoardCardResourceController extends Controller
         return $card;
     }
 
-    public function destroy($userId, $boardId, $laneId)
+    public function destroy($userId, $boardId, $cardId)
     {
-        $lane = Lane::find($laneId);
-        $lane->delete();
-        return [true];
+
+      $card = Card::with(['membersCard'])
+            ->where('id', $cardId)
+            ->where('user_id', $userId)
+            ->delete();
+        return $card;
     }
 }

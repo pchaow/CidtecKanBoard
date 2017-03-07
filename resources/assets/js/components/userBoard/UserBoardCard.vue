@@ -96,6 +96,9 @@
                                 <ul>
                         </div>
                     </div>
+
+                      <button v-if="checkEdit" class="btn btn-danger pull-right" @click="delCard">Delete Card</button>
+
                 </div>
             </div>
         </div>
@@ -284,6 +287,20 @@ export default {
                         this.formInputs.date.push(startdate)
                         this.formInputs.date.push(duedate)
                         console.log(this.formInputs);
+                    }, (response) => {
+                        this.formErrors = response.data;
+                        console.log(this.formErrors)
+                    });
+            }
+        },
+        delCard: function() {
+            if (this.loadCardUrl) {
+                this.$http.delete(this.loadCardUrl)
+                    .then((response) => {
+                      window.location.href = this.strFormat('/{user}/{board}', {
+                          user: this.user.username,
+                          board: this.board.name
+                      })
                     }, (response) => {
                         this.formErrors = response.data;
                         console.log(this.formErrors)

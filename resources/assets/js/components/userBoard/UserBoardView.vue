@@ -132,11 +132,6 @@ export default {
         },
         openCard: function(card,lane) {
 
-          console.log(lane);
-          this.$notify.success({
-              title: card.name,
-              message: card.name
-          });
             window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+ lane + '/cards/' + card.id
 
         },
