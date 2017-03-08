@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-    protected $fillable = ['name', 'description', 'user_id', 'lanes_id', 'startdate', 'duedate', 'checklists'];
+    protected $fillable = ['name', 'description','rank', 'user_id', 'lanes_id', 'startdate', 'duedate', 'checklists'];
 
     //get  card owner
     public function ownerCard()
