@@ -27,9 +27,11 @@ class UserBoardCardResourceController extends Controller
 
     public function store(Request $request, $userId, $boardId)
     {
-
+        $cardCount = Card::where('lanes_id', $request->lanes_id)
+        ->count();
         $card = new Card();
         $card->fill($request->all());
+        $card->rank = $cardCount+1;
         $card->save();
 
         foreach ($request->members_card as $member) {
@@ -44,23 +46,47 @@ class UserBoardCardResourceController extends Controller
 
     public function update(Request $request, $userId, $boardId, $cardId)
     {
-        $card = Card::where('id', $cardId)
-                ->where('user_id', $userId)
-                ->first();
-        $card->fill($request->all());
-        $card->save();
+        if (count($request->all()) == 1) {
+          $card = Card::where('id', $cardId)
+                  ->where('user_id', $userId)
+                  ->first();
+          $card->fill($request->all());
+          $card->save();
+          $delCardUser = CardUser::where('cards_id',$cardId)
+                      ->delete();
+          foreach ($request->members_card as $member) {
+                   $cardUser = new CardUser();
+                   $cardUser->cards_id = $card->id;
+                   $cardUser->users_id = $member['id'];
+                   $cardUser->save();
+                }
 
-        $delCardUser = CardUser::where('cards_id',$cardId)
-                    ->delete();
+        }else {
 
-        foreach ($request->members_card as $member) {
-                 $cardUser = new CardUser();
-                 $cardUser->cards_id = $card->id;
-                 $cardUser->users_id = $member['id'];
-                 $cardUser->save();
-              }
+          $card = Card::where('id', $cardId)
+                  ->where('user_id', $userId)
+                  ->first();
+          $card->fill($request[0]);
+          $card->save();
 
-        return $card;
+          foreach ($request[1] as $before) {
+                   $cardBefore = Card::where('id', $before['id'])
+                   ->where('lanes_id', $before['lane'])
+                   ->first();
+                   $cardBefore->rank = $before['rank'];
+                   $cardBefore->save();
+                }
+
+          foreach ($request[2] as $after) {
+                  $cardAfter = Card::where('id', $after['id'])
+                  ->where('lanes_id', $after['lane'])
+                  ->first();
+                  $cardAfter->rank = $after['rank'];
+                  $cardAfter->save();
+               }
+        }
+
+        return $request->all();
     }
 
     public function destroy($userId, $boardId, $cardId)

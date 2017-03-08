@@ -91,10 +91,36 @@ export default {
         })
         serviceEvent.on({
             drop: (opts,w) => {
-                const {el,container,model} = opts
+                const {el,container,source,model} = opts
                 this.cardMove.id = el.attributes.idcard.value
                 this.cardMove.lanes_id = container.attributes.idlane.value
-                this.moveCard()
+                //
+                  this.$nextTick(function() {
+                  this.moveData = []
+                  this.beforeLane = []
+                  this.afterLane = []
+
+                  for (var i = 0; i < source.childNodes.length; i++) {
+                         this.beforeLane.push({
+                           lane: source.attributes.idlane.value,
+                           id: source.childNodes[i].attributes.idcard.value,
+                           rank: i+1
+                         })
+                  }
+
+                  for (var i = 0; i < container.childNodes.length; i++) {
+                         this.afterLane.push({
+                           lane: container.attributes.idlane.value,
+                           id: container.childNodes[i].attributes.idcard.value,
+                           rank: i+1
+                         })
+                  }
+                  this.moveData.push(this.cardMove)
+                  this.moveData.push(this.beforeLane)
+                  this.moveData.push(this.afterLane)
+                  this.moveCard()
+             });
+
             }
         })
     },
@@ -138,8 +164,9 @@ export default {
         },
         moveCard: function() {
             this.formErrors = []
-            this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.cardMove)
+            this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.moveData)
                 .then((response) => {
+                  console.log(response.data);
                     //this.loadBoard();
                 }, (response) => {
                     this.formErrors = response.data;
