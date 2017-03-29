@@ -4,7 +4,7 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 {{title}}
-                  <a :href="strFormat('/{user}/{board}',{user : user.username, board:board.name})" class="btn btn-default pull-right">Back</a>
+                  <a :href="strFormat('/{user}/{board}',{user : board.user.username, board:board.name})" class="btn btn-default pull-right">Back</a>
                 <br>
                 {{createBy}}
             </div>
@@ -70,7 +70,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a :href="strFormat('/{user}/{board}',{user : user.username, board : board.name})" class="btn btn-default">Cancel</a>
+                            <a :href="strFormat('/{user}/{board}',{user : board.user.username, board : board.name})" class="btn btn-default">Cancel</a>
                         </div>
 
                     </form>
@@ -186,7 +186,7 @@ export default {
           this.$http.post(this.saveCardUrl, this.formInputs)
               .then((response) => {
                   window.location.href = this.strFormat('/{user}/{board}', {
-                      user: this.user.username,
+                      user: this.board.user.username,
                       board: this.board.name
                   })
               }, (response) => {
@@ -202,7 +202,7 @@ export default {
           this.$http.put(this.saveCardUrl, this.formInputs)
               .then((response) => {
                   window.location.href = this.strFormat('/{user}/{board}', {
-                      user: this.user.username,
+                      user: this.board.user.username,
                       board: this.board.name
                   })
               }, (response) => {
@@ -299,7 +299,7 @@ export default {
                 this.$http.delete(this.loadCardUrl)
                     .then((response) => {
                       window.location.href = this.strFormat('/{user}/{board}', {
-                          user: this.user.username,
+                          user: this.board.user.username,
                           board: this.board.name
                       })
                     }, (response) => {

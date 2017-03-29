@@ -12,8 +12,13 @@
 */
 
 Route::get('/', function () {
+  if (auth()->user()) {
+    return redirect('/' + auth()->user()->username);
+  }else {
     return view('welcome');
-});
+  }
+
+})->middleware('auth:api');
 
 Route::get('/logout', function () {
     Auth::logout();

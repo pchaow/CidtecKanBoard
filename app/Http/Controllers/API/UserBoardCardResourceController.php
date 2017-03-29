@@ -19,7 +19,6 @@ class UserBoardCardResourceController extends Controller
   {
       $card = Card::with(['membersCard','ownerCard'])
               ->where('id', $cardId)
-              ->where('user_id', $userId)
               ->first();
       return $card;
 
@@ -46,7 +45,7 @@ class UserBoardCardResourceController extends Controller
 
     public function update(Request $request, $userId, $boardId, $cardId)
     {
-        if (count($request->all()) == 1) {
+        if (count($request->all()) !== 3) {
           $card = Card::where('id', $cardId)
                   ->where('user_id', $userId)
                   ->first();

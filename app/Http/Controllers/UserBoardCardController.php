@@ -36,7 +36,7 @@ class UserBoardCardController extends Controller
     {
       $user = User::findByUsername($username);
 
-      $board = Board::where('user_id', '=', $user->id)
+      $board = Board::with(['user'])
           ->where('name', '=', $boardName)
           ->first();
 
@@ -52,9 +52,9 @@ class UserBoardCardController extends Controller
 
     public function view($username,$boardName,$laneName,$cardId)
     {
-      $user = User::findByUsername($username);
+      $user = User::findByUsername(auth()->user()->username);
 
-      $board = Board::where('user_id', '=', $user->id)
+      $board = Board::with(['user'])
           ->where('name', '=', $boardName)
           ->first();
 
