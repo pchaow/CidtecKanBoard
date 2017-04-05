@@ -6,6 +6,7 @@
                 {{board.name}}
                 <div class="btn-group btn-group-sm pull-right">
                     <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})" class="btn btn-default">Edit</a>
+                    <a :href="strFormat('/{user}',{user : user.username})" class="btn btn-default">Back</a>
                 </div>
             </div>
             <div class="panel-body">
@@ -20,7 +21,7 @@
                                        <i class="el-icon-caret-bottom el-icon--right"></i>
                                     </span>
                                         <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item :command="lane.id+'addCard'">Add Card</el-dropdown-item>
+                                            <el-dropdown-item :command="lane.name+'//addCard'">Add Card</el-dropdown-item>
                                             <el-dropdown-item>Edit</el-dropdown-item>
                                         </el-dropdown-menu>
                                     </el-dropdown>
@@ -29,7 +30,7 @@
                             <div class="panel-body">
                                 <div class="wrapper">
                                     <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" @click="openCard(card)" :ondrop = "test(card.id)"  :idCard="card.id">{{card.name}}</div>
+                                        <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -48,22 +49,11 @@
             </div>
         </div>
     </div>
-    <!--  Dialog Form New Card-->
-    <user-board-form-card
-    :formInputs="formInputs"
-    :save-member-card-url="saveCardUrl"
-    :load-member-card-url="loadMemberUrl"
-    @update="update"
-    @saveCard="saveCard"
-    @updateCard="updateCard"
-    @cancelForm="cancelForm"
-    v-if="formCard">
-  </user-board-form-card>
+
 </div>
 </template>
 
 <script type="application/javascript">
-import UserBoardFormCard from './form/UserBoardCardForm.vue'
 import '!style!css!../../../css/card.css';
 
 export default {
@@ -73,10 +63,8 @@ export default {
         loadBoardUrl: String,
         saveLaneUrl: String,
         saveCardUrl: String,
-        loadMemberUrl: String,
     },
     components: {
-        UserBoardFormCard
     },
     data() {
         return {
@@ -85,7 +73,6 @@ export default {
             cardMove: {},
             formInputs: {},
             formErrors: [],
-            formCard: false,
             lanes_id: null,
         }
     },
@@ -104,10 +91,36 @@ export default {
         })
         serviceEvent.on({
             drop: (opts,w) => {
-                const {el,container,model} = opts
+                const {el,container,source,model} = opts
                 this.cardMove.id = el.attributes.idcard.value
                 this.cardMove.lanes_id = container.attributes.idlane.value
-                this.moveCard()
+                //
+                  this.$nextTick(function() {
+                  this.moveData = []
+                  this.beforeLane = []
+                  this.afterLane = []
+
+                  for (var i = 0; i < source.childNodes.length; i++) {
+                         this.beforeLane.push({
+                           lane: source.attributes.idlane.value,
+                           id: source.childNodes[i].attributes.idcard.value,
+                           rank: i+1
+                         })
+                  }
+
+                  for (var i = 0; i < container.childNodes.length; i++) {
+                         this.afterLane.push({
+                           lane: container.attributes.idlane.value,
+                           id: container.childNodes[i].attributes.idcard.value,
+                           rank: i+1
+                         })
+                  }
+                  this.moveData.push(this.cardMove)
+                  this.moveData.push(this.beforeLane)
+                  this.moveData.push(this.afterLane)
+                  this.moveCard()
+             });
+
             }
         })
     },
@@ -120,9 +133,10 @@ export default {
             })
         },
         handleCommand(command) {
-            if (command.substring(1) == "addCard") {
-                this.formCard = true
-                this.lanes_id = parseInt(command.substring(0, 1))
+               var res = command.split("//")
+            if (res[1] == "addCard") {
+                this.laneName = res[0]
+                window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+this.laneName + '/cards/new'
             }
         },
         saveLane: function() {
@@ -143,40 +157,16 @@ export default {
                     });
                 });
         },
-        openCard: function(card) {
-          this.formInputs = card
-          this.card = card
-          this.formInputs.edit = 1
-          this.formCard = true
-        },
-        test: function(card) {
-          //console.log(card);
-        },
-        saveCard: function() {
-            this.formCard = false
-            this.formInputs.lanes_id = this.lanes_id
-            this.formInputs.user_id = this.user.id
-            this.formErrors = []
-            this.$http.post(this.saveCardUrl, this.formInputs)
-                .then((response) => {
-                    this.loadBoard();
-                    this.$notify({
-                        title: 'Success',
-                        message: 'New card',
-                        type: 'success'
-                    });
-                }, (response) => {
-                    this.formErrors = response.data;
-                    this.$notify.error({
-                        title: 'Error',
-                        message: 'Can not add new cane'
-                    });
-                });
+        openCard: function(card,lane) {
+
+            window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+ lane + '/cards/' + card.id
+
         },
         moveCard: function() {
             this.formErrors = []
-            this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.cardMove)
+            this.$http.put(this.saveCardUrl + '/' + this.cardMove.id, this.moveData)
                 .then((response) => {
+                  console.log(response.data);
                     //this.loadBoard();
                 }, (response) => {
                     this.formErrors = response.data;
@@ -192,16 +182,11 @@ export default {
                     this.formErrors = response.data;
                 });
         },
-        cancelForm: function() {
-            this.formInputs = {}
-            this.formCard = false
-        },
         update: function() {
             this.loadBoard();
         },
     },
     mounted() {
-        console.log('Component mounted.')
         this.loadBoard();
     }
 }

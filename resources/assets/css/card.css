@@ -1,13 +1,13 @@
 .wrapper {
     display: table;
     width: 100%;
-    min-height: 100%;
+    min-height: 500px;
 }
 
 .card {
     display: table-cell;
     padding: 10px;
-    background-color: #e2e4e6;
+    background-color: rgba(223, 240, 216, 0.43);
 }
 
 .card div,

@@ -17,6 +17,7 @@ class CreateCardsTable extends Migration
           $table->increments('id');
           $table->string('name')->nullable();
           $table->text('description')->nullable();
+          $table->integer('rank')->default(0);
           $table->integer('lanes_id')->unsigned();
           $table->integer('user_id')->unsigned();
           $table->date('startdate')->nullable();

@@ -10,7 +10,8 @@ class Lane extends Model
     //get all card in lane
     public function cards()
    {
-       return $this->hasMany(Card::class,'lanes_id','id');
+       return $this->hasMany(Card::class,'lanes_id','id')
+       ->orderBy('rank');
    }
 
   //get board where lane live

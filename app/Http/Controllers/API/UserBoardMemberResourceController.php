@@ -22,8 +22,17 @@ class UserBoardMemberResourceController extends Controller
         $userIn = BoardUser::select('users_id')
         ->where('boards_id',$boardId)
         ->get();
-        $user = User::whereNotIn('id', $userIn)->get();;
+        $user = User::whereNotIn('id', $userIn)->get();
         return $user;
+    }
+
+    public function create($userId, $boardId)
+    {
+       $userIn = BoardUser::select('users_id')
+       ->where('boards_id',$boardId)
+       ->get();
+       $user = User::whereIn('id', $userIn)->get();
+       return $user;
     }
 
     public function store(Request $request, $userId, $boardId)

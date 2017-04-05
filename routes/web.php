@@ -12,8 +12,13 @@
 */
 
 Route::get('/', function () {
+  if (auth()->user()) {
+    return redirect('/' + auth()->user()->username);
+  }else {
     return view('welcome');
-});
+  }
+
+})->middleware('auth:api');
 
 Route::get('/logout', function () {
     Auth::logout();
@@ -43,4 +48,6 @@ Route::group(['prefix' => '{user}'], function () {
     Route::get('/new', 'UserBoardController@create');
     Route::get('{boardName}', "UserBoardController@view");
     Route::get('{boardName}/edit', "UserBoardController@edit");
+    Route::get('{boardName}/{laneName}/cards/new', "UserBoardCardController@create");
+    Route::get('{boardName}/{laneName}/cards/{cardId}', "UserBoardCardController@view");
 });

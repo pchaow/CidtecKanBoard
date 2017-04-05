@@ -35,19 +35,13 @@ class UserBoardCardMemberResourceController extends Controller
         return $user;
     }
 
-    public function store(Request $request, $userId, $boardId, $cardId)
+    public function store()
   {
-        $cardUser = new CardUser();
-        $cardUser->cards_id = $cardId;
-        $cardUser->users_id = $request->id;
-        $cardUser->save();
-        return $cardUser;
+        //
     }
 
     public function destroy()
     {
-        // $lane = Lane::find($laneId);
-        // $lane->delete();
-        return [true];
+        //
     }
 }
