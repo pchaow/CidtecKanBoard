@@ -24,13 +24,13 @@ class UserBoardResourceController extends Controller
     {
         $user = User::find($userId);
         $board = $user->boards()
-                ->with(['user'])
-                ->orWhereHas ('membersBoard',
-                      function ($query) use ( $userId ) {
-                            $query->where('users_id', '=', $userId );
-                      })
-                ->orderBy('id', 'desc')
-                ->get();
+            ->with(['user'])
+            ->orWhereHas('membersBoard',
+                function ($query) use ($userId) {
+                    $query->where('users_id', '=', $userId);
+                })
+            ->orderBy('id', 'desc')
+            ->get();
         return $board;
     }
 
@@ -52,18 +52,22 @@ class UserBoardResourceController extends Controller
      */
     public function store(UserBoardRequest $request, $userId)
     {
+        $currentUser = User::find($userId);
         $board = new Board();
         $board->fill($request->all());
-        $board->user()->associate($userId);
+        $board->user()->associate($currentUser);
         $board->save();
 
-        $defaultLane = ['Todo', 'Doing', 'Done'];
+        $defaultLane = ['สิ่งที่ต้องทำ', 'กำลังทำ', 'เสร็จแล้ว'];
 
         foreach ($defaultLane as $item) {
             $lane = new Lane();
             $lane->name = $item;
             $board->lanes()->save($lane);
         }
+
+        $board->membersBoard()->save($currentUser);
+
         return $board;
     }
 
