@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use App\Soap\AuthenSoapService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
+
 
 class LoginController extends Controller
 {
@@ -63,11 +67,7 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
-        } else if ($this->attemptLoginUsername($request)) {
-            return $this->sendLoginResponse($request);
-        } else if ($this->attempLoginUP($request)) {
+        if ($this->attempLoginUP($request)) {
             return $this->sendLoginResponse($request);
         }
 
@@ -104,7 +104,8 @@ class LoginController extends Controller
                     Auth::login($user);
                     return true;
                 } else {
-                    return false;
+
+                    return $this->registerUP($request, $username, $password);
                 }
             }
 
@@ -115,8 +116,72 @@ class LoginController extends Controller
                     Auth::login($user);
                     return true;
                 } else {
-                    return false;
+
+                    return $this->registerUP($request, $username, $password);
                 }
+            }
+        }
+        return false;
+    }
+
+    protected function createUP(array $data)
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['username'] . '@up.ac.th',
+        ]);
+        $user->profiles = json_encode([
+                "UP" => $data['profiles']
+            ]
+        );
+        $user->save();
+
+        $userRole = Role::where('name', '=', 'user')->first();
+        $user->attachRole($userRole);
+
+        return $user;
+    }
+
+    public function registerUP(Request $request, $username, $password)
+    {
+        $service = new AuthenSoapService();
+        $sid = $service->getSID($username, $password);
+
+        if ($sid) {
+            $studentInfo = $service->getStudentInfo($sid);
+            $staffInfo = $service->getStaffInfo($sid);
+
+            if ($staffInfo->CitizenID) {
+                $staffInfo->name = $staffInfo->FirstName_TH . " " . $staffInfo->LastName_TH;
+                $user = $this->createUP([
+                    "name" => $staffInfo->name,
+                    "username" => $username,
+                    "profiles" => $staffInfo
+                ]);
+                event(new Registered($user));
+
+                Auth::login($user);
+
+
+                $service->getLogOff($sid);
+                return true;
+
+            } else if ($studentInfo->CitizenID) {
+
+                $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
+                $user = $this->createUP([
+                    "name" => $staffInfo->name,
+                    "username" => $username,
+                    "profiles" => $staffInfo
+                ]);
+                event(new Registered($user));
+
+                Auth::login($user);
+
+                $service->getLogOff($sid);
+
+                return true;
             }
         }
         return false;
