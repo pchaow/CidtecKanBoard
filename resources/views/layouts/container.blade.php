@@ -1,7 +1,18 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="container">
-        @yield('container')
+@section('container')
+
+    <div class="user-header">
+
+        <div class="container header">
+            @yield('header')
+        </div>
     </div>
+
+    <div>
+        <div class="container">
+            @yield('content')
+        </div>
+    </div>
+
 @endsection

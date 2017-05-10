@@ -1,12 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.container')
+
+@section('header')
+    <span class="username-header"><a href="/{{Auth::user()->username}}">{{Auth::user()->username}}</a></span>
+@endsection
 
 @section('content')
-    <div class="container" id="app">
+    <div class="container">
         <div class="row">
             <div class="col-md-8">
-              <user-board-index
-                      v-bind:user="{{json_encode(auth()->user())}}"
-                      v-bind:load-user-boards-url="'/api/v1/user/{{auth()->id()}}/board'"></user-board-index>
+                <user-board-index
+                        v-bind:user="{{json_encode(auth()->user())}}"
+                        v-bind:load-user-boards-url="'/api/v1/user/{{auth()->id()}}/board'"></user-board-index>
             </div>
 
             <div class="col-md-4">
