@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="panel panel-info" v-for="board in boards">
+        <div class="panel panel-info" >
             <div class="panel-heading">
-                <a :href="'/'+board.user.username+'/'+board.name" v-if="user.username === board.user.username">{{board.name}}</a>
-                <a :href="'/'+board.user.username+'/'+board.name" v-else>{{board.user.username}}/{{board.name}}</a>
+
             </div>
 
-            <div class="panel-body">
-                List of current remaining tasks. "do it later"
+            <div class="panel-body" v-for="board in boards">
+                <a :href="'/'+board.user.username+'/'+board.name" v-if="user.username === board.user.username">{{board.name}}</a>
+                <a :href="'/'+board.user.username+'/'+board.name" v-else>{{board.user.username}}/{{board.name}}</a>
             </div>
         </div>
     </div>

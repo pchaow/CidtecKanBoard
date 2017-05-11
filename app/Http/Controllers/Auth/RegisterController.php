@@ -43,6 +43,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+        return redirect('/login');
+    }
+
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -147,6 +153,5 @@ class RegisterController extends Controller
                     ?: redirect($this->redirectPath());
             }
         }
-
     }
 }
