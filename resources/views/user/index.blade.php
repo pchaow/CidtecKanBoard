@@ -2,15 +2,9 @@
 
 @section('header')
 
-    <div class="container header repohead">
-        <span class="username-header"><a href="/{{Auth::user()->username}}">{{Auth::user()->username}}</a></span>
-    </div>
+    @include('user.userhead')
 
-    <div class="container header">
-        <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#">หน้าหลัก</a></li>
-        </ul>
-    </div>
+    @include('user.userheadmenu')
 @endsection
 
 @section('content')

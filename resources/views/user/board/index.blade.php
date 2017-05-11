@@ -1,7 +1,12 @@
 @extends('layouts.container')
 
-@section('container')
-    <div id="app">
+@section('header')
+    @include('user.userboardhead')
+    @include('user.userboardmenu')
+
+
+@endsection
+@section('content')
         <user-board-view
                 v-bind:user="{{json_encode(auth()->user())}}"
                 v-bind:board-id="{{$board->id}}"
@@ -10,5 +15,4 @@
                 save-card-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card"
         >
         </user-board-view>
-    </div>
 @endsection
