@@ -24,6 +24,8 @@
                                       class="help-block">{{ formErrors['description'] }}</span>
                             </div>
 
+
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <a :href="'/'+user.username" class="btn btn-default">Cancel</a>

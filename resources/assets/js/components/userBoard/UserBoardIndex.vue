@@ -2,7 +2,7 @@
     <div>
         <div class="panel panel-default">
             <div class="panel-heading" style="background-color: #f6f8fa">
-                Test
+                Board List
             </div>
 
             <div class="panel-body" v-for="board in boards" style="border-bottom: 1px solid #e1e4e8 ">
@@ -29,7 +29,7 @@
                         <p class="list-group-item-text">ปรับปรุงล่าสุด : {{board.updated_at}}</p>
                     </div>
                     <div class="col-md-8">
-                        <p class="list-group-item-text">เ{{board.description}}</p>
+                        <p class="list-group-item-text">{{board.description}}</p>
                     </div>
 
                 </div>

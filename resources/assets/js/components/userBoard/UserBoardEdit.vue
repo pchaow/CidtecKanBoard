@@ -20,6 +20,13 @@
                             <span v-if="formErrors['description']" class="help-block">{{ formErrors['description'] }}</span>
                         </div>
 
+                        <div class="form-group" v-bind:class="{ 'has-error': formErrors['statue'] }">
+                            <label class="control-label">Description : </label>
+                            <textarea rows="5" class="form-control" placeholder="Description" v-model="formInputs.description"></textarea>
+                            <span v-if="formErrors['description']" class="help-block">{{ formErrors['description'] }}</span>
+                        </div>
+
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <a href="./" class="btn btn-default">Cancel</a>

@@ -54,6 +54,7 @@ class UserBoardResourceController extends Controller
     {
         $currentUser = User::find($userId);
         $board = new Board();
+        $board->board_status_id = 1;
         $board->fill($request->all());
         $board->user()->associate($currentUser);
         $board->save();
