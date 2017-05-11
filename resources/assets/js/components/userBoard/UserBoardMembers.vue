@@ -23,7 +23,8 @@
         props: {
             saveUrl: String,
             loadUrl: String,
-            deleteLaneUrl: String,
+            saveMemberUrl: String,
+            loadMemberUrl: String,
             successUrl: String,
             user: Object,
         },
@@ -32,41 +33,42 @@
                 formInputs: {},
                 formErrors: [],
                 board: {},
+                member: null,
+                checkMember: true,
+                checkedNames: null,
+                checkSelected: false,
+            }
+        },
+        watch: {
+            checkedNames: function(val) {
+                if (this.checkSelected) {
+                    this.checkMember = false
+                    this.checkSelected = false
+                }else {
+                    this.checkMember = true
+                }
             }
         },
         methods: {
             strFormat: window.strFormat,
-            addLane: function () {
-                this.board.lanes.push({})
+            done: function(data) {
+                this.checkMember = false
+                this.checkSelected = true
+                this.member = data
             },
-            deleteLane: function (lane, index) {
-                if (confirm('คุณต้องการลบแถวนี้ใช่หรือไม่')) {
-                    if (lane.id) {
-                        this.$http.delete(this.strFormat(this.deleteLaneUrl, {
-                            id: lane.id
-                        }), this.formInputs)
-                            .then((response) => {
-                                this.board.lanes.splice(index, 1)
-                            }, (response) => {
 
-                            });
-                    } else {
-                        this.board.lanes.splice(index, 1)
-                    }
-                }
-
-            },
-            save: function () {
+            addMember: function() {
                 this.formErrors = [];
-                this.$http.put(this.saveUrl, this.formInputs)
+                this.$http.post(this.saveMemberUrl, this.member)
                     .then((response) => {
-                        window.location.href = this.successUrl
-
+                        this.load()
+                        this.checkedNames = null
                     }, (response) => {
                         this.formErrors = response.data;
-                        //console.log(this.formErrors);
+                        console.log(this.formErrors);
                     });
             },
+
             load: function () {
                 this.$http.get(this.loadUrl)
                     .then((response) => {
