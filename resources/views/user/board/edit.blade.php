@@ -1,6 +1,11 @@
 @extends('layouts.container')
 
-@section('container')
+@section('header')
+    @include('user.userboardhead')
+    @include('user.userboardmenu')
+@endsection
+
+@section('content')
     <div id="app">
         <user-board-edit
                 :load-url="'/api/v1/user/{{$user->id}}/board/{{$board->id or 0}}'"
