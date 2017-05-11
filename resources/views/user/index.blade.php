@@ -1,9 +1,7 @@
 @extends('layouts.container')
 
 @section('header')
-
     @include('user.userhead')
-
     @include('user.userheadmenu')
 @endsection
 
