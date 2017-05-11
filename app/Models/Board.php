@@ -27,5 +27,10 @@ class Board extends Model
      return $this->belongsTo(User::class, 'user_id');
  }
 
+    public function boardStatus()
+    {
+        return $this->belongsTo(BoardStatus::class, 'board_status_id');
+    }
+
 
 }
