@@ -1,13 +1,38 @@
 <template>
     <div>
-        <div class="panel panel-info" >
-            <div class="panel-heading">
-
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background-color: #f6f8fa">
+                Test
             </div>
 
-            <div class="panel-body" v-for="board in boards">
-                <a :href="'/'+board.user.username+'/'+board.name" v-if="user.username === board.user.username">{{board.name}}</a>
-                <a :href="'/'+board.user.username+'/'+board.name" v-else>{{board.user.username}}/{{board.name}}</a>
+            <div class="panel-body" v-for="board in boards" style="border-bottom: 1px solid #e1e4e8 ">
+
+
+                <div class="row" v-if="user.username === board.user.username">
+                    <div class="col-md-4">
+                        <a :href="'/'+board.user.username+'/'+board.name">
+                        <h4 class="list-group-item-heading">{{board.name}}</h4>
+                        </a>
+                        <p class="list-group-item-text">ปรับปรุงล่าสุด : {{board.updated_at}}</p>
+                    </div>
+                    <div class="col-md-8">
+                        <p class="list-group-item-text">{{board.description}}</p>
+                    </div>
+
+                </div>
+
+                <div class="row" v-else>
+                    <div class="col-md-4">
+                        <a :href="'/'+board.user.username+'/'+board.name">
+                        <h4 class="list-group-item-heading">{{board.name}}</h4>
+                        </a>
+                        <p class="list-group-item-text">ปรับปรุงล่าสุด : {{board.updated_at}}</p>
+                    </div>
+                    <div class="col-md-8">
+                        <p class="list-group-item-text">เ{{board.description}}</p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
