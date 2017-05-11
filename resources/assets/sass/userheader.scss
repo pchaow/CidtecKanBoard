@@ -1,0 +1,33 @@
+.user-header {
+  background-color: #eae9ea;
+  min-height: 40px;
+  margin-bottom: 22px;
+  padding-top: 20px;
+  border-bottom: 1px solid #b1afab;
+
+  .repohead {
+    padding-bottom: 20px;
+  }
+  .header {
+    .username-header {
+
+      a {
+        font-size: 19px;
+        color: #0e0e9e;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+      color: #555555;
+      background-color: #f5f8fa;
+      border-color: #FFD889 #e1e4e8 transparent;
+      cursor: default;
+      border-width: 3px 1px 1px;
+      border-radius: 3px 3px 0 0;
+    }
+    .nav-tabs > li > a {
+      border: solid transparent;
+    }
+  }
+}

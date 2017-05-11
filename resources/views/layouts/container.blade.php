@@ -4,9 +4,8 @@
 
     <div class="user-header">
 
-        <div class="container header">
-            @yield('header')
-        </div>
+        @yield('header')
+
     </div>
 
     <div>

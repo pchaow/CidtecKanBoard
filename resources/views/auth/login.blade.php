@@ -3,7 +3,7 @@
 @section('container')
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div class="panel panel-default">
+            <div class="panel panel-ict-login">
                 <div class="panel-heading">Sign in to BoardHub</div>
                 <div class="panel-body">
                     <form class="form-signin" role="form" method="POST" action="{{ url('/login') }}">

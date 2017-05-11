@@ -1,0 +1,7 @@
+$panel-ict-login-text : #FFD889;
+$panel-ict-login-heading-bg : $brand-ict-primary !default;
+$panel-ict-login-border : $panel-default-border;
+
+.panel-ict-login {
+  @include panel-variant($panel-ict-login-border, $panel-ict-login-text, $panel-ict-login-heading-bg, $panel-ict-login-border);
+}

@@ -43,7 +43,7 @@
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
+                <!-- Left Side   Of Navbar -->
                 <ul class="nav navbar-nav">
                     &nbsp;
                 </ul>
@@ -99,8 +99,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
                     @endif
                 </ul>
             </div>
