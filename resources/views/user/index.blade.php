@@ -1,19 +1,28 @@
 @extends('layouts.container')
 
 @section('header')
-    <span class="username-header"><a href="/{{Auth::user()->username}}">{{Auth::user()->username}}</a></span>
+
+    <div class="container header repohead">
+        <span class="username-header"><a href="/{{Auth::user()->username}}">{{Auth::user()->username}}</a></span>
+    </div>
+
+    <div class="container header">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">หน้าหลัก</a></li>
+        </ul>
+    </div>
 @endsection
 
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12" style="padding: 0px 20px 20px 0px">
-            <a href="{{ url('/'.Auth::user()->username.'/new') }}" class="btn btn-success pull-right" role="button" >
-                New Board
-            </a>
+                <a href="{{ url('/'.Auth::user()->username.'/new') }}" class="btn btn-success pull-right" role="button">
+                    New Board
+                </a>
             </div>
         </div>
-            <div class="row">
+        <div class="row">
             <div class="col-md-12">
                 <user-board-index
                         v-bind:user="{{json_encode(auth()->user())}}"
