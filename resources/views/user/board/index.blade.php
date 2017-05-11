@@ -1,8 +1,8 @@
 @extends('layouts.container')
 
 @section('header')
-    @include('user.userboardhead')
-    @include('user.userboardmenu')
+    @include('user.board.userboardhead')
+    @include('user.board.userboardmenu')
 @endsection
 
 @section('content')

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserBoardController;
 use App\Http\Requests\UserBoardRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Board;
+use App\Models\BoardStatus;
 use App\Models\Lane;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,11 +26,12 @@ class UserBoardResourceController extends Controller
         $user = User::find($userId);
         $board = $user->boards()
             ->with(['user'])
-            ->orWhereHas('membersBoard',
+            ->whereHas('membersBoard',
                 function ($query) use ($userId) {
                     $query->where('users_id', '=', $userId);
                 })
             ->orderBy('id', 'desc')
+            ->where('board_status_id', '=', 1)
             ->get();
         return $board;
     }
@@ -131,8 +133,15 @@ class UserBoardResourceController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $bid)
     {
+        // $board Board;
+        $board = Board::find($bid);
+        $status = BoardStatus::where('name', 'close')->first();
+        $board->boardStatus()->associate($status->id);
+        $board->save();
+
+        return $board;
 
     }
 }
