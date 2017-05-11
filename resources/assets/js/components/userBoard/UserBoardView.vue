@@ -1,51 +1,40 @@
 <template>
 <div class="row" v-if="board">
     <div class="col-md-12">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                {{board.name}}
-                <div class="btn-group btn-group-sm pull-right">
-                    <a :href="strFormat('/{user}/{board}/edit',{user : user.username, board:board.name})" class="btn btn-default">Edit</a>
-                    <a :href="strFormat('/{user}',{user : user.username})" class="btn btn-default">Back</a>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="row-fluid">
-                    <div v-for="lane in board.lanes" class="col-md-3">
-                        <div class="panel panel-success lane">
-                            <div class="panel-heading">
-                                {{lane.name}}
-                                <div class="pull-right">
-                                    <el-dropdown trigger="click" @command="handleCommand">
+        <div class="row-fluid">
+            <div v-for="lane in board.lanes" class="col-md-3">
+                <div class="panel panel-success lane">
+                    <div class="panel-heading">
+                        {{lane.name}}
+                        <div class="pull-right">
+                            <el-dropdown trigger="click" @command="handleCommand">
                                         <span class="el-dropdown-link">
                                        <i class="el-icon-caret-bottom el-icon--right"></i>
                                     </span>
-                                        <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item :command="lane.name+'//addCard'">Add Card</el-dropdown-item>
-                                            <el-dropdown-item>Edit</el-dropdown-item>
-                                        </el-dropdown-menu>
-                                    </el-dropdown>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <div class="wrapper">
-                                    <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                        <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
-                                    </div>
-                                </div>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item :command="lane.name+'//addCard'">Add Card</el-dropdown-item>
+                                    <el-dropdown-item>Edit</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="wrapper">
+                            <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
+                                <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <form class="form-inline" v-on:submit.prevent="saveLane">
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
-                                <input type="text" class="form-control" placeholder="add new lane.." v-model="formInputs.name" required/>
-                                <span v-if="formErrors['name']" class="help-block">{{ formErrors['name'] }}</span>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
+            </div>
+            <div class="col-md-3">
+                <form class="form-inline" v-on:submit.prevent="saveLane">
+                    <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
+                        <input type="text" class="form-control" placeholder="add new lane.." v-model="formInputs.name" required/>
+                        <span v-if="formErrors['name']" class="help-block">{{ formErrors['name'] }}</span>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
