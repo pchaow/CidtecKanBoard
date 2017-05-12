@@ -50,7 +50,10 @@ class UserBoardMemberResourceController extends Controller
          * @var Board $board
          */
         $board = Board::find($boardId);
-        $board->membersBoard()->detach([$memberId]);
+        if($board->user_id != $memberId){
+            $board->membersBoard()->detach([$memberId]);
+        }
+
         return $board;
     }
 }
