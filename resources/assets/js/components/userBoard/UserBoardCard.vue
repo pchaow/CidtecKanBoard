@@ -27,10 +27,10 @@
                                 <span v-if="formErrors['description']" class="help-block">{{ formErrors['description'] }}</span>
                             </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['date'] }">
-                                <label class="control-label">Date : </label><br>
-                                <el-date-picker v-model="formInputs.date" type="daterange" placeholder="Pick a range">
-                                </el-date-picker>
+                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['duedate'] }">
+                                <label class="control-label">Due Date : </label><br>
+                                <input type="date" v-model="formInputs.duedate" placeholder="Due Date">
+                                </input>
                                 <span v-if="formErrors['date']" class="help-block">{{ formErrors['date'] }}</span>
                             </div>
 
@@ -181,10 +181,6 @@
                 this.member = data
             },
             save: function () {
-                if (this.formInputs.date.length == 2) {
-                    this.formInputs.startdate = this.formInputs.date[0].getFullYear() + '-' + (this.formInputs.date[0].getMonth() + 1) + '-' + this.formInputs.date[0].getDate()
-                    this.formInputs.duedate = this.formInputs.date[1].getFullYear() + '-' + (this.formInputs.date[1].getMonth() + 1) + '-' + this.formInputs.date[1].getDate()
-                }
                 this.formErrors = []
                 if (this.checkEdit) {
                     this.saveEditCard()

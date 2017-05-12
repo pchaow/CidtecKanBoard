@@ -18,7 +18,7 @@
                             </el-dropdown>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body nopadding">
                         <div class="wrapper">
                             <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
                                 <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
@@ -47,7 +47,7 @@
         height : calc(100vh - 230px);
         margin-bottom: 0px;
     }
-    .panel-body {
+    .nopadding{
         padding:0px;
     }
 
