@@ -20,23 +20,26 @@ class UserBoardMemberResourceController extends Controller
     public function index($userId, $boardId)
     {
         $userIn = BoardUser::select('users_id')
-        ->where('boards_id',$boardId)
-        ->get();
-        $user = User::whereNotIn('id', $userIn)->get();
+            ->where('boards_id', $boardId)
+            ->get();
+        $user = User::whereNotIn('id', $userIn)
+            ->whereHas('roles', function ($query) {
+                $query->where('name', '=', 'user');
+            })->get();
         return $user;
     }
 
     public function create($userId, $boardId)
     {
-       $userIn = BoardUser::select('users_id')
-       ->where('boards_id',$boardId)
-       ->get();
-       $user = User::whereIn('id', $userIn)->get();
-       return $user;
+        $userIn = BoardUser::select('users_id')
+            ->where('boards_id', $boardId)
+            ->get();
+        $user = User::whereIn('id', $userIn)->get();
+        return $user;
     }
 
     public function store(Request $request, $userId, $boardId)
-  {
+    {
         $boardUser = new BoardUser();
         $boardUser->boards_id = $boardId;
         $boardUser->users_id = $request->id;
@@ -44,13 +47,13 @@ class UserBoardMemberResourceController extends Controller
         return $boardUser;
     }
 
-    public function destroy($userId, $boardId,$memberId)
+    public function destroy($userId, $boardId, $memberId)
     {
         /*
          * @var Board $board
          */
         $board = Board::find($boardId);
-        if($board->user_id != $memberId){
+        if ($board->user_id != $memberId) {
             $board->membersBoard()->detach([$memberId]);
         }
 
