@@ -3,7 +3,7 @@
         <ul class="list-group">
             <li v-for="member in members" class="list-group-item justify-content-between">
                 {{member.name}}
-                <span class="delete badge badge-primary badge-pill" @click="detachMember(member)">x</span>
+                <span v-if="board.user_id != member.id" class="delete badge badge-primary badge-pill" @click="detachMember(member)">x</span>
             </li>
         </ul>
         <div class="input-group autocomplete">
@@ -36,6 +36,7 @@
             saveMemberUrl: String,
             loadMemberUrl: String,
             members: null,
+            board: null,
         },
         data() {
             return {
@@ -61,8 +62,13 @@
                 this.checkSelected = true
                 this.member = data
             },
-            detachMember : function(member){
+            detachMember: function (member) {
                 console.log(member);
+                this.$http.delete(this.saveMemberUrl + "/" + member.id)
+                    .then(function () {
+                        this.$emit('load')
+                        this.loadUser()
+                    })
             },
             addMember: function () {
                 this.formErrors = [];

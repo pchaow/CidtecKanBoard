@@ -6,12 +6,14 @@
             <hr/>
         </div>
 
-                <user-board-form-member
-                        :members="board.members_board"
-                        :load-member-url="loadMemberUrl"
-                        :save-member-url="saveMemberUrl"
-                        @load="load">
-                </user-board-form-member>
+        <user-board-form-member
+                :members="board.members_board"
+                :load-member-url="loadMemberUrl"
+                :save-member-url="saveMemberUrl"
+                @load="load"
+                :board="board"
+        >
+        </user-board-form-member>
 
     </div>
 </template>
@@ -40,24 +42,24 @@
             }
         },
         watch: {
-            checkedNames: function(val) {
+            checkedNames: function (val) {
                 if (this.checkSelected) {
                     this.checkMember = false
                     this.checkSelected = false
-                }else {
+                } else {
                     this.checkMember = true
                 }
             }
         },
         methods: {
             strFormat: window.strFormat,
-            done: function(data) {
+            done: function (data) {
                 this.checkMember = false
                 this.checkSelected = true
                 this.member = data
             },
 
-            addMember: function() {
+            addMember: function () {
                 this.formErrors = [];
                 this.$http.post(this.saveMemberUrl, this.member)
                     .then((response) => {

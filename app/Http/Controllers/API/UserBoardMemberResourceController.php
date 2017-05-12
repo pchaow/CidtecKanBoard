@@ -44,10 +44,13 @@ class UserBoardMemberResourceController extends Controller
         return $boardUser;
     }
 
-    public function destroy()
+    public function destroy($userId, $boardId,$memberId)
     {
-        // $lane = Lane::find($laneId);
-        // $lane->delete();
-        return [true];
+        /*
+         * @var Board $board
+         */
+        $board = Board::find($boardId);
+        $board->membersBoard()->detach([$memberId]);
+        return $board;
     }
 }
