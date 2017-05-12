@@ -23,8 +23,8 @@
                             <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
                                 <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">
                                     <b>{{card.name}}</b><br>
-                                    <b>มอบหมายให้:</b>
-                                    <ul style="padding-left: 20px;">
+                                    <b>มอบหมายให้ <span v-if="card.members_card.length == 0"> - </span></b>
+                                    <ul style="padding-left: 20px;" v-if="card.members_card.length > 0">
                                         <li v-for="member in card.members_card">{{member.name}}</li>
                                     </ul>
 

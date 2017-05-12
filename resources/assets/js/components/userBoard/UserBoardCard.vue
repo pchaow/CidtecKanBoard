@@ -1,91 +1,92 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    {{title}}
-                   
-                    <br>
-                    {{createBy}}
-                </div>
-                <div class="panel-body">
+            <h3>แก้ไขการ์ด : <b>{{title}}</b></h3>
+            <span>{{createBy}}</span>
+            <hr/>
+            <div class="row">
+                <div class="col-lg-8">
+                    <form class="form-horizontal" v-on:submit.prevent="save">
+                        <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['name'] }">
+                            <label class="control-label">Name : </label>
+                            <input type="text" class="form-control" placeholder="Name" v-model="formInputs.name"
+                                   required/>
+                            <span v-if="formErrors['name']" class="help-block">{{ formErrors['name'] }}</span>
+                        </div>
 
-                    <div class="col-lg-8">
-                        <form class="form-horizontal" v-on:submit.prevent="save">
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['name'] }">
-                                <label class="control-label">Name : </label>
-                                <input type="text" class="form-control" placeholder="Name" v-model="formInputs.name"
-                                       required/>
-                                <span v-if="formErrors['name']" class="help-block">{{ formErrors['name'] }}</span>
-                            </div>
+                        <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['description'] }">
+                            <label class="control-label">Description : </label>
+                            <textarea rows="5" class="form-control" placeholder="Description"
+                                      v-model="formInputs.description"></textarea>
+                            <span v-if="formErrors['description']"
+                                  class="help-block">{{ formErrors['description'] }}</span>
+                        </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['description'] }">
-                                <label class="control-label">Description : </label>
-                                <textarea rows="5" class="form-control" placeholder="Description"
-                                          v-model="formInputs.description"></textarea>
-                                <span v-if="formErrors['description']" class="help-block">{{ formErrors['description'] }}</span>
-                            </div>
+                        <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['duedate'] }">
+                            <label class="control-label">Due Date : </label><br>
+                            <input type="date" v-model="formInputs.duedate" placeholder="Due Date">
+                            </input>
+                            <span v-if="formErrors['date']" class="help-block">{{ formErrors['date'] }}</span>
+                        </div>
 
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['duedate'] }">
-                                <label class="control-label">Due Date : </label><br>
-                                <input type="date" v-model="formInputs.duedate" placeholder="Due Date">
-                                </input>
-                                <span v-if="formErrors['date']" class="help-block">{{ formErrors['date'] }}</span>
-                            </div>
-
-                            <div class="form-group" v-bind:class="{ 'has-error': formErrors['checklist'] }">
-                                <label class="control-label">Checklist : </label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="What needs to be done?"
-                                           v-model="newChecklist"/>
-                                    <span v-if="formErrors['checklist']" class="help-block">{{ formErrors['checklist'] }}</span>
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-primary" type="button" @click="addChecklist">Add</button>
-                                    </div>
+                        <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['checklist'] }">
+                            <label class="control-label">Checklist : </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="What needs to be done?"
+                                       v-model="newChecklist"/>
+                                <span v-if="formErrors['checklist']"
+                                      class="help-block">{{ formErrors['checklist'] }}</span>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-primary" type="button" @click="addChecklist">Add</button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <div class="">
-                                    <ul class="checklist-list">
-                                        <li v-for="checklist in filteredChecklists" class="checklist"
-                                            :key="checklist.id"
-                                            :class="{ completed: checklist.completed, editing: checklist == editedChecklist }">
-                                            <div class="view">
-                                                <input type="checkbox" class="toggle" v-model="checklist.completed">
-                                                <label @click="editChecklist(checklist)">{{ checklist.title }}</label>
-                                        <li class="destroy" @click="removeChecklist(checklist)"></li>
-                                </div>
-                                <el-form :inline="true" class="edit">
+                        <div class="form-group col-md-12">
+                            <div class="">
+                                <ul class="checklist-list">
+                                    <li v-for="checklist in filteredChecklists" class="checklist"
+                                        :key="checklist.id"
+                                        :class="{ completed: checklist.completed, editing: checklist == editedChecklist }">
+                                        <div class="view">
+                                            <input type="checkbox" class="toggle" v-model="checklist.completed">
+                                            <label @click="editChecklist(checklist)">{{ checklist.title }}</label>
+                                    <li class="destroy" @click="removeChecklist(checklist)"></li>
+                                    <el-form :inline="true" class="edit">
 
-                                    <el-form-item :label-width="formLabelWidth">
-                                        <el-input type="text" v-model="checklist.title"></el-input>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="primary" @click="doneEdit(checklist)">Edit</el-button>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button @click="cancelEdit(checklist)">Cencel</el-button>
-                                    </el-form-item>
-                                </el-form>
-                                </li>
+                                        <el-form-item :label-width="formLabelWidth">
+                                            <el-input type="text" v-model="checklist.title"></el-input>
+                                        </el-form-item>
+                                        <el-form-item>
+                                            <el-button type="primary" @click="doneEdit(checklist)">Edit</el-button>
+                                        </el-form-item>
+                                        <el-form-item>
+                                            <el-button @click="cancelEdit(checklist)">Cencel</el-button>
+                                        </el-form-item>
+                                    </el-form>
+                                    </li>
                                 </ul>
                             </div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <a :href="strFormat('/{user}/{board}',{user : board.user.username, board : board.name})"
-                           class="btn btn-default">Cancel</a>
-                    </div>
-
+                            <div class="form-group  col-md-12 ">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a :href="strFormat('/{user}/{board}',{user : board.user.username, board : board.name})"
+                                   class="btn btn-default">Cancel</a>
+                            </div>
+                        </div>
                     </form>
-
                 </div>
                 <div class="col-lg-4">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">Member</div>
-                        <div class="panel-body">
+                    <div class="row">
+                        <label class="control-label">มอบหมายให้ : </label>
+                        <div class="col-md-12" v-if="formInputs.members_card.length > 0 ">
+                            <ul class="list-group">
+                                <li v-for="user in formInputs.members_card" :key="user.id" class="list-group-item">
+                                    <span class="badge" @click="removeMember(user)">X</span>
+                                    {{ user.name }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
                             <div class="input-group autocomplete">
                                 <vue-typeahead :local="allUsers" :default-suggestion="true" display-key='name'
                                                v-on:selected="done" v-model="checkedNames" classes="form-control">
@@ -95,25 +96,24 @@
                                             :disabled="checkMember">Add</button>
                                 </span>
                             </div>
-                            <ul class="member-list">
-                                <li v-for="user in formInputs.members_card" :key="user.id">
-                                    <div class="view">
-                                        <label>
-                                            {{ user.name }}
-                                        </label>
-                                    </div>
-                                <li class="destroy" @click="removeMember(user)"></li>
-                                </li>
-                            </ul>
                         </div>
                     </div>
+                </div>
 
-                    <button v-if="checkEdit" class="btn btn-danger pull-right" @click="delCard">Delete Card</button>
-
+                <div class="col-md-12" v-if="checkEdit">
+                    <hr/>
+                    <h3>ลบการ์ด</h3>
+                    <span>หากลบการ์ดแล้ว ไม่สามารถกู้คืนข้อมูลได้ กรุณาใช้ความระมัดระวัง</span>
+                    <form v-on:submit.prevent="delCard">
+                        <div class="form-group">
+                            <button class="btn btn-danger" type="submit">
+                                Delete Card
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -301,17 +301,19 @@
                 }
             },
             delCard: function () {
-                if (this.loadCardUrl) {
-                    this.$http.delete(this.loadCardUrl)
-                        .then((response) => {
-                            window.location.href = this.strFormat('/{user}/{board}', {
-                                user: this.board.user.username,
-                                board: this.board.name
-                            })
-                        }, (response) => {
-                            this.formErrors = response.data;
-                            console.log(this.formErrors)
-                        });
+                if (confirm('คุณต้องการลบการ์ดนี้ใช่ไหม')) {
+                    if (this.loadCardUrl) {
+                        this.$http.delete(this.loadCardUrl)
+                            .then((response) => {
+                                window.location.href = this.strFormat('/{user}/{board}', {
+                                    user: this.board.user.username,
+                                    board: this.board.name
+                                })
+                            }, (response) => {
+                                this.formErrors = response.data;
+                                console.log(this.formErrors)
+                            });
+                    }
                 }
             }
         },
