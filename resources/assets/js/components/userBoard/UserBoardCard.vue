@@ -25,14 +25,13 @@
                         <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['duedate'] }">
                             <label class="control-label">Due Date : </label><br>
                             <input type="date" v-model="formInputs.duedate" placeholder="Due Date">
-                            </input>
                             <span v-if="formErrors['date']" class="help-block">{{ formErrors['date'] }}</span>
                         </div>
 
                         <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['checklist'] }">
                             <label class="control-label">Checklist : </label>
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="What needs to be done?"
+                                <input v-on:keydown.enter.prevent="addChecklist" type="text" class="form-control" placeholder="What needs to be done?"
                                        v-model="newChecklist"/>
                                 <span v-if="formErrors['checklist']"
                                       class="help-block">{{ formErrors['checklist'] }}</span>
@@ -42,31 +41,54 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-12">
-                            <div class="">
-                                <ul class="checklist-list">
-                                    <li v-for="checklist in filteredChecklists" class="checklist"
-                                        :key="checklist.id"
-                                        :class="{ completed: checklist.completed, editing: checklist == editedChecklist }">
-                                        <div class="view">
-                                            <input type="checkbox" class="toggle" v-model="checklist.completed">
-                                            <label @click="editChecklist(checklist)">{{ checklist.title }}</label>
-                                    <li class="destroy" @click="removeChecklist(checklist)"></li>
-                                    <el-form :inline="true" class="edit">
+                        <div class="form-group  col-md-12 ">
+                            <div class="list-group">
+                                <div class="list-group-item clearfix" v-for="checkItem in formInputs.checklists">
+                                    <div class="checklist-form" v-if="checkItem != editedChecklist">
+                                        <input type="checkbox" v-model="checkItem.completed"/>
+                                        <s v-if="checkItem.completed">{{checkItem.title}}</s>
+                                        <span v-else>{{checkItem.title}}</span>
 
-                                        <el-form-item :label-width="formLabelWidth">
-                                            <el-input type="text" v-model="checklist.title"></el-input>
-                                        </el-form-item>
-                                        <el-form-item>
-                                            <el-button type="primary" @click="doneEdit(checklist)">Edit</el-button>
-                                        </el-form-item>
-                                        <el-form-item>
-                                            <el-button @click="cancelEdit(checklist)">Cencel</el-button>
-                                        </el-form-item>
-                                    </el-form>
-                                    </li>
-                                </ul>
+                                        <div class="pull-right">
+                                            <button class="btn btn-xs btn-primary" @click="editChecklist(checkItem)"
+                                                    type="button">Edit
+                                            </button>
+                                            <button class="btn btn-xs btn-danger" @click="removeChecklist(checkItem)"
+                                                    type="button">Delete
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="checklist-edit" v-if="checkItem == editedChecklist">
+                                        <div class="row">
+                                            <div class="col-xs-9">
+                                                <div class="form-inline">
+                                                    <label>Title : </label>
+                                                    <input type="text" class="form-control" v-model="checkItem.title">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3">
+                                                <div class="pull-right">
+                                                    <button class="btn btn-xs btn-primary" @click="doneEdit(checkItem)"
+                                                            type="button">Save
+                                                    </button>
+                                                    <button class="btn btn-xs btn-default"
+                                                            @click="cancelEdit(checkItem)"
+                                                            type="button">Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
                             </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
                             <div class="form-group  col-md-12 ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <a :href="strFormat('/{user}/{board}',{user : board.user.username, board : board.name})"
@@ -181,6 +203,10 @@
             },
             save: function () {
                 this.formErrors = []
+                console.log(this.editedChecklist)
+                if ( this.editedChecklist != null ) {
+                    this.cancelEdit();
+                }
                 if (this.checkEdit) {
                     this.saveEditCard()
                 } else {
@@ -290,9 +316,6 @@
                             this.formInputs = response.data
                             var startdate = new Date(response.data.startdate);
                             var duedate = new Date(response.data.duedate);
-                            this.formInputs.date = []
-                            this.formInputs.date.push(startdate)
-                            this.formInputs.date.push(duedate)
                             console.log(this.formInputs);
                         }, (response) => {
                             this.formErrors = response.data;
@@ -325,98 +348,6 @@
 </script>
 
 <style>
-    .row-checklist {
-        white-space: nowrap;
-        max-height: 100px;
-        overflow-y: scroll;
-    }
-
-    label[for='toggle-all'] {
-        display: none;
-    }
-
-    .checklist-list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
-
-    .checklist-list li {
-        position: relative;
-        border-bottom: 1px solid #ededed;
-    }
-
-    .checklist-list li.editing {
-        border-bottom: none;
-        padding: 0;
-    }
-
-    .checklist-list li.editing .edit {
-        display: block;
-    }
-
-    .checklist-list li.editing .view {
-        display: none;
-    }
-
-    .checklist-list li .toggle {
-        width: 40px;
-        height: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto 0;
-    }
-
-    .checklist-list li label {
-        word-break: break-all;
-        padding: 15px 60px 15px 15px;
-        margin-left: 45px;
-        display: block;
-        line-height: 1.2;
-        transition: color 0.4s;
-    }
-
-    .checklist-list li.completed label {
-        color: #d9d9d9;
-        text-decoration: line-through;
-    }
-
-    .checklist-list li .destroy {
-        cursor: pointer;
-        background: none;
-        display: none;
-        position: absolute;
-        border-bottom: 0px;
-        top: 0;
-        right: 10px;
-        bottom: 0;
-        width: 40px;
-        height: 40px;
-        margin: auto 0;
-        font-size: 30px;
-        transition: color 0.2s ease-out;
-    }
-
-    .checklist-list li .destroy:hover {
-        color: #af5b5e;
-    }
-
-    .checklist-list li .destroy:after {
-        content: '×';
-    }
-
-    .checklist-list li:hover .destroy {
-        display: block;
-    }
-
-    .checklist-list li .edit {
-        display: none;
-    }
-
-    .checklist-list li.editing:last-child {
-        margin-bottom: -1px;
-    }
 
     /*...............*/
 
