@@ -65,9 +65,10 @@
         methods: {
             strFormat: window.strFormat,
             close: function () {
+                if(confirm('คุณต้องการปิดกระดานนี้ใช่ไหม'))
                 this.$http.delete(this.saveUrl)
                     .then(function (response) {
-
+                        window.location.href = this.successUrl
                     }, function (error) {
 
                     })
