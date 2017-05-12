@@ -7887,9 +7887,8 @@ fieldset[disabled] .navbar-ict-primary .btn-link:focus {
 .user-header {
   background-color: #eae9ea;
   min-height: 40px;
-  margin-bottom: 22px;
+  margin-bottom: 0px;
   padding-top: 20px;
-  border-bottom: 1px solid #b1afab;
 }
 
 .user-header .repohead {
@@ -7903,12 +7902,16 @@ fieldset[disabled] .navbar-ict-primary .btn-link:focus {
   text-decoration: none;
 }
 
+.user-header .header .nav-tabs {
+  border-bottom: none;
+}
+
 .user-header .header .nav-tabs > li.active > a, .user-header .header .nav-tabs > li.active > a:hover, .user-header .header .nav-tabs > li.active > a:focus {
   color: #555555;
   background-color: #f5f8fa;
   border-color: #FFD889 #e1e4e8 transparent;
   cursor: default;
-  border-width: 3px 1px 1px;
+  border-width: 3px 1px 0px;
   border-radius: 3px 3px 0 0;
 }
 
