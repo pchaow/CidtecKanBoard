@@ -1,7 +1,8 @@
 <template>
     <div class="row">
         <div class="col-md-12">
-            <h3>แก้ไขการ์ด : <b>{{title}}</b></h3>
+            <h3 v-if="checkEdit">แก้ไขการ์ด : <b>{{title}}</b></h3>
+            <h3 v-else>เพิ่มการ์ด</h3>
             <span>{{createBy}}</span>
             <hr/>
             <div class="row">
