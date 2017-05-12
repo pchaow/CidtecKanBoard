@@ -68,7 +68,7 @@
                 if(confirm('คุณต้องการปิดกระดานนี้ใช่ไหม'))
                 this.$http.delete(this.saveUrl)
                     .then(function (response) {
-                        window.location.href = this.successUrl
+                        window.location.href = "/"+this.user.username;
                     }, function (error) {
 
                     })
