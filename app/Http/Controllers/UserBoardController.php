@@ -40,6 +40,21 @@ class UserBoardController extends Controller
         }
     }
 
+    public function close($username)
+    {
+        $user = User::findByUsername($username);
+
+        if ($user->hasRole('user')) {
+            return view('user.close')
+                ->with('user', $user);
+        } else if ($user->hasRole('superadministrator')) {
+            return view('superadministrator.index')
+                ->with('user', $user);
+        } else {
+            return redirect('/');
+        }
+    }
+
     public function create($username)
     {
         $user = User::findByUsername($username);

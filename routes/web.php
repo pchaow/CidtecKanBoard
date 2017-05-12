@@ -45,6 +45,7 @@ Route::get('home', 'HomeController@index');
 
 Route::group(['prefix' => '{user}'], function () {
     Route::get('/', 'UserBoardController@index');
+    Route::get('/close', 'UserBoardController@close');
     Route::get('/new', 'UserBoardController@create');
     Route::get('{boardName}', "UserBoardController@view");
     Route::get('{boardName}/edit', "UserBoardController@edit");
