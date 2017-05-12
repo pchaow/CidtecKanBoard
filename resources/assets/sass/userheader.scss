@@ -24,9 +24,10 @@
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
       color: #555555;
       background-color: #f5f8fa;
-      border-color: #FFD889 #e1e4e8 transparent;
+      border-color: #FFD889 #e1e4e8 #f5f8fa;
       cursor: default;
-      border-width: 3px 1px 0px;
+
+      border-width: 4px 1px 2px;
       border-radius: 3px 3px 0 0;
     }
     .nav-tabs > li > a {

@@ -73,4 +73,32 @@ class UserBoardController extends Controller
             ->with('board', $board)
             ->with('user', $user);
     }
+
+    public function lanes($username, $boardName)
+    {
+        $user = User::findByUsername($username);
+
+        $board = Board::with(['user'])
+            ->where('user_id', '=', $user->id)
+            ->where('name', '=', $boardName)
+            ->first();
+
+        return view('user.board.lanes')
+            ->with('board', $board)
+            ->with('user', $user);
+    }
+
+    public function members($username, $boardName)
+    {
+        $user = User::findByUsername($username);
+
+        $board = Board::with(['user'])
+            ->where('user_id', '=', $user->id)
+            ->where('name', '=', $boardName)
+            ->first();
+
+        return view('user.board.members')
+            ->with('board', $board)
+            ->with('user', $user);
+    }
 }

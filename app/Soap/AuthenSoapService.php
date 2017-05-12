@@ -26,23 +26,36 @@ class AuthenSoapService
     public function __construct()
     {
 
+        $context = stream_context_create([
+            'ssl' => [
+                // set some SSL/TLS specific options
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ]);
+
+
         $this->soapWrapper = new SoapWrapper();
-        $this->soapWrapper->add("AuthenService", function ($service) {
+        $this->soapWrapper->add("AuthenService", function ($service) use ($context) {
             $service
                 ->wsdl("https://ws.up.ac.th/mobile/AuthenService.asmx?WSDL")
-                ->trace(true);
+                ->trace(true)
+                ->options(['stream_context' => $context]);
         });
 
-        $this->soapWrapper->add("StaffService", function ($service) {
+        $this->soapWrapper->add("StaffService", function ($service) use ($context) {
             $service
                 ->wsdl("https://ws.up.ac.th/mobile/StaffService.asmx?WSDL")
-                ->trace(true);
+                ->trace(true)
+                ->options(['stream_context' => $context]);
         });
 
-        $this->soapWrapper->add("StudentService", function ($service) {
+        $this->soapWrapper->add("StudentService", function ($service) use ($context) {
             $service
                 ->wsdl("https://ws.up.ac.th/mobile/StudentService.asmx?WSDL")
-                ->trace(true);
+                ->trace(true)
+                ->options(['stream_context' => $context]);
         });
     }
 

@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-  if (auth()->user()) {
-    return redirect('/' + auth()->user()->username);
-  }else {
-    return view('welcome');
-  }
+    if (auth()->user()) {
+        return redirect('/' + auth()->user()->username);
+    } else {
+        return view('welcome');
+    }
 
 })->middleware('auth:api');
 
@@ -48,6 +48,8 @@ Route::group(['prefix' => '{user}'], function () {
     Route::get('/new', 'UserBoardController@create');
     Route::get('{boardName}', "UserBoardController@view");
     Route::get('{boardName}/edit', "UserBoardController@edit");
+    Route::get('{boardName}/lanes', "UserBoardController@lanes");
+    Route::get('{boardName}/members', "UserBoardController@members");
     Route::get('{boardName}/{laneName}/cards/new', "UserBoardCardController@create");
     Route::get('{boardName}/{laneName}/cards/{cardId}', "UserBoardCardController@view");
 });

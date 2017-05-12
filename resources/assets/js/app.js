@@ -57,6 +57,8 @@ Vue.component('user-board-new', require('./components/userBoard/UserBoardNew.vue
 Vue.component('user-board-index', require('./components/userBoard/UserBoardIndex.vue'));
 Vue.component('user-board-view', require('./components/userBoard/UserBoardView.vue'));
 Vue.component('user-board-edit', require('./components/userBoard/UserBoardEdit.vue'));
+Vue.component('user-board-lanes', require('./components/userBoard/UserBoardLanes.vue'));
+Vue.component('user-board-members', require('./components/userBoard/UserBoardMembers.vue'));
 
 Vue.component('user-board-card', require('./components/userBoard/UserBoardCard.vue'));
 
