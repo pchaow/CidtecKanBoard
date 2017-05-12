@@ -1,4 +1,4 @@
-<div class="container header">
+<div class="container{{$fluid or ''}} header">
     <ul class="nav nav-tabs">
         <li class="{{ Request::is($board->user->username.'/'.$board->name) ? 'active' : '' }}">
             <a href="/{{$board->user->username}}/{{$board->name}}">กระดาน</a>

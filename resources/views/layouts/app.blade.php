@@ -24,7 +24,7 @@
 <body>
 <div id="app">
     <nav class="navbar navbar-ict-primary navbar-static-top">
-        <div class="container">
+        <div class="container{{$fluid or ''}}">
             <div class="navbar-header">
 
                 <!-- Collapsed Hamburger -->

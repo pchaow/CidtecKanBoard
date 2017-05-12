@@ -1,9 +1,9 @@
 <template>
-<div class="row" v-if="board">
-    <div class="col-md-12">
-        <div class="row-fluid">
-            <div v-for="lane in board.lanes" class="col-md-3">
-                <div class="panel panel-success lane">
+<div class="row" v-if="board" >
+    <div class="col-md-12" style="height : calc(100vh - 190px)">
+        <div class="row-fluid" style="height:inherit">
+            <div v-for="lane in board.lanes" class="col-md-3" style="">
+                <div class="panel panel-success lane" style="">
                     <div class="panel-heading">
                         {{lane.name}}
                         <div class="pull-right">
@@ -41,6 +41,32 @@
 
 </div>
 </template>
+
+<style type="text/css">
+    .lane {
+        height : calc(100vh - 230px);
+        margin-bottom: 0px;
+    }
+    .panel-body {
+        padding:0px;
+    }
+
+    .wrapper {
+        height : calc(100vh - 274px);
+    }
+
+    .row-fluid {
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: auto;
+    }
+
+    .row-fluid .col-md-3 {
+        display: inline-block;
+        float: none;
+    }
+</style>
+
 
 <script type="application/javascript">
 import '!style!css!../../../css/card.css';
@@ -181,19 +207,3 @@ export default {
 }
 </script>
 
-<style type="text/css">
-.lane {
-    min-height: 500px;
-}
-
-.row-fluid {
-    white-space: nowrap;
-    overflow-x: scroll;
-    overflow-y: auto;
-}
-
-.row-fluid .col-md-3 {
-    display: inline-block;
-    float: none;
-}
-</style>

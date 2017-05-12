@@ -1,3 +1,6 @@
+<?php
+View::share('fluid', '-fluid')
+?>
 @extends('layouts.container')
 
 @section('header')

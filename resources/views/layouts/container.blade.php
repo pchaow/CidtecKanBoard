@@ -7,7 +7,7 @@
     </div>
 
     <div>
-        <div class="container" style="margin-top: 22px;">
+        <div class="container{{$fluid or ''}}" style="margin-top: 22px;">
             @yield('content')
         </div>
     </div>
