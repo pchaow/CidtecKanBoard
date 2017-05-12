@@ -1,6 +1,6 @@
 @extends('layouts.container')
 
-@section('container')
+@section('content')
     <div id="app">
       <user-board-card
               :user="{{$user}}"

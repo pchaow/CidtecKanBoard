@@ -21,7 +21,14 @@
                     <div class="panel-body nopadding">
                         <div class="wrapper">
                             <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
-                                <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">{{card.name}}</div>
+                                <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">
+                                    <b>{{card.name}}</b><br>
+                                    <b>มอบหมายให้:</b>
+                                    <ul style="padding-left: 20px;">
+                                        <li v-for="member in card.members_card">{{member.name}}</li>
+                                    </ul>
+
+                                </div>
                             </div>
                         </div>
                     </div>
