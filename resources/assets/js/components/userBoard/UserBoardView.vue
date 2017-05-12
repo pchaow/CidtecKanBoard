@@ -13,7 +13,6 @@
                                     </span>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item :command="lane.name+'//addCard'">Add Card</el-dropdown-item>
-                                    <el-dropdown-item>Edit</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </div>
