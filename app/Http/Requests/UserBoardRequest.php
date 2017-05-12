@@ -32,7 +32,7 @@ class UserBoardRequest extends FormRequest
             }
             case 'POST': {
                 return [
-                    'name' => "required|max:255|unique:boards,name,NULL,id,user_id,$user_id"
+                    'name' => "required|max:255|unique:boards,name,NULL,id,user_id,$user_id|not_in:new,close"
                 ];
             }
             case 'PUT':
@@ -40,7 +40,7 @@ class UserBoardRequest extends FormRequest
                 $id = $this->get('id');
 
                 return [
-                    'name' => "required|max:255|unique:boards,name,$id,id,user_id,$user_id",
+                    'name' => "required|max:255|unique:boards,name,$id,id,user_id,$user_id|not_in:new,close",
                 ];
             }
             default:
