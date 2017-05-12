@@ -1,5 +1,11 @@
 @extends('layouts.container')
 
+@section('header')
+    @include('user.board.userboardhead')
+    @include('user.board.userboardmenu')
+@endsection
+
+
 @section('content')
     <div id="app">
       <user-board-card
