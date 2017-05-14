@@ -104,7 +104,7 @@
                         <div class="col-md-12" v-if="formInputs.members_card.length > 0 ">
                             <ul class="list-group">
                                 <li v-for="user in formInputs.members_card" :key="user.id" class="list-group-item">
-                                    <span class="badge" @click="removeMember(user)">X</span>
+                                    <span class="badge" style="cursor: pointer" @click="removeMember(user)">X</span>
                                     {{ user.name }}
                                 </li>
                             </ul>

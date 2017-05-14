@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "element-ui": "^1.1.6",
+    "moment": "^2.18.1",
     "script-loader": "^0.7.0",
     "string-template": "^1.0.0",
     "style-loader": "^0.13.1",
