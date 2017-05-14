@@ -171,7 +171,7 @@ class LoginController extends Controller
 
                 $studentInfo->name = $studentInfo->FirstName_TH . " " . $studentInfo->LastName_TH;
                 $user = $this->createUP([
-                    "name" => $staffInfo->name,
+                    "name" => $studentInfo->name,
                     "username" => $username,
                     "profiles" => $staffInfo
                 ]);
