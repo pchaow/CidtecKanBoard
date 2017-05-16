@@ -64,6 +64,6 @@ Vue.component('user-board-card', require('./components/userBoard/UserBoardCard.v
 
 Vue.component('user-board-form-member', require('./components/userBoard/form/UserBoardMemberForm.vue'));
 
-const app = new Vue({
+new Vue({
     el: '#app'
 });
