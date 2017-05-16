@@ -4,13 +4,13 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-ict-login">
-                <div class="panel-heading">Sign in to BoardHub</div>
+                <div class="panel-heading">เข้าสู่ระบบ BoardHub</div>
                 <div class="panel-body">
                     <form class="form-signin" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email">UP Account</label>
+                            <label for="email">บัญชีผู้ใช้มหาวิทยาลัยพะเยา</label>
 
 
                                 <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password">Password</label>
+                            <label for="password">รหัสผ่าน</label>
 
 
                                 <input id="password" type="password" class="form-control" name="password" required>
@@ -40,7 +40,7 @@
                         <div class="form-group">
 
                                 <button type="submit" class="btn btn-success btn-lg btn-block">
-                                    Sign in
+                                    เข้าสู่ระบบ
                                 </button>
 
 

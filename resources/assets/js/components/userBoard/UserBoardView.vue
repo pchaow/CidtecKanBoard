@@ -21,7 +21,12 @@
                         <div class="wrapper">
                             <div class="card" v-dragula="Lane" drake="events" service="events" :idLane="lane.id">
                                 <div v-for="card in lane.cards" @click="openCard(card,lane.name)" :idCard="card.id">
-                                    <b>{{card.name}}</b><br>
+                                    <div>
+                                        <span style="display:block;float:left;"><b>{{card.name}}</b></span>
+                                        <div class="panel" style="display:block;float:right"
+                                             :style="{'background-color': getColor(card.duedate)}"></div>
+                                    </div>
+                                    <br>
                                     <b>มอบหมายให้ <span v-if="card.members_card.length == 0"> - </span></b>
                                     <ul style="padding-left: 20px;" v-if="card.members_card.length > 0">
                                         <li v-for="member in card.members_card">{{member.name}}</li>
@@ -71,11 +76,16 @@
         display: inline-block;
         float: none;
     }
+    .absolute {
+        position: absolute;
+
+    }
 </style>
 
 
 <script type="application/javascript">
 import '!style!css!../../../css/card.css';
+import moment from 'moment';
 
 export default {
     props: {
@@ -158,6 +168,15 @@ export default {
             if (res[1] == "addCard") {
                 this.laneName = res[0]
                 window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+this.laneName + '/cards/new'
+            }
+        },
+        getColor: function(due) {
+            if (moment().format('YYYY-MM-DD') > due) {
+                return 'Gray'
+            }else if(moment().format('YYYY-MM-DD') === due || moment().add(5,'days').format('YYYY-MM-DD') >= due) {
+                return 'Green';
+            }else {
+                return 'Blue '
             }
         },
         saveLane: function() {
