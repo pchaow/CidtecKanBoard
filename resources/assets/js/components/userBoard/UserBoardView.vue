@@ -24,7 +24,7 @@
                                     <div>
                                         <span style="display:block;float:left;"><b>{{card.name}}</b></span>
                                         <div class="panel" style="display:block;float:right"
-                                             :style="{'background-color': getColor(card.duedate)}"></div>
+                                             :style="{'background-color': getColor(card.duedate,board.sprint)}"></div>
                                     </div>
                                     <br>
                                     <b>มอบหมายให้ <span v-if="card.members_card.length == 0"> - </span></b>
@@ -170,10 +170,10 @@ export default {
                 window.location.href = '/'+this.user.username+'/'+this.board.name+'/'+this.laneName + '/cards/new'
             }
         },
-        getColor: function(due) {
+        getColor: function(due,duration) {
             if (moment().format('YYYY-MM-DD') > due) {
                 return 'Gray'
-            }else if(moment().format('YYYY-MM-DD') === due || moment().add(5,'days').format('YYYY-MM-DD') >= due) {
+            }else if(moment().format('YYYY-MM-DD') === due || moment().add(duration,'days').format('YYYY-MM-DD') >= due) {
                 return 'Green';
             }else {
                 return 'Blue '

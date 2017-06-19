@@ -103,6 +103,20 @@ class UserBoardController extends Controller
             ->with('user', $user);
     }
 
+    public function sprint($username, $boardName)
+    {
+        $user = User::findByUsername($username);
+
+        $board = Board::with(['user'])
+            ->where('user_id', '=', $user->id)
+            ->where('name', '=', $boardName)
+            ->first();
+
+        return view('user.board.sprint')
+            ->with('board', $board)
+            ->with('user', $user);
+    }
+
     public function members($username, $boardName)
     {
         $user = User::findByUsername($username);
