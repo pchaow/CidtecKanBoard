@@ -26,18 +26,18 @@ use Illuminate\Support\Facades\Log;
  */
 class ActivityLog extends Model
 {
-    const ACTION_TYPE_ADD_BOARD = "add_board";
-    const ACTION_TYPE_EDIT_BOARD = "edit_board";
-    const ACTION_TYPE_DELETE_BOARD = "delete_board";
-    const ACTION_TYPE_CLOSE_BOARD = "close_board";
-    const ACTION_TYPE_REOPEN_BOARD = "reopen_board";
-    const ACTION_TYPE_ADD_LANE = "add_lane";
-    const ACTION_TYPE_EDIT_LANE = "edit_lane";
-    const ACTION_TYPE_DELETE_LANE = "delete_lane";
-    const ACTION_TYPE_ADD_CARD = "add_card";
-    const ACTION_TYPE_EDIT_CARD = "edit_card";
-    const ACTION_TYPE_DELETE_CARD = "delete_card";
-    const ACTION_TYPE_MOVE_CARD = "move_card";
+    const ACTION_TYPE_ADD_BOARD = "Added Card";
+    const ACTION_TYPE_EDIT_BOARD = "Edited Card";
+    const ACTION_TYPE_DELETE_BOARD = "Deleted Board";
+    const ACTION_TYPE_CLOSE_BOARD = "Closed Board";
+    const ACTION_TYPE_REOPEN_BOARD = "Reopened Board";
+    const ACTION_TYPE_ADD_LANE = "Added Lane";
+    const ACTION_TYPE_EDIT_LANE = "Edited Lane";
+    const ACTION_TYPE_DELETE_LANE = "Deleted Lane";
+    const ACTION_TYPE_ADD_CARD = "Added Card";
+    const ACTION_TYPE_EDIT_CARD = "Edited Card";
+    const ACTION_TYPE_DELETE_CARD = "Deleted Card";
+    const ACTION_TYPE_MOVE_CARD = "Moved Card";
 
     const LOG_USER_ID = 'user_id';
     const LOG_BOARD_ID = 'board_id';

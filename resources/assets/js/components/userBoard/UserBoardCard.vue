@@ -122,7 +122,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" v-if="checkEdit">
                         <br>
                         <br>
                         <log-viewer

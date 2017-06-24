@@ -65,6 +65,8 @@ Vue.component('user-board-card', require('./components/userBoard/UserBoardCard.v
 
 Vue.component('user-board-form-member', require('./components/userBoard/form/UserBoardMemberForm.vue'));
 
+Vue.component('log-viewer', require('./components/userBoard/LogViewer.vue'));
+
 const app = new Vue({
     el: '#app'
 });
