@@ -121,6 +121,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <br>
+                        <br>
+                        <log-viewer
+                                :board="board"
+                                :card="formInputs"
+                                :loadLogUrl="loadLogUrl"
+                        ></log-viewer>
+                    </div>
+
                 </div>
 
                 <div class="col-md-12" v-if="checkEdit">
@@ -146,6 +157,7 @@
             saveCardUrl: String,
             loadCardUrl: String,
             loadMemberUrl: String,
+            loadLogUrl: String,
             user: Object,
             lane: Object,
             board: Object,
