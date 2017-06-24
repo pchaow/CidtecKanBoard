@@ -181,7 +181,7 @@ return [
         Artisaninweb\SoapWrapper\ServiceProvider::class,
         Laratrust\LaratrustServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
 
     ],

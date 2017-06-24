@@ -26,6 +26,8 @@ Route::get('/logout', function () {
 
 Auth::routes();
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
 Route::group(['prefix' => 'superadministrator', 'middleware' => ['role:superadministrator']], function () {
     Route::get('user', 'SuperAdministrator\\UserController@index');
     Route::get('user/create', "SuperAdministrator\\UserController@create");
