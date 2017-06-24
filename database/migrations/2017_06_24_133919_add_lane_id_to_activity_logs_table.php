@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPjSprint extends Migration
+class AddLaneIdToActivityLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddPjSprint extends Migration
      */
     public function up()
     {
-        //
-
-        Schema::table('boards', function (Blueprint $table) {
-            $table->integer('sprint')->default(0);
+        Schema::table('activity_logs', function (Blueprint $table) {
+            $table->integer('lane_id')->nullable();
         });
     }
 
@@ -27,8 +25,8 @@ class AddPjSprint extends Migration
      */
     public function down()
     {
-        Schema::table('boards', function (Blueprint $table) {
-            $table->dropColumn('sprint');
+        Schema::table('activity_logs', function (Blueprint $table) {
+            $table->dropColumn('lane_id');
         });
     }
 }

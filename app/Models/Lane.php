@@ -34,7 +34,7 @@ class Lane extends Model
   //get board where lane live
    public function board()
   {
-      return $this->belongsTo(Board::class, 'boards_id');
+      return $this->belongsTo(Board::class, 'board_id');
   }
 
 }
