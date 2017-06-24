@@ -3,7 +3,7 @@
         <div class="panel-heading" style="background-color: #f6f8fa">
             Activity
         </div>
-        <div style="height: 40vh;overflow: auto;overflow-x: hidden">
+        <div style="max-height: 40vh;overflow: auto;overflow-x: hidden">
             <div class="panel-body" v-for="log in log_list" style="border-bottom: 1px solid #e1e4e8">
                 <div class="row" style="margin-left: 5px;">
                     <i class="list-group-item-heading">
