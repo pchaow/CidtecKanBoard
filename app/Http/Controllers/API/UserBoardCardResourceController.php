@@ -79,7 +79,7 @@ class UserBoardCardResourceController extends Controller
                     /** @var Lane $lane */
                     $lane = $card->lane->board;
                     $board_id = $lane->id;
-                    $this->Log(ActivityLog::ACTION_TYPE_EDIT_CARD, [
+                    $this->Log(ActivityLog::ACTION_TYPE_UPDATE_CARD, [
                         ActivityLog::LOG_BOARD_ID => $board_id,
                         ActivityLog::LOG_CARD_ID => $card->id,
                         ActivityLog::LOG_USER_ID => Auth::user()->id

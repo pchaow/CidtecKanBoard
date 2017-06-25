@@ -22,7 +22,7 @@ class Controller extends BaseController
             case ActivityLog::ACTION_TYPE_MOVE_CARD :
                 $this->logCard($action, $data);
                 break;
-            case ActivityLog::ACTION_TYPE_EDIT_CARD :
+            case ActivityLog::ACTION_TYPE_UPDATE_CARD :
                 $this->logCard($action, $data);
                 break;
             case ActivityLog::ACTION_TYPE_DELETE_CARD :
