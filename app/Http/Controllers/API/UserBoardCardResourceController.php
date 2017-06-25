@@ -118,6 +118,7 @@ class UserBoardCardResourceController extends Controller
                         ActivityLog::LOG_BOARD_ID => $board_id,
                         ActivityLog::LOG_CARD_ID => $card->id,
                         ActivityLog::LOG_LANE_ID => $card->lane->id,
+                        ActivityLog::LOG_LANE_FROM => $request[0]['lane_from'],
                         ActivityLog::LOG_USER_ID => Auth::user()->id
                     ]);
                 }

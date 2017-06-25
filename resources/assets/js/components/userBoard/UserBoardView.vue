@@ -137,9 +137,10 @@
                     this.cardMove.lanes_id = container.attributes.idlane.value
                     //
                     this.$nextTick(function () {
-                        this.moveData = []
-                        this.beforeLane = []
-                        this.afterLane = []
+                        this.moveData = [];
+                        this.beforeLane = [];
+                        this.afterLane = [];
+                        this.cardMove.lane_from = source.attributes.idlane.value;
 
                         for (var i = 0; i < source.childNodes.length; i++) {
                             this.beforeLane.push({
@@ -156,9 +157,9 @@
                                 rank: i + 1
                             })
                         }
-                        this.moveData.push(this.cardMove)
-                        this.moveData.push(this.beforeLane)
-                        this.moveData.push(this.afterLane)
+                        this.moveData.push(this.cardMove);
+                        this.moveData.push(this.beforeLane);
+                        this.moveData.push(this.afterLane);
                         this.moveCard()
                     });
 

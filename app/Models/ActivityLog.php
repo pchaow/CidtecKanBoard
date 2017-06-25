@@ -23,6 +23,13 @@ use Illuminate\Support\Facades\Log;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ActivityLog whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ActivityLog whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $lane_id
+ * @property int|null $lane_from
+ * @property-read mixed $card
+ * @property-read mixed $lane
+ * @property-read mixed $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ActivityLog whereLaneFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ActivityLog whereLaneId($value)
  */
 class ActivityLog extends Model
 {
@@ -43,10 +50,11 @@ class ActivityLog extends Model
     const LOG_BOARD_ID = 'board_id';
     const LOG_CARD_ID = 'card_id';
     const LOG_LANE_ID = 'lane_id';
+    const LOG_LANE_FROM = 'lane_from';
 
-    protected $fillable = ['action', 'user_id', 'board_id', 'card_id', 'lane_id'];
+    protected $fillable = ['action', 'user_id', 'board_id', 'card_id', 'lane_id', 'lane_from'];
 
-    protected $appends = ['card', 'lane', 'user'];
+    protected $appends = ['card', 'lane', 'user' , 'from_lane'];
 
     public function getCardAttribute()
     {
@@ -66,6 +74,16 @@ class ActivityLog extends Model
             $lane = Lane::find($this->lane_id);
         }
         return $lane;
+    }
+
+    public function getFromLaneAttribute()
+    {
+        $lane_from = [];
+        if (isset($this->lane_from)) {
+            /** @var Lane $lane_from */
+            $lane_from = Lane::find($this->lane_from);
+        }
+        return $lane_from;
     }
 
     public function getUserAttribute()

@@ -9,7 +9,11 @@
                     <i class="list-group-item-heading">
                         <span style="color: #2a88bd"> {{log.user.name}} </span>
                         {{log.action}} <span style="color: #2a88bd"> {{log.card.name}}</span>
-                        <span v-if="log.lane_id">To  {{log.lane.name}}</span>
+                        <span v-if="log.lane_id">From
+                            <span style="color: #2a88bd">{{log.from_lane.name}}</span>
+                            To
+                            <span style="color: #2a88bd">{{log.lane.name}}</span>
+                        </span>
                     </i>
                     <p class="list-group-item-text">on : {{log.created_at}}</p>
                 </div>
@@ -36,7 +40,6 @@
                 this.$http.get(this.loadLogUrl).then((response) => {
                     if (response && response.data) {
                         this.log_list = response.data
-                        console.log(this.log_list);
                     }
                 })
             }

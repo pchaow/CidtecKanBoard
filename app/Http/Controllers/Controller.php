@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Card;
+use App\Models\Lane;
 use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -55,10 +56,12 @@ class Controller extends BaseController
                 $user = User::find($data[ActivityLog::LOG_USER_ID]);
                 /** @var Card $card */
                 $card = Card::find($data[ActivityLog::LOG_CARD_ID]);
+                /** @var Lane $lane_form */
+                $lane_form = Lane::find($data[ActivityLog::LOG_LANE_FROM]);
 
                 $message = 'Card Action : ' . $user->name . ' ' . $action . ' ' . $card->name;
                 if ($action === ActivityLog::ACTION_TYPE_MOVE_CARD) {
-                    $message = 'Card Action : ' . $user->name . ' ' . $action . ' ' . $card->name . ' to ' . $card->lane->name;
+                    $message = 'Card Action : ' . $user->name . ' ' . $action . ' ' . $card->name .'from '. $lane_form->name . ' to ' . $card->lane->name;
                 }
 
                 Log::info($message);
