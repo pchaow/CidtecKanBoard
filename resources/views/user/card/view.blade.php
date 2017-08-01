@@ -15,6 +15,7 @@
               save-card-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card/{{$cardId}}"
               load-card-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card/{{$cardId}}"
               load-member-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card/{{$cardId}}/member"
+              load-log-url="/api/v1/user/{{$user->id}}/board/{{$board->id}}/card/{{$cardId}}/log"
       >
     </user-board-card>
 
