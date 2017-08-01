@@ -9,3 +9,10 @@ Homestead.yaml
 
 /storage/oauth-private.key
 /storage/oauth-public.key
+public/css/app\.css
+
+public/css/app\.css\.map
+
+public/js/app\.js
+
+composer\.lock

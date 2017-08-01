@@ -27,7 +27,8 @@ class AddPjSprint extends Migration
      */
     public function down()
     {
-        //
-
+        Schema::table('boards', function (Blueprint $table) {
+            $table->dropColumn('sprint');
+        });
     }
 }
