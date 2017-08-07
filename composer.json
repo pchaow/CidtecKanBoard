@@ -10,7 +10,7 @@
         "santigarcor/laratrust": "3.0.*",
         "artisaninweb/laravel-soap": "0.3.*",
         "laravel/passport": "^1.0",
-        "rap2hpoutre/laravel-log-viewer": "^0.10.3"
+        "rap2hpoutre/laravel-log-viewer": "0.10.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
