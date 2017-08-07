@@ -9,6 +9,10 @@
         <li class="{{ Request::is($board->user->username.'/'.$board->name.'/lanes') ? 'active' : '' }}">
             <a href="/{{$board->user->username}}/{{$board->name}}/lanes">ปรับกระดาน</a>
         </li>
+        <li class="{{ Request::is($board->user->username.'/'.$board->name.'/sprint') ? 'active' : '' }}">
+            <a href="/{{$board->user->username}}/{{$board->name}}/sprint">ปรับช่วงSprint</a>
+        </li>
+
         <li class="{{ Request::is($board->user->username.'/'.$board->name.'/members') ? 'active' : '' }}">
             <a href="/{{$board->user->username}}/{{$board->name}}/members">สมาชิก</a>
         </li>

@@ -30,9 +30,11 @@ Route::group(["prefix" => 'v1/admin'], function () {
 Route::group(["prefix" => 'v1','middleware'=>'auth:api'], function () {
 
     Route::resource('user.board', "API\\UserBoardResourceController");
+
     Route::resource('user.board.lane', "API\\UserBoardLaneResourceController");
     Route::resource('user.board.card', "API\\UserBoardCardResourceController");
     Route::resource('user.board.card.member', "API\\UserBoardCardMemberResourceController");
     Route::resource('user.board.member', "API\\UserBoardMemberResourceController");
+    Route::resource('user.board.card.log' , "API\\UserLogResourceController");
 
 });

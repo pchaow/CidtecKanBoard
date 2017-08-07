@@ -58,12 +58,19 @@ Vue.component('user-board-index', require('./components/userBoard/UserBoardIndex
 Vue.component('user-board-view', require('./components/userBoard/UserBoardView.vue'));
 Vue.component('user-board-edit', require('./components/userBoard/UserBoardEdit.vue'));
 Vue.component('user-board-lanes', require('./components/userBoard/UserBoardLanes.vue'));
+Vue.component('user-board-sprint', require('./components/userBoard/UserBoardSprint.vue'));
 Vue.component('user-board-members', require('./components/userBoard/UserBoardMembers.vue'));
 
 Vue.component('user-board-card', require('./components/userBoard/UserBoardCard.vue'));
 
 Vue.component('user-board-form-member', require('./components/userBoard/form/UserBoardMemberForm.vue'));
 
+<<<<<<< HEAD
 new Vue({
+=======
+Vue.component('log-viewer', require('./components/userBoard/LogViewer.vue'));
+
+const app = new Vue({
+>>>>>>> 9567b8a42ddf4c3419cd604b2d15ab26cf266699
     el: '#app'
 });

@@ -26,6 +26,9 @@ Route::get('/logout', function () {
 
 Auth::routes();
 
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')
+    ->middleware('role:superadministrator');;
+
 Route::group(['prefix' => 'superadministrator', 'middleware' => ['role:superadministrator']], function () {
     Route::get('user', 'SuperAdministrator\\UserController@index');
     Route::get('user/create', "SuperAdministrator\\UserController@create");
@@ -50,6 +53,7 @@ Route::group(['prefix' => '{user}'], function () {
     Route::get('{boardName}', "UserBoardController@view");
     Route::get('{boardName}/edit', "UserBoardController@edit");
     Route::get('{boardName}/lanes', "UserBoardController@lanes");
+    Route::get('{boardName}/sprint', "UserBoardController@sprint");
     Route::get('{boardName}/members', "UserBoardController@members");
     Route::get('{boardName}/{laneName}/cards/new', "UserBoardCardController@create");
     Route::get('{boardName}/{laneName}/cards/{cardId}', "UserBoardCardController@view");

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/395162cf00.js"></script>
 
     <!-- Scripts -->
     <script>
