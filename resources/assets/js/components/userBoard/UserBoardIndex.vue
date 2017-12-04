@@ -24,7 +24,7 @@
                 <div class="row" v-else>
                     <div class="col-md-4">
                         <a :href="'/'+board.user.username+'/'+board.name">
-                        <h4 class="list-group-item-heading">{{board.name}}</h4>
+                        <h4 class="list-group-item-heading">{{board.user.username}}/{{board.name}}</h4>
                         </a>
                         <p class="list-group-item-text">ปรับปรุงล่าสุด : {{board.updated_at}}</p>
                     </div>

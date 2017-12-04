@@ -24,7 +24,9 @@ class UserBoardResourceController extends Controller
     public function index(Request $request, $userId)
     {
         $user = User::find($userId);
-        $query = $user->boards();
+
+        $query = $user->boardsIn();
+
         $query->with(['user'])
             ->whereHas('membersBoard',
                 function ($query) use ($userId) {

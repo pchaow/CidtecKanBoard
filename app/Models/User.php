@@ -79,6 +79,10 @@ class User extends Authenticatable
         return $this->hasMany(Board::class);
     }
 
+    public function boardsIn() {
+        return $this->belongsToMany('App\Models\Board', 'board_user', 'users_id', 'boards_id');
+    }
+
     public function cardsMameber()
     {
         return $this->belongsToMany('App\Models\Card', 'card_user', 'users_id', 'cards_id');

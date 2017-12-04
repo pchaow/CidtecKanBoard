@@ -25,7 +25,7 @@
 
                         <div class="form-group col-md-12" v-bind:class="{ 'has-error': formErrors['duedate'] }">
                             <label class="control-label">Due Date : </label><br>
-                            <input type="date" v-model="formInputs.duedate" placeholder="Due Date">
+                            <input type="date" class="date-select" v-model="formInputs.duedate" placeholder="Due Date">
                             <span v-if="formErrors['date']" class="help-block">{{ formErrors['date'] }}</span>
                         </div>
 
@@ -372,6 +372,13 @@
         margin: 0;
         padding: 0;
         list-style: none;
+    }
+
+    .date-select {
+        border: 1px solid #ccd0d2;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     }
 
     .member-list li {
